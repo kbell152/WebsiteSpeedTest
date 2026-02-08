@@ -1,0 +1,2463 @@
+[
+    {
+        "id": 1824,
+        "date": "2024-12-17T16:45:10",
+        "date_gmt": "2024-12-17T16:45:10",
+        "guid": {
+            "rendered": "https:\/\/masonstreetwealthmanagement.com\/?page_id=1824"
+        },
+        "modified": "2025-02-20T20:48:00",
+        "modified_gmt": "2025-02-20T20:48:00",
+        "slug": "media",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/media\/",
+        "title": {
+            "rendered": "Media"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 1825,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": true,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1824",
+            "page",
+            "type-page",
+            "status-publish",
+            "has-post-thumbnail",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head_json": {
+            "title": "Media | Mason Street Wealth Management",
+            "description": "Check out the latest TV, radio, and podcast clips from Mason Street Wealth Management.",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/media\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Media | Mason Street Wealth Management",
+            "og_description": "Check out the latest TV, radio, and podcast clips from Mason Street Wealth Management.",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/media\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2025-02-20T20:48:00+00:00",
+            "og_image": [
+                {
+                    "width": 1920,
+                    "height": 600,
+                    "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Media-reduced.jpg",
+                    "type": "image\/jpeg"
+                }
+            ],
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/media\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/media\/",
+                        "name": "Media | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "primaryImageOfPage": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/media\/#primaryimage"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/media\/#primaryimage"
+                        },
+                        "thumbnailUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Media-reduced.jpg",
+                        "datePublished": "2024-12-17T16:45:10+00:00",
+                        "dateModified": "2025-02-20T20:48:00+00:00",
+                        "description": "Check out the latest TV, radio, and podcast clips from Mason Street Wealth Management.",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/media\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/media\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "inLanguage": "en-US",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/media\/#primaryimage",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Media-reduced.jpg",
+                        "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Media-reduced.jpg",
+                        "width": 1920,
+                        "height": 600
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/media\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Media"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1824",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1824"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1824\/revisions"
+                }
+            ],
+            "wp:featuredmedia": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media\/1825"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1824"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1820,
+        "date": "2024-12-17T16:28:42",
+        "date_gmt": "2024-12-17T16:28:42",
+        "guid": {
+            "rendered": "https:\/\/masonstreetwealthmanagement.com\/?page_id=1820"
+        },
+        "modified": "2025-01-10T21:13:01",
+        "modified_gmt": "2025-01-10T21:13:01",
+        "slug": "community",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/",
+        "title": {
+            "rendered": "Community"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 1821,
+        "parent": 1812,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": true,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1820",
+            "page",
+            "type-page",
+            "status-publish",
+            "has-post-thumbnail",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v24.6 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Community | Mason Street Wealth Management<\/title>\n<meta name=\"description\" content=\"Learn about past and upcoming community events from Mason Street Wealth Management and sign up for the next one.\" \/>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Community | Mason Street Wealth Management\" \/>\n<meta property=\"og:description\" content=\"Learn about past and upcoming community events from Mason Street Wealth Management and sign up for the next one.\" \/>\n<meta property=\"og:url\" content=\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/\" \/>\n<meta property=\"og:site_name\" content=\"Mason Street Wealth Management\" \/>\n<meta property=\"article:publisher\" content=\"https:\/\/www.facebook.com\/fresnofinancialadvisors\" \/>\n<meta property=\"article:modified_time\" content=\"2025-01-10T21:13:01+00:00\" \/>\n<meta property=\"og:image\" content=\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Community-reduced.jpg\" \/>\n\t<meta property=\"og:image:width\" content=\"1920\" \/>\n\t<meta property=\"og:image:height\" content=\"600\" \/>\n\t<meta property=\"og:image:type\" content=\"image\/jpeg\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/\",\"name\":\"Community | Mason Street Wealth Management\",\"isPartOf\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\"},\"primaryImageOfPage\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/#primaryimage\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/#primaryimage\"},\"thumbnailUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Community-reduced.jpg\",\"datePublished\":\"2024-12-17T16:28:42+00:00\",\"dateModified\":\"2025-01-10T21:13:01+00:00\",\"description\":\"Learn about past and upcoming community events from Mason Street Wealth Management and sign up for the next one.\",\"breadcrumb\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/\"]}]},{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/#primaryimage\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Community-reduced.jpg\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Community-reduced.jpg\",\"width\":1920,\"height\":600},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/community\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Events\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/events\/\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Community\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"name\":\"Mason Street Wealth Management\",\"description\":\"Retirement Planning | Fresno, CA\",\"publisher\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\"},\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"en-US\"},{\"@type\":\"Organization\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\",\"name\":\"Mason Street Wealth Management\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"logo\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"width\":350,\"height\":58,\"caption\":\"Mason Street Wealth Management\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\"},\"sameAs\":[\"https:\/\/www.facebook.com\/fresnofinancialadvisors\",\"https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/\",\"https:\/\/www.youtube.com\/@masonstreetwealthmanagement\"]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Community | Mason Street Wealth Management",
+            "description": "Learn about past and upcoming community events from Mason Street Wealth Management and sign up for the next one.",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Community | Mason Street Wealth Management",
+            "og_description": "Learn about past and upcoming community events from Mason Street Wealth Management and sign up for the next one.",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2025-01-10T21:13:01+00:00",
+            "og_image": [
+                {
+                    "width": 1920,
+                    "height": 600,
+                    "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Community-reduced.jpg",
+                    "type": "image\/jpeg"
+                }
+            ],
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/",
+                        "name": "Community | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "primaryImageOfPage": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/#primaryimage"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/#primaryimage"
+                        },
+                        "thumbnailUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Community-reduced.jpg",
+                        "datePublished": "2024-12-17T16:28:42+00:00",
+                        "dateModified": "2025-01-10T21:13:01+00:00",
+                        "description": "Learn about past and upcoming community events from Mason Street Wealth Management and sign up for the next one.",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/events\/community\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "inLanguage": "en-US",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/#primaryimage",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Community-reduced.jpg",
+                        "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Community-reduced.jpg",
+                        "width": 1920,
+                        "height": 600
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/community\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Events",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/events\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 3,
+                                "name": "Community"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1820",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1820"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1820\/revisions"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1812"
+                }
+            ],
+            "wp:featuredmedia": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media\/1821"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1820"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1813,
+        "date": "2024-12-17T16:02:04",
+        "date_gmt": "2024-12-17T16:02:04",
+        "guid": {
+            "rendered": "https:\/\/masonstreetwealthmanagement.com\/?page_id=1813"
+        },
+        "modified": "2025-02-13T21:17:45",
+        "modified_gmt": "2025-02-13T21:17:45",
+        "slug": "seminars",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/",
+        "title": {
+            "rendered": "Seminars"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 1814,
+        "parent": 1812,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": true,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1813",
+            "page",
+            "type-page",
+            "status-publish",
+            "has-post-thumbnail",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v24.6 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Seminars | Mason Street Wealth Management<\/title>\n<meta name=\"description\" content=\"Check out past seminars from Mason Street Wealth Management and sign up for the next one in your area.\" \/>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Seminars | Mason Street Wealth Management\" \/>\n<meta property=\"og:description\" content=\"Check out past seminars from Mason Street Wealth Management and sign up for the next one in your area.\" \/>\n<meta property=\"og:url\" content=\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/\" \/>\n<meta property=\"og:site_name\" content=\"Mason Street Wealth Management\" \/>\n<meta property=\"article:publisher\" content=\"https:\/\/www.facebook.com\/fresnofinancialadvisors\" \/>\n<meta property=\"article:modified_time\" content=\"2025-02-13T21:17:45+00:00\" \/>\n<meta property=\"og:image\" content=\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Seminars-reduced.jpg\" \/>\n\t<meta property=\"og:image:width\" content=\"1920\" \/>\n\t<meta property=\"og:image:height\" content=\"600\" \/>\n\t<meta property=\"og:image:type\" content=\"image\/jpeg\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/\",\"name\":\"Seminars | Mason Street Wealth Management\",\"isPartOf\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\"},\"primaryImageOfPage\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#primaryimage\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#primaryimage\"},\"thumbnailUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Seminars-reduced.jpg\",\"datePublished\":\"2024-12-17T16:02:04+00:00\",\"dateModified\":\"2025-02-13T21:17:45+00:00\",\"description\":\"Check out past seminars from Mason Street Wealth Management and sign up for the next one in your area.\",\"breadcrumb\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/\"]}]},{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#primaryimage\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Seminars-reduced.jpg\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Seminars-reduced.jpg\",\"width\":1920,\"height\":600},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Events\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/events\/\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Seminars\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"name\":\"Mason Street Wealth Management\",\"description\":\"Retirement Planning | Fresno, CA\",\"publisher\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\"},\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"en-US\"},{\"@type\":\"Organization\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\",\"name\":\"Mason Street Wealth Management\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"logo\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"width\":350,\"height\":58,\"caption\":\"Mason Street Wealth Management\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\"},\"sameAs\":[\"https:\/\/www.facebook.com\/fresnofinancialadvisors\",\"https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/\",\"https:\/\/www.youtube.com\/@masonstreetwealthmanagement\"]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Seminars | Mason Street Wealth Management",
+            "description": "Check out past seminars from Mason Street Wealth Management and sign up for the next one in your area.",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Seminars | Mason Street Wealth Management",
+            "og_description": "Check out past seminars from Mason Street Wealth Management and sign up for the next one in your area.",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2025-02-13T21:17:45+00:00",
+            "og_image": [
+                {
+                    "width": 1920,
+                    "height": 600,
+                    "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Seminars-reduced.jpg",
+                    "type": "image\/jpeg"
+                }
+            ],
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/",
+                        "name": "Seminars | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "primaryImageOfPage": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#primaryimage"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#primaryimage"
+                        },
+                        "thumbnailUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Seminars-reduced.jpg",
+                        "datePublished": "2024-12-17T16:02:04+00:00",
+                        "dateModified": "2025-02-13T21:17:45+00:00",
+                        "description": "Check out past seminars from Mason Street Wealth Management and sign up for the next one in your area.",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "inLanguage": "en-US",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#primaryimage",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Seminars-reduced.jpg",
+                        "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Events_Seminars-reduced.jpg",
+                        "width": 1920,
+                        "height": 600
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/seminars\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Events",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/events\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 3,
+                                "name": "Seminars"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1813",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1813"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1813\/revisions"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1812"
+                }
+            ],
+            "wp:featuredmedia": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media\/1814"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1813"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1812,
+        "date": "2024-12-17T15:58:15",
+        "date_gmt": "2024-12-17T15:58:15",
+        "guid": {
+            "rendered": "https:\/\/masonstreetwealthmanagement.com\/?page_id=1812"
+        },
+        "modified": "2024-12-17T15:58:16",
+        "modified_gmt": "2024-12-17T15:58:16",
+        "slug": "events",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/events\/",
+        "title": {
+            "rendered": "Events"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 0,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": false,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1812",
+            "page",
+            "type-page",
+            "status-publish",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v24.6 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Events | Mason Street Wealth Management<\/title>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/masonstreetwealthmanagement.com\/events\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Events | Mason Street Wealth Management\" \/>\n<meta property=\"og:url\" content=\"https:\/\/masonstreetwealthmanagement.com\/events\/\" \/>\n<meta property=\"og:site_name\" content=\"Mason Street Wealth Management\" \/>\n<meta property=\"article:publisher\" content=\"https:\/\/www.facebook.com\/fresnofinancialadvisors\" \/>\n<meta property=\"article:modified_time\" content=\"2024-12-17T15:58:16+00:00\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/events\/\",\"name\":\"Events | Mason Street Wealth Management\",\"isPartOf\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\"},\"datePublished\":\"2024-12-17T15:58:15+00:00\",\"dateModified\":\"2024-12-17T15:58:16+00:00\",\"breadcrumb\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/masonstreetwealthmanagement.com\/events\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/events\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Events\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"name\":\"Mason Street Wealth Management\",\"description\":\"Retirement Planning | Fresno, CA\",\"publisher\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\"},\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"en-US\"},{\"@type\":\"Organization\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\",\"name\":\"Mason Street Wealth Management\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"logo\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"width\":350,\"height\":58,\"caption\":\"Mason Street Wealth Management\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\"},\"sameAs\":[\"https:\/\/www.facebook.com\/fresnofinancialadvisors\",\"https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/\",\"https:\/\/www.youtube.com\/@masonstreetwealthmanagement\"]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Events | Mason Street Wealth Management",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/events\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Events | Mason Street Wealth Management",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/events\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2024-12-17T15:58:16+00:00",
+            "twitter_card": "summary_large_image",
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/events\/",
+                        "name": "Events | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "datePublished": "2024-12-17T15:58:15+00:00",
+                        "dateModified": "2024-12-17T15:58:16+00:00",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/events\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/events\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Events"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1812",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1812"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1812\/revisions"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1812"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1799,
+        "date": "2024-12-17T15:35:56",
+        "date_gmt": "2024-12-17T15:35:56",
+        "guid": {
+            "rendered": "https:\/\/masonstreetwealthmanagement.com\/?page_id=1799"
+        },
+        "modified": "2025-02-20T20:23:23",
+        "modified_gmt": "2025-02-20T20:23:23",
+        "slug": "insurance-planning",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/",
+        "title": {
+            "rendered": "Insurance Planning"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 1800,
+        "parent": 1282,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": true,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1799",
+            "page",
+            "type-page",
+            "status-publish",
+            "has-post-thumbnail",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v24.6 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Insurance Planning | Mason Street Wealth Management<\/title>\n<meta name=\"description\" content=\"Does life insurance even make sense in this stage of life? Mason Street Wealth Management can help you decide on a policy that fits your needs and situation.\" \/>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Insurance Planning | Mason Street Wealth Management\" \/>\n<meta property=\"og:description\" content=\"Does life insurance even make sense in this stage of life? Mason Street Wealth Management can help you decide on a policy that fits your needs and situation.\" \/>\n<meta property=\"og:url\" content=\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/\" \/>\n<meta property=\"og:site_name\" content=\"Mason Street Wealth Management\" \/>\n<meta property=\"article:publisher\" content=\"https:\/\/www.facebook.com\/fresnofinancialadvisors\" \/>\n<meta property=\"article:modified_time\" content=\"2025-02-20T20:23:23+00:00\" \/>\n<meta property=\"og:image\" content=\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InsurancePlanning-reduced.jpg\" \/>\n\t<meta property=\"og:image:width\" content=\"1920\" \/>\n\t<meta property=\"og:image:height\" content=\"600\" \/>\n\t<meta property=\"og:image:type\" content=\"image\/jpeg\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/\",\"name\":\"Insurance Planning | Mason Street Wealth Management\",\"isPartOf\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\"},\"primaryImageOfPage\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#primaryimage\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#primaryimage\"},\"thumbnailUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InsurancePlanning-reduced.jpg\",\"datePublished\":\"2024-12-17T15:35:56+00:00\",\"dateModified\":\"2025-02-20T20:23:23+00:00\",\"description\":\"Does life insurance even make sense in this stage of life? Mason Street Wealth Management can help you decide on a policy that fits your needs and situation.\",\"breadcrumb\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/\"]}]},{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#primaryimage\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InsurancePlanning-reduced.jpg\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InsurancePlanning-reduced.jpg\",\"width\":1920,\"height\":600},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Services\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/services\/\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Insurance Planning\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"name\":\"Mason Street Wealth Management\",\"description\":\"Retirement Planning | Fresno, CA\",\"publisher\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\"},\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"en-US\"},{\"@type\":\"Organization\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\",\"name\":\"Mason Street Wealth Management\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"logo\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"width\":350,\"height\":58,\"caption\":\"Mason Street Wealth Management\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\"},\"sameAs\":[\"https:\/\/www.facebook.com\/fresnofinancialadvisors\",\"https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/\",\"https:\/\/www.youtube.com\/@masonstreetwealthmanagement\"]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Insurance Planning | Mason Street Wealth Management",
+            "description": "Does life insurance even make sense in this stage of life? Mason Street Wealth Management can help you decide on a policy that fits your needs and situation.",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Insurance Planning | Mason Street Wealth Management",
+            "og_description": "Does life insurance even make sense in this stage of life? Mason Street Wealth Management can help you decide on a policy that fits your needs and situation.",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2025-02-20T20:23:23+00:00",
+            "og_image": [
+                {
+                    "width": 1920,
+                    "height": 600,
+                    "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InsurancePlanning-reduced.jpg",
+                    "type": "image\/jpeg"
+                }
+            ],
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/",
+                        "name": "Insurance Planning | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "primaryImageOfPage": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#primaryimage"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#primaryimage"
+                        },
+                        "thumbnailUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InsurancePlanning-reduced.jpg",
+                        "datePublished": "2024-12-17T15:35:56+00:00",
+                        "dateModified": "2025-02-20T20:23:23+00:00",
+                        "description": "Does life insurance even make sense in this stage of life? Mason Street Wealth Management can help you decide on a policy that fits your needs and situation.",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "inLanguage": "en-US",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#primaryimage",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InsurancePlanning-reduced.jpg",
+                        "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InsurancePlanning-reduced.jpg",
+                        "width": 1920,
+                        "height": 600
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/insurance-planning\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Services",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/services\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 3,
+                                "name": "Insurance Planning"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1799",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1799"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1799\/revisions"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1282"
+                }
+            ],
+            "wp:featuredmedia": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media\/1800"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1799"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1791,
+        "date": "2024-12-17T15:06:16",
+        "date_gmt": "2024-12-17T15:06:16",
+        "guid": {
+            "rendered": "https:\/\/masonstreetwealthmanagement.com\/?page_id=1791"
+        },
+        "modified": "2025-02-20T20:22:16",
+        "modified_gmt": "2025-02-20T20:22:16",
+        "slug": "investment-management",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/",
+        "title": {
+            "rendered": "Investment Management"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 1792,
+        "parent": 1282,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": true,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1791",
+            "page",
+            "type-page",
+            "status-publish",
+            "has-post-thumbnail",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v24.6 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Investment Management | Mason Street Wealth Management<\/title>\n<meta name=\"description\" content=\"Mason Street Wealth Management helps manage your investments and aims to maximize returns while minimizing risks.\" \/>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Investment Management | Mason Street Wealth Management\" \/>\n<meta property=\"og:description\" content=\"Mason Street Wealth Management helps manage your investments and aims to maximize returns while minimizing risks.\" \/>\n<meta property=\"og:url\" content=\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/\" \/>\n<meta property=\"og:site_name\" content=\"Mason Street Wealth Management\" \/>\n<meta property=\"article:publisher\" content=\"https:\/\/www.facebook.com\/fresnofinancialadvisors\" \/>\n<meta property=\"article:modified_time\" content=\"2025-02-20T20:22:16+00:00\" \/>\n<meta property=\"og:image\" content=\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InvestmentManagement-reduced.jpg\" \/>\n\t<meta property=\"og:image:width\" content=\"1920\" \/>\n\t<meta property=\"og:image:height\" content=\"600\" \/>\n\t<meta property=\"og:image:type\" content=\"image\/jpeg\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/\",\"name\":\"Investment Management | Mason Street Wealth Management\",\"isPartOf\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\"},\"primaryImageOfPage\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#primaryimage\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#primaryimage\"},\"thumbnailUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InvestmentManagement-reduced.jpg\",\"datePublished\":\"2024-12-17T15:06:16+00:00\",\"dateModified\":\"2025-02-20T20:22:16+00:00\",\"description\":\"Mason Street Wealth Management helps manage your investments and aims to maximize returns while minimizing risks.\",\"breadcrumb\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/\"]}]},{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#primaryimage\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InvestmentManagement-reduced.jpg\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InvestmentManagement-reduced.jpg\",\"width\":1920,\"height\":600},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Services\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/services\/\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Investment Management\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"name\":\"Mason Street Wealth Management\",\"description\":\"Retirement Planning | Fresno, CA\",\"publisher\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\"},\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"en-US\"},{\"@type\":\"Organization\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\",\"name\":\"Mason Street Wealth Management\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"logo\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"width\":350,\"height\":58,\"caption\":\"Mason Street Wealth Management\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\"},\"sameAs\":[\"https:\/\/www.facebook.com\/fresnofinancialadvisors\",\"https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/\",\"https:\/\/www.youtube.com\/@masonstreetwealthmanagement\"]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Investment Management | Mason Street Wealth Management",
+            "description": "Mason Street Wealth Management helps manage your investments and aims to maximize returns while minimizing risks.",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Investment Management | Mason Street Wealth Management",
+            "og_description": "Mason Street Wealth Management helps manage your investments and aims to maximize returns while minimizing risks.",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2025-02-20T20:22:16+00:00",
+            "og_image": [
+                {
+                    "width": 1920,
+                    "height": 600,
+                    "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InvestmentManagement-reduced.jpg",
+                    "type": "image\/jpeg"
+                }
+            ],
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/",
+                        "name": "Investment Management | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "primaryImageOfPage": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#primaryimage"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#primaryimage"
+                        },
+                        "thumbnailUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InvestmentManagement-reduced.jpg",
+                        "datePublished": "2024-12-17T15:06:16+00:00",
+                        "dateModified": "2025-02-20T20:22:16+00:00",
+                        "description": "Mason Street Wealth Management helps manage your investments and aims to maximize returns while minimizing risks.",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "inLanguage": "en-US",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#primaryimage",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InvestmentManagement-reduced.jpg",
+                        "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_InvestmentManagement-reduced.jpg",
+                        "width": 1920,
+                        "height": 600
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/investment-management\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Services",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/services\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 3,
+                                "name": "Investment Management"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1791",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1791"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1791\/revisions"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1282"
+                }
+            ],
+            "wp:featuredmedia": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media\/1792"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1791"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1778,
+        "date": "2024-12-17T14:27:45",
+        "date_gmt": "2024-12-17T14:27:45",
+        "guid": {
+            "rendered": "https:\/\/masonstreetwealthmanagement.com\/?page_id=1778"
+        },
+        "modified": "2025-02-20T20:21:34",
+        "modified_gmt": "2025-02-20T20:21:34",
+        "slug": "financial-planning",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/",
+        "title": {
+            "rendered": "Financial Planning"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 1779,
+        "parent": 1282,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": true,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1778",
+            "page",
+            "type-page",
+            "status-publish",
+            "has-post-thumbnail",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v24.6 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Financial Planning | Mason Street Wealth Management<\/title>\n<meta name=\"description\" content=\"A well-designed financial plan from Mason Street Wealth Management can help increase the longevity of your portfolio.\" \/>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Financial Planning | Mason Street Wealth Management\" \/>\n<meta property=\"og:description\" content=\"A well-designed financial plan from Mason Street Wealth Management can help increase the longevity of your portfolio.\" \/>\n<meta property=\"og:url\" content=\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/\" \/>\n<meta property=\"og:site_name\" content=\"Mason Street Wealth Management\" \/>\n<meta property=\"article:publisher\" content=\"https:\/\/www.facebook.com\/fresnofinancialadvisors\" \/>\n<meta property=\"article:modified_time\" content=\"2025-02-20T20:21:34+00:00\" \/>\n<meta property=\"og:image\" content=\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_FinancialPlanning-reduced.jpg\" \/>\n\t<meta property=\"og:image:width\" content=\"1920\" \/>\n\t<meta property=\"og:image:height\" content=\"600\" \/>\n\t<meta property=\"og:image:type\" content=\"image\/jpeg\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/\",\"name\":\"Financial Planning | Mason Street Wealth Management\",\"isPartOf\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\"},\"primaryImageOfPage\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#primaryimage\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#primaryimage\"},\"thumbnailUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_FinancialPlanning-reduced.jpg\",\"datePublished\":\"2024-12-17T14:27:45+00:00\",\"dateModified\":\"2025-02-20T20:21:34+00:00\",\"description\":\"A well-designed financial plan from Mason Street Wealth Management can help increase the longevity of your portfolio.\",\"breadcrumb\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/\"]}]},{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#primaryimage\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_FinancialPlanning-reduced.jpg\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_FinancialPlanning-reduced.jpg\",\"width\":1920,\"height\":600},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Services\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/services\/\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Financial Planning\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"name\":\"Mason Street Wealth Management\",\"description\":\"Retirement Planning | Fresno, CA\",\"publisher\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\"},\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"en-US\"},{\"@type\":\"Organization\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\",\"name\":\"Mason Street Wealth Management\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"logo\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"width\":350,\"height\":58,\"caption\":\"Mason Street Wealth Management\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\"},\"sameAs\":[\"https:\/\/www.facebook.com\/fresnofinancialadvisors\",\"https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/\",\"https:\/\/www.youtube.com\/@masonstreetwealthmanagement\"]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Financial Planning | Mason Street Wealth Management",
+            "description": "A well-designed financial plan from Mason Street Wealth Management can help increase the longevity of your portfolio.",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Financial Planning | Mason Street Wealth Management",
+            "og_description": "A well-designed financial plan from Mason Street Wealth Management can help increase the longevity of your portfolio.",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2025-02-20T20:21:34+00:00",
+            "og_image": [
+                {
+                    "width": 1920,
+                    "height": 600,
+                    "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_FinancialPlanning-reduced.jpg",
+                    "type": "image\/jpeg"
+                }
+            ],
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/",
+                        "name": "Financial Planning | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "primaryImageOfPage": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#primaryimage"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#primaryimage"
+                        },
+                        "thumbnailUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_FinancialPlanning-reduced.jpg",
+                        "datePublished": "2024-12-17T14:27:45+00:00",
+                        "dateModified": "2025-02-20T20:21:34+00:00",
+                        "description": "A well-designed financial plan from Mason Street Wealth Management can help increase the longevity of your portfolio.",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "inLanguage": "en-US",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#primaryimage",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_FinancialPlanning-reduced.jpg",
+                        "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Services_FinancialPlanning-reduced.jpg",
+                        "width": 1920,
+                        "height": 600
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/financial-planning\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Services",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/services\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 3,
+                                "name": "Financial Planning"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1778",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1778"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1778\/revisions"
+                }
+            ],
+            "up": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1282"
+                }
+            ],
+            "wp:featuredmedia": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media\/1779"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1778"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1382,
+        "date": "2021-04-14T15:37:00",
+        "date_gmt": "2021-04-14T15:37:00",
+        "guid": {
+            "rendered": "http:\/\/masonstreetwealthmanagement.com\/?page_id=1382"
+        },
+        "modified": "2025-02-20T20:52:50",
+        "modified_gmt": "2025-02-20T20:52:50",
+        "slug": "contact-us",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/",
+        "title": {
+            "rendered": "Contact Us"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 1747,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": true,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1382",
+            "page",
+            "type-page",
+            "status-publish",
+            "has-post-thumbnail",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v24.6 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Contact Us | Mason Street Wealth Management<\/title>\n<meta name=\"description\" content=\"Get in touch with Vallin Financial Group and start building your ideal retirement today.\" \/>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Contact Us | Mason Street Wealth Management\" \/>\n<meta property=\"og:description\" content=\"Get in touch with Vallin Financial Group and start building your ideal retirement today.\" \/>\n<meta property=\"og:url\" content=\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/\" \/>\n<meta property=\"og:site_name\" content=\"Mason Street Wealth Management\" \/>\n<meta property=\"article:publisher\" content=\"https:\/\/www.facebook.com\/fresnofinancialadvisors\" \/>\n<meta property=\"article:modified_time\" content=\"2025-02-20T20:52:50+00:00\" \/>\n<meta property=\"og:image\" content=\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Home-reduced.jpg\" \/>\n\t<meta property=\"og:image:width\" content=\"1920\" \/>\n\t<meta property=\"og:image:height\" content=\"750\" \/>\n\t<meta property=\"og:image:type\" content=\"image\/jpeg\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/\",\"name\":\"Contact Us | Mason Street Wealth Management\",\"isPartOf\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\"},\"primaryImageOfPage\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/#primaryimage\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/#primaryimage\"},\"thumbnailUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Home-reduced.jpg\",\"datePublished\":\"2021-04-14T15:37:00+00:00\",\"dateModified\":\"2025-02-20T20:52:50+00:00\",\"description\":\"Get in touch with Vallin Financial Group and start building your ideal retirement today.\",\"breadcrumb\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/\"]}]},{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/#primaryimage\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Home-reduced.jpg\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Home-reduced.jpg\",\"width\":1920,\"height\":750},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/contact-us\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Contact Us\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"name\":\"Mason Street Wealth Management\",\"description\":\"Retirement Planning | Fresno, CA\",\"publisher\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\"},\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"en-US\"},{\"@type\":\"Organization\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\",\"name\":\"Mason Street Wealth Management\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"logo\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"width\":350,\"height\":58,\"caption\":\"Mason Street Wealth Management\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\"},\"sameAs\":[\"https:\/\/www.facebook.com\/fresnofinancialadvisors\",\"https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/\",\"https:\/\/www.youtube.com\/@masonstreetwealthmanagement\"]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Contact Us | Mason Street Wealth Management",
+            "description": "Get in touch with Vallin Financial Group and start building your ideal retirement today.",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Contact Us | Mason Street Wealth Management",
+            "og_description": "Get in touch with Vallin Financial Group and start building your ideal retirement today.",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2025-02-20T20:52:50+00:00",
+            "og_image": [
+                {
+                    "width": 1920,
+                    "height": 750,
+                    "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Home-reduced.jpg",
+                    "type": "image\/jpeg"
+                }
+            ],
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/",
+                        "name": "Contact Us | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "primaryImageOfPage": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/#primaryimage"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/#primaryimage"
+                        },
+                        "thumbnailUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Home-reduced.jpg",
+                        "datePublished": "2021-04-14T15:37:00+00:00",
+                        "dateModified": "2025-02-20T20:52:50+00:00",
+                        "description": "Get in touch with Vallin Financial Group and start building your ideal retirement today.",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/contact-us\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "inLanguage": "en-US",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/#primaryimage",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Home-reduced.jpg",
+                        "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Hero_Home-reduced.jpg",
+                        "width": 1920,
+                        "height": 750
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/contact-us\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Contact Us"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1382",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1382"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1382\/revisions"
+                }
+            ],
+            "wp:featuredmedia": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media\/1747"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1382"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1381,
+        "date": "2021-04-14T15:36:03",
+        "date_gmt": "2021-04-14T15:36:03",
+        "guid": {
+            "rendered": "http:\/\/masonstreetwealthmanagement.com\/?page_id=1381"
+        },
+        "modified": "2025-02-20T20:20:18",
+        "modified_gmt": "2025-02-20T20:20:18",
+        "slug": "about",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/about\/",
+        "title": {
+            "rendered": "About"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 1948,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": true,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1381",
+            "page",
+            "type-page",
+            "status-publish",
+            "has-post-thumbnail",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v24.6 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>About Us | Mason Street Wealth Management<\/title>\n<meta name=\"description\" content=\"Meet the Mason Street Wealth Management team and see what we can do for your retirement.\" \/>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/masonstreetwealthmanagement.com\/about\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"About Us | Mason Street Wealth Management\" \/>\n<meta property=\"og:description\" content=\"Meet the Mason Street Wealth Management team and see what we can do for your retirement.\" \/>\n<meta property=\"og:url\" content=\"https:\/\/masonstreetwealthmanagement.com\/about\/\" \/>\n<meta property=\"og:site_name\" content=\"Mason Street Wealth Management\" \/>\n<meta property=\"article:publisher\" content=\"https:\/\/www.facebook.com\/fresnofinancialadvisors\" \/>\n<meta property=\"article:modified_time\" content=\"2025-02-20T20:20:18+00:00\" \/>\n<meta property=\"og:image\" content=\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2025\/01\/Hero_About-reduced.jpg\" \/>\n\t<meta property=\"og:image:width\" content=\"1920\" \/>\n\t<meta property=\"og:image:height\" content=\"600\" \/>\n\t<meta property=\"og:image:type\" content=\"image\/jpeg\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/about\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/about\/\",\"name\":\"About Us | Mason Street Wealth Management\",\"isPartOf\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\"},\"primaryImageOfPage\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/about\/#primaryimage\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/about\/#primaryimage\"},\"thumbnailUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2025\/01\/Hero_About-reduced.jpg\",\"datePublished\":\"2021-04-14T15:36:03+00:00\",\"dateModified\":\"2025-02-20T20:20:18+00:00\",\"description\":\"Meet the Mason Street Wealth Management team and see what we can do for your retirement.\",\"breadcrumb\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/about\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/masonstreetwealthmanagement.com\/about\/\"]}]},{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/about\/#primaryimage\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2025\/01\/Hero_About-reduced.jpg\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2025\/01\/Hero_About-reduced.jpg\",\"width\":1920,\"height\":600},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/about\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"About\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"name\":\"Mason Street Wealth Management\",\"description\":\"Retirement Planning | Fresno, CA\",\"publisher\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\"},\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"en-US\"},{\"@type\":\"Organization\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\",\"name\":\"Mason Street Wealth Management\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"logo\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"width\":350,\"height\":58,\"caption\":\"Mason Street Wealth Management\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\"},\"sameAs\":[\"https:\/\/www.facebook.com\/fresnofinancialadvisors\",\"https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/\",\"https:\/\/www.youtube.com\/@masonstreetwealthmanagement\"]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "About Us | Mason Street Wealth Management",
+            "description": "Meet the Mason Street Wealth Management team and see what we can do for your retirement.",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/about\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "About Us | Mason Street Wealth Management",
+            "og_description": "Meet the Mason Street Wealth Management team and see what we can do for your retirement.",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/about\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2025-02-20T20:20:18+00:00",
+            "og_image": [
+                {
+                    "width": 1920,
+                    "height": 600,
+                    "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2025\/01\/Hero_About-reduced.jpg",
+                    "type": "image\/jpeg"
+                }
+            ],
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/about\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/about\/",
+                        "name": "About Us | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "primaryImageOfPage": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/about\/#primaryimage"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/about\/#primaryimage"
+                        },
+                        "thumbnailUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2025\/01\/Hero_About-reduced.jpg",
+                        "datePublished": "2021-04-14T15:36:03+00:00",
+                        "dateModified": "2025-02-20T20:20:18+00:00",
+                        "description": "Meet the Mason Street Wealth Management team and see what we can do for your retirement.",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/about\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/about\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "ImageObject",
+                        "inLanguage": "en-US",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/about\/#primaryimage",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2025\/01\/Hero_About-reduced.jpg",
+                        "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2025\/01\/Hero_About-reduced.jpg",
+                        "width": 1920,
+                        "height": 600
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/about\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "About"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1381",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1381"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1381\/revisions"
+                }
+            ],
+            "wp:featuredmedia": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media\/1948"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1381"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    },
+    {
+        "id": 1282,
+        "date": "2021-01-26T16:36:12",
+        "date_gmt": "2021-01-26T16:36:12",
+        "guid": {
+            "rendered": "http:\/\/masonstreetwealthmanagement.com\/?page_id=1282"
+        },
+        "modified": "2024-12-17T14:52:36",
+        "modified_gmt": "2024-12-17T14:52:36",
+        "slug": "services",
+        "status": "publish",
+        "type": "page",
+        "link": "https:\/\/masonstreetwealthmanagement.com\/services\/",
+        "title": {
+            "rendered": "Services"
+        },
+        "content": {
+            "rendered": "",
+            "protected": false
+        },
+        "excerpt": {
+            "rendered": "",
+            "protected": false
+        },
+        "author": 3,
+        "featured_media": 0,
+        "parent": 0,
+        "menu_order": 0,
+        "comment_status": "closed",
+        "ping_status": "closed",
+        "template": "",
+        "meta": {
+            "_acf_changed": true,
+            "footnotes": ""
+        },
+        "class_list": [
+            "post-1282",
+            "page",
+            "type-page",
+            "status-publish",
+            "hentry"
+        ],
+        "acf": [],
+        "yoast_head": "<!-- This site is optimized with the Yoast SEO plugin v24.6 - https:\/\/yoast.com\/wordpress\/plugins\/seo\/ -->\n<title>Services | Mason Street Wealth Management<\/title>\n<meta name=\"description\" content=\"Vallin Financial Solutions provides a wide range of financial services to help you build your ideal retireent.\" \/>\n<meta name=\"robots\" content=\"index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1\" \/>\n<link rel=\"canonical\" href=\"https:\/\/masonstreetwealthmanagement.com\/services\/\" \/>\n<meta property=\"og:locale\" content=\"en_US\" \/>\n<meta property=\"og:type\" content=\"article\" \/>\n<meta property=\"og:title\" content=\"Services | Mason Street Wealth Management\" \/>\n<meta property=\"og:description\" content=\"Vallin Financial Solutions provides a wide range of financial services to help you build your ideal retireent.\" \/>\n<meta property=\"og:url\" content=\"https:\/\/masonstreetwealthmanagement.com\/services\/\" \/>\n<meta property=\"og:site_name\" content=\"Mason Street Wealth Management\" \/>\n<meta property=\"article:publisher\" content=\"https:\/\/www.facebook.com\/fresnofinancialadvisors\" \/>\n<meta property=\"article:modified_time\" content=\"2024-12-17T14:52:36+00:00\" \/>\n<meta name=\"twitter:card\" content=\"summary_large_image\" \/>\n<meta name=\"twitter:label1\" content=\"Est. reading time\" \/>\n\t<meta name=\"twitter:data1\" content=\"1 minute\" \/>\n<script type=\"application\/ld+json\" class=\"yoast-schema-graph\">{\"@context\":\"https:\/\/schema.org\",\"@graph\":[{\"@type\":\"WebPage\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/services\/\",\"name\":\"Services | Mason Street Wealth Management\",\"isPartOf\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\"},\"datePublished\":\"2021-01-26T16:36:12+00:00\",\"dateModified\":\"2024-12-17T14:52:36+00:00\",\"description\":\"Vallin Financial Solutions provides a wide range of financial services to help you build your ideal retireent.\",\"breadcrumb\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/#breadcrumb\"},\"inLanguage\":\"en-US\",\"potentialAction\":[{\"@type\":\"ReadAction\",\"target\":[\"https:\/\/masonstreetwealthmanagement.com\/services\/\"]}]},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/services\/#breadcrumb\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\/\/masonstreetwealthmanagement.com\/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Services\"}]},{\"@type\":\"WebSite\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#website\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"name\":\"Mason Street Wealth Management\",\"description\":\"Retirement Planning | Fresno, CA\",\"publisher\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\"},\"potentialAction\":[{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}\"},\"query-input\":{\"@type\":\"PropertyValueSpecification\",\"valueRequired\":true,\"valueName\":\"search_term_string\"}}],\"inLanguage\":\"en-US\"},{\"@type\":\"Organization\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#organization\",\"name\":\"Mason Street Wealth Management\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/\",\"logo\":{\"@type\":\"ImageObject\",\"inLanguage\":\"en-US\",\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\",\"url\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"contentUrl\":\"https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png\",\"width\":350,\"height\":58,\"caption\":\"Mason Street Wealth Management\"},\"image\":{\"@id\":\"https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/\"},\"sameAs\":[\"https:\/\/www.facebook.com\/fresnofinancialadvisors\",\"https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/\",\"https:\/\/www.youtube.com\/@masonstreetwealthmanagement\"]}]}<\/script>\n<!-- \/ Yoast SEO plugin. -->",
+        "yoast_head_json": {
+            "title": "Services | Mason Street Wealth Management",
+            "description": "Vallin Financial Solutions provides a wide range of financial services to help you build your ideal retireent.",
+            "robots": {
+                "index": "index",
+                "follow": "follow",
+                "max-snippet": "max-snippet:-1",
+                "max-image-preview": "max-image-preview:large",
+                "max-video-preview": "max-video-preview:-1"
+            },
+            "canonical": "https:\/\/masonstreetwealthmanagement.com\/services\/",
+            "og_locale": "en_US",
+            "og_type": "article",
+            "og_title": "Services | Mason Street Wealth Management",
+            "og_description": "Vallin Financial Solutions provides a wide range of financial services to help you build your ideal retireent.",
+            "og_url": "https:\/\/masonstreetwealthmanagement.com\/services\/",
+            "og_site_name": "Mason Street Wealth Management",
+            "article_publisher": "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+            "article_modified_time": "2024-12-17T14:52:36+00:00",
+            "twitter_card": "summary_large_image",
+            "twitter_misc": {
+                "Est. reading time": "1 minute"
+            },
+            "schema": {
+                "@context": "https:\/\/schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebPage",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/services\/",
+                        "name": "Services | Mason Street Wealth Management",
+                        "isPartOf": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#website"
+                        },
+                        "datePublished": "2021-01-26T16:36:12+00:00",
+                        "dateModified": "2024-12-17T14:52:36+00:00",
+                        "description": "Vallin Financial Solutions provides a wide range of financial services to help you build your ideal retireent.",
+                        "breadcrumb": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/#breadcrumb"
+                        },
+                        "inLanguage": "en-US",
+                        "potentialAction": [
+                            {
+                                "@type": "ReadAction",
+                                "target": [
+                                    "https:\/\/masonstreetwealthmanagement.com\/services\/"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/services\/#breadcrumb",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https:\/\/masonstreetwealthmanagement.com\/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Services"
+                            }
+                        ]
+                    },
+                    {
+                        "@type": "WebSite",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#website",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "name": "Mason Street Wealth Management",
+                        "description": "Retirement Planning | Fresno, CA",
+                        "publisher": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization"
+                        },
+                        "potentialAction": [
+                            {
+                                "@type": "SearchAction",
+                                "target": {
+                                    "@type": "EntryPoint",
+                                    "urlTemplate": "https:\/\/masonstreetwealthmanagement.com\/?s={search_term_string}"
+                                },
+                                "query-input": {
+                                    "@type": "PropertyValueSpecification",
+                                    "valueRequired": true,
+                                    "valueName": "search_term_string"
+                                }
+                            }
+                        ],
+                        "inLanguage": "en-US"
+                    },
+                    {
+                        "@type": "Organization",
+                        "@id": "https:\/\/masonstreetwealthmanagement.com\/#organization",
+                        "name": "Mason Street Wealth Management",
+                        "url": "https:\/\/masonstreetwealthmanagement.com\/",
+                        "logo": {
+                            "@type": "ImageObject",
+                            "inLanguage": "en-US",
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/",
+                            "url": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "contentUrl": "https:\/\/masonstreetwealthmanagement.com\/wp-content\/uploads\/2024\/12\/Logo_MainNav.png",
+                            "width": 350,
+                            "height": 58,
+                            "caption": "Mason Street Wealth Management"
+                        },
+                        "image": {
+                            "@id": "https:\/\/masonstreetwealthmanagement.com\/#\/schema\/logo\/image\/"
+                        },
+                        "sameAs": [
+                            "https:\/\/www.facebook.com\/fresnofinancialadvisors",
+                            "https:\/\/www.linkedin.com\/company\/fresno-financial-advisors\/",
+                            "https:\/\/www.youtube.com\/@masonstreetwealthmanagement"
+                        ]
+                    }
+                ]
+            }
+        },
+        "_links": {
+            "self": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1282",
+                    "targetHints": {
+                        "allow": [
+                            "GET"
+                        ]
+                    }
+                }
+            ],
+            "collection": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages"
+                }
+            ],
+            "about": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/types\/page"
+                }
+            ],
+            "author": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/users\/3"
+                }
+            ],
+            "replies": [
+                {
+                    "embeddable": true,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/comments?post=1282"
+                }
+            ],
+            "version-history": [
+                {
+                    "count": 0,
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/pages\/1282\/revisions"
+                }
+            ],
+            "wp:attachment": [
+                {
+                    "href": "https:\/\/masonstreetwealthmanagement.com\/wp-json\/wp\/v2\/media?parent=1282"
+                }
+            ],
+            "curies": [
+                {
+                    "name": "wp",
+                    "href": "https:\/\/api.w.org\/{rel}",
+                    "templated": true
+                }
+            ]
+        }
+    }
+]
