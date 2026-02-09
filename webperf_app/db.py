@@ -37,6 +37,7 @@ def init_db(conn: sqlite3.Connection) -> None:
             site_id INTEGER NOT NULL,
             strategy TEXT NOT NULL,
             fetched_at TEXT NOT NULL,
+            run_note TEXT,
             performance_score REAL,
             fcp_ms REAL,
             lcp_ms REAL,
@@ -65,7 +66,16 @@ def init_db(conn: sqlite3.Connection) -> None:
         );
         """
     )
+    _ensure_column(conn, "audit_runs", "run_note", "TEXT")
     conn.commit()
+
+
+def _ensure_column(conn: sqlite3.Connection, table: str, column: str, definition: str) -> None:
+    rows = conn.execute(f"PRAGMA table_info({table})").fetchall()
+    columns = {row["name"] for row in rows}
+    if column in columns:
+        return
+    conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
 
 
 def normalize_url(value: str) -> str:
@@ -131,6 +141,7 @@ def insert_run(
     *,
     site_id: int,
     strategy: str,
+    run_note: Optional[str],
     metrics: Dict[str, Any],
     warning_count: int,
     error_count: int,
@@ -140,16 +151,17 @@ def insert_run(
     cur = conn.execute(
         """
         INSERT INTO audit_runs (
-            site_id, strategy, fetched_at, performance_score,
+            site_id, strategy, fetched_at, run_note, performance_score,
             fcp_ms, lcp_ms, tbt_ms, cls, speed_index_ms, ttfb_ms,
             warning_count, error_count, host_notes_json, raw_json
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             site_id,
             strategy,
             utc_now_iso(),
+            run_note,
             metrics.get("performance_score"),
             metrics.get("fcp_ms"),
             metrics.get("lcp_ms"),

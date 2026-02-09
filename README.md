@@ -45,6 +45,12 @@ python -m webperf_app --db data/webperf.sqlite3 import-sites --file all_sites.tx
 python -m webperf_app --db data/webperf.sqlite3 run --site https://aprilbell.com --strategy mobile
 ```
 
+Add a change note to track what you modified before the run:
+
+```bash
+python -m webperf_app --db data/webperf.sqlite3 run --site https://aprilbell.com --strategy mobile --note "Enabled LiteSpeed cache + compressed hero image"
+```
+
 4. View prioritized TODOs:
 
 ```bash

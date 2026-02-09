@@ -74,6 +74,7 @@ def cmd_run(args: argparse.Namespace) -> None:
     conn = db.connect(Path(args.db))
     db.init_db(conn)
     api_key = args.api_key or os.getenv("PAGESPEED_API_KEY")
+    run_note = args.note.strip() if args.note else None
 
     for site in _iter_target_sites(conn, site=args.site, run_all=args.all, limit=args.limit):
         url = site["url"]
@@ -89,6 +90,7 @@ def cmd_run(args: argparse.Namespace) -> None:
                 conn,
                 site_id=site["id"],
                 strategy=args.strategy,
+                run_note=run_note,
                 metrics=metrics,
                 warning_count=counts["warning_count"],
                 error_count=counts["error_count"],
@@ -100,6 +102,8 @@ def cmd_run(args: argparse.Namespace) -> None:
             current_row = conn.execute("SELECT * FROM audit_runs WHERE id = ?", (run_id,)).fetchone()
             prev = db.get_previous_run(conn, site["id"], args.strategy, current_row["fetched_at"])
             print(f"Run saved: id={run_id}")
+            if current_row["run_note"]:
+                print(f"Note: {current_row['run_note']}")
             print(
                 f"Score={metrics.get('performance_score')}  "
                 f"FCP={fmt_ms(metrics.get('fcp_ms'))}  "
@@ -148,9 +152,11 @@ def cmd_trend(args: argparse.Namespace) -> None:
 
     print(f"Trend for {site['url']} ({args.strategy}):")
     for run in runs:
+        note_part = f' note="{run["run_note"]}"' if run["run_note"] else ""
         print(
             f"- run={run['id']} at {run['fetched_at']} "
             f"score={run['performance_score']} lcp={run['lcp_ms']} tbt={run['tbt_ms']} ttfb={run['ttfb_ms']}"
+            f"{note_part}"
         )
 
 
@@ -181,6 +187,7 @@ def cmd_issue_brief(args: argparse.Namespace) -> None:
         f"- Run ID: {run['id']}",
         f"- Strategy: {run['strategy']}",
         f"- Timestamp (UTC): {run['fetched_at']}",
+        f"- Note: {run['run_note'] or 'None'}",
         "",
         "## Current Metrics",
         f"- Performance Score: {run['performance_score']}",
@@ -263,6 +270,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
     p.add_argument("--limit", type=int, help="Limit number of sites when using --all")
     p.add_argument("--api-key", help="Google PageSpeed API key (or use PAGESPEED_API_KEY env var)")
+    p.add_argument("--note", help="Optional note about what changed before this run")
     p.set_defaults(func=cmd_run)
 
     p = sub.add_parser("todo", help="Show prioritized TODO list for latest run")
