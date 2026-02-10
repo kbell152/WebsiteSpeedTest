@@ -152,12 +152,12 @@ def cmd_trend(args: argparse.Namespace) -> None:
 
     print(f"Trend for {site['url']} ({args.strategy}):")
     for run in runs:
-        note_part = f' note="{run["run_note"]}"' if run["run_note"] else ""
         print(
             f"- run={run['id']} at {run['fetched_at']} "
             f"score={run['performance_score']} lcp={run['lcp_ms']} tbt={run['tbt_ms']} ttfb={run['ttfb_ms']}"
-            f"{note_part}"
         )
+        if run["run_note"]:
+            print(f'- note="{run["run_note"]}"')
 
 
 def cmd_issue_brief(args: argparse.Namespace) -> None:
