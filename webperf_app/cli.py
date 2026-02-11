@@ -82,6 +82,8 @@ def cmd_run(args: argparse.Namespace) -> None:
         try:
             payload = pagespeed.fetch_pagespeed(url, strategy=args.strategy, api_key=api_key)
             host_notes = pagespeed.snapshot_host_headers(url)
+            cache_context = pagespeed.extract_cache_context(host_notes)
+            lcp_context = pagespeed.extract_lcp_context(payload)
             metrics = pagespeed.extract_metrics(payload)
             counts = pagespeed.count_warnings_and_errors(payload)
             todos = analyzer.build_todos(payload, host_notes)
@@ -96,6 +98,14 @@ def cmd_run(args: argparse.Namespace) -> None:
                 error_count=counts["error_count"],
                 host_notes=host_notes,
                 raw_payload=payload,
+                cache_litespeed=cache_context.get("cache_litespeed"),
+                cache_control=cache_context.get("cache_control"),
+                lcp_element_snippet=lcp_context.get("lcp_element_snippet"),
+                lcp_resource_url=lcp_context.get("lcp_resource_url"),
+                lcp_ttfb_ms=lcp_context.get("lcp_ttfb_ms"),
+                lcp_load_delay_ms=lcp_context.get("lcp_load_delay_ms"),
+                lcp_load_time_ms=lcp_context.get("lcp_load_time_ms"),
+                lcp_render_delay_ms=lcp_context.get("lcp_render_delay_ms"),
             )
             db.replace_run_todos(conn, run_id, todos)
 
@@ -127,10 +137,30 @@ def cmd_run(args: argparse.Namespace) -> None:
 def cmd_todo(args: argparse.Namespace) -> None:
     conn = db.connect(Path(args.db))
     db.init_db(conn)
-    site = db.get_site(conn, args.site)
-    run = db.get_latest_run(conn, site["id"], args.strategy)
+    if args.site:
+        site = db.get_site(conn, args.site)
+        run = db.get_latest_run(conn, site["id"], args.strategy)
+    else:
+        run = conn.execute(
+            """
+            SELECT ar.*, s.url AS site_url
+            FROM audit_runs ar
+            JOIN sites s ON s.id = ar.site_id
+            WHERE ar.strategy = ?
+            ORDER BY ar.fetched_at DESC
+            LIMIT 1
+            """,
+            (args.strategy,),
+        ).fetchone()
+        if run:
+            site = {"url": run["site_url"]}
+        else:
+            site = None
     if not run:
-        print("No runs found for this site/strategy.")
+        if args.site:
+            print("No runs found for this site/strategy.")
+        else:
+            print("No runs found yet. Run an audit first (or pass --site).")
         return
     todos = db.get_run_todos(conn, run["id"], limit=args.limit)
     print(f"Top TODOs for {site['url']} (run {run['id']}, {run['fetched_at']}):")
@@ -156,7 +186,7 @@ def cmd_trend(args: argparse.Namespace) -> None:
             f"- run={run['id']} at {run['fetched_at']} "
             f"score={run['performance_score']} lcp={run['lcp_ms']} tbt={run['tbt_ms']} ttfb={run['ttfb_ms']}"
         )
-        if run["run_note"]:
+        if args.show_notes and run["run_note"]:
             print(f'- note="{run["run_note"]}"')
 
 
@@ -274,15 +304,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_run)
 
     p = sub.add_parser("todo", help="Show prioritized TODO list for latest run")
-    p.add_argument("--site", required=True)
+    p.add_argument("--site", help="Optional site URL; defaults to most recently audited site")
     p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
     p.add_argument("--limit", type=int, default=12)
     p.set_defaults(func=cmd_todo)
 
-    p = sub.add_parser("trend", help="Show recent run trend")
+    p = sub.add_parser("trend", help="Show recent run trend (use --show-notes to view attached notes)")
     p.add_argument("--site", required=True)
     p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
     p.add_argument("--limit", type=int, default=8)
+    p.add_argument("--show-notes", action="store_true", help="Include per-run notes in output")
     p.set_defaults(func=cmd_trend)
 
     p = sub.add_parser("issue-brief", help="Generate a paste-ready issue brief for ChatGPT")

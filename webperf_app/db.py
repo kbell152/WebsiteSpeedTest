@@ -48,6 +48,14 @@ def init_db(conn: sqlite3.Connection) -> None:
             warning_count INTEGER NOT NULL DEFAULT 0,
             error_count INTEGER NOT NULL DEFAULT 0,
             host_notes_json TEXT,
+            cache_litespeed TEXT,
+            cache_control TEXT,
+            lcp_element_snippet TEXT,
+            lcp_resource_url TEXT,
+            lcp_ttfb_ms REAL,
+            lcp_load_delay_ms REAL,
+            lcp_load_time_ms REAL,
+            lcp_render_delay_ms REAL,
             raw_json TEXT NOT NULL,
             FOREIGN KEY(site_id) REFERENCES sites(id)
         );
@@ -67,10 +75,20 @@ def init_db(conn: sqlite3.Connection) -> None:
         """
     )
     _ensure_column(conn, "audit_runs", "run_note", "TEXT")
+    _ensure_column(conn, "audit_runs", "cache_litespeed", "TEXT")
+    _ensure_column(conn, "audit_runs", "cache_control", "TEXT")
+    _ensure_column(conn, "audit_runs", "lcp_element_snippet", "TEXT")
+    _ensure_column(conn, "audit_runs", "lcp_resource_url", "TEXT")
+    _ensure_column(conn, "audit_runs", "lcp_ttfb_ms", "REAL")
+    _ensure_column(conn, "audit_runs", "lcp_load_delay_ms", "REAL")
+    _ensure_column(conn, "audit_runs", "lcp_load_time_ms", "REAL")
+    _ensure_column(conn, "audit_runs", "lcp_render_delay_ms", "REAL")
     conn.commit()
 
 
-def _ensure_column(conn: sqlite3.Connection, table: str, column: str, definition: str) -> None:
+def _ensure_column(
+    conn: sqlite3.Connection, table: str, column: str, definition: str
+) -> None:
     rows = conn.execute(f"PRAGMA table_info({table})").fetchall()
     columns = {row["name"] for row in rows}
     if column in columns:
@@ -125,7 +143,9 @@ def list_sites(conn: sqlite3.Connection, active_only: bool = True) -> List[sqlit
         return conn.execute(
             "SELECT id, url, label, active, created_at FROM sites WHERE active = 1 ORDER BY url"
         ).fetchall()
-    return conn.execute("SELECT id, url, label, active, created_at FROM sites ORDER BY url").fetchall()
+    return conn.execute(
+        "SELECT id, url, label, active, created_at FROM sites ORDER BY url"
+    ).fetchall()
 
 
 def get_site(conn: sqlite3.Connection, url: str) -> sqlite3.Row:
@@ -147,15 +167,25 @@ def insert_run(
     error_count: int,
     host_notes: Dict[str, Any],
     raw_payload: Dict[str, Any],
+    cache_litespeed: Optional[str] = None,
+    cache_control: Optional[str] = None,
+    lcp_element_snippet: Optional[str] = None,
+    lcp_resource_url: Optional[str] = None,
+    lcp_ttfb_ms: Optional[float] = None,
+    lcp_load_delay_ms: Optional[float] = None,
+    lcp_load_time_ms: Optional[float] = None,
+    lcp_render_delay_ms: Optional[float] = None,
 ) -> int:
     cur = conn.execute(
         """
         INSERT INTO audit_runs (
             site_id, strategy, fetched_at, run_note, performance_score,
             fcp_ms, lcp_ms, tbt_ms, cls, speed_index_ms, ttfb_ms,
-            warning_count, error_count, host_notes_json, raw_json
+            warning_count, error_count, host_notes_json, raw_json, cache_litespeed, cache_control,
+            lcp_element_snippet, lcp_resource_url,
+            lcp_ttfb_ms, lcp_load_delay_ms, lcp_load_time_ms, lcp_render_delay_ms
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             site_id,
@@ -173,13 +203,23 @@ def insert_run(
             error_count,
             json.dumps(host_notes),
             json.dumps(raw_payload),
+            cache_litespeed,
+            cache_control,
+            lcp_element_snippet,
+            lcp_resource_url,
+            lcp_ttfb_ms,
+            lcp_load_delay_ms,
+            lcp_load_time_ms,
+            lcp_render_delay_ms,
         ),
     )
     conn.commit()
     return int(cur.lastrowid)
 
 
-def replace_run_todos(conn: sqlite3.Connection, run_id: int, todos: List[Dict[str, Any]]) -> None:
+def replace_run_todos(
+    conn: sqlite3.Connection, run_id: int, todos: List[Dict[str, Any]]
+) -> None:
     conn.execute("DELETE FROM run_todos WHERE run_id = ?", (run_id,))
     conn.executemany(
         """
@@ -203,7 +243,9 @@ def replace_run_todos(conn: sqlite3.Connection, run_id: int, todos: List[Dict[st
     conn.commit()
 
 
-def get_latest_run(conn: sqlite3.Connection, site_id: int, strategy: str = "mobile") -> Optional[sqlite3.Row]:
+def get_latest_run(
+    conn: sqlite3.Connection, site_id: int, strategy: str = "mobile"
+) -> Optional[sqlite3.Row]:
     return conn.execute(
         """
         SELECT * FROM audit_runs
@@ -216,7 +258,10 @@ def get_latest_run(conn: sqlite3.Connection, site_id: int, strategy: str = "mobi
 
 
 def get_previous_run(
-    conn: sqlite3.Connection, site_id: int, strategy: str = "mobile", before_fetched_at: str = ""
+    conn: sqlite3.Connection,
+    site_id: int,
+    strategy: str = "mobile",
+    before_fetched_at: str = "",
 ) -> Optional[sqlite3.Row]:
     return conn.execute(
         """
@@ -229,7 +274,9 @@ def get_previous_run(
     ).fetchone()
 
 
-def get_run_todos(conn: sqlite3.Connection, run_id: int, limit: int = 20) -> List[sqlite3.Row]:
+def get_run_todos(
+    conn: sqlite3.Connection, run_id: int, limit: int = 20
+) -> List[sqlite3.Row]:
     return conn.execute(
         """
         SELECT audit_id, title, description, category, score, impact_ms, priority
@@ -242,7 +289,9 @@ def get_run_todos(conn: sqlite3.Connection, run_id: int, limit: int = 20) -> Lis
     ).fetchall()
 
 
-def get_recent_runs(conn: sqlite3.Connection, site_id: int, strategy: str, limit: int = 10) -> List[sqlite3.Row]:
+def get_recent_runs(
+    conn: sqlite3.Connection, site_id: int, strategy: str, limit: int = 10
+) -> List[sqlite3.Row]:
     return conn.execute(
         """
         SELECT * FROM audit_runs

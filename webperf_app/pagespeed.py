@@ -145,3 +145,66 @@ def snapshot_host_headers(url: str, timeout: int = 30) -> Dict[str, Any]:
         "headers": cache_signals,
         "notes": notes,
     }
+
+
+def extract_cache_context(host_notes: Dict[str, Any]) -> Dict[str, Optional[str]]:
+    headers = (host_notes or {}).get("headers") or {}
+    litespeed = headers.get("x-litespeed-cache")
+    if litespeed is None:
+        litespeed = headers.get("x-cache")
+    cache_control = headers.get("cache-control")
+    return {
+        "cache_litespeed": litespeed,
+        "cache_control": cache_control,
+    }
+
+
+def extract_lcp_context(payload: Dict[str, Any]) -> Dict[str, Optional[float]]:
+    audits = payload.get("lighthouseResult", {}).get("audits", {})
+    lcp_elem = audits.get("largest-contentful-paint-element", {}) or {}
+    elem_details = lcp_elem.get("details", {}) or {}
+    elem_items = elem_details.get("items", []) or []
+
+    snippet = None
+    resource_url = None
+    if elem_items:
+        first = elem_items[0] or {}
+        node = first.get("node", {}) or {}
+        snippet = node.get("snippet") or first.get("snippet")
+        resource_url = first.get("url") or node.get("url")
+
+    # Lighthouse may expose LCP phase timing in either of these audits depending on version.
+    breakdown = audits.get("lcp-breakdown") or audits.get("lcp-breakdown-insight") or {}
+    breakdown_items = (breakdown.get("details", {}) or {}).get("items", []) or []
+
+    ttfb_ms = None
+    load_delay_ms = None
+    load_time_ms = None
+    render_delay_ms = None
+
+    for row in breakdown_items:
+        phase = str(row.get("phase", "")).strip().lower()
+        timing = row.get("timing")
+        if timing is None:
+            continue
+        try:
+            timing_val = float(timing)
+        except (TypeError, ValueError):
+            continue
+        if phase == "ttfb":
+            ttfb_ms = timing_val
+        elif phase == "load delay":
+            load_delay_ms = timing_val
+        elif phase == "load time":
+            load_time_ms = timing_val
+        elif phase == "render delay":
+            render_delay_ms = timing_val
+
+    return {
+        "lcp_element_snippet": snippet,
+        "lcp_resource_url": resource_url,
+        "lcp_ttfb_ms": ttfb_ms,
+        "lcp_load_delay_ms": load_delay_ms,
+        "lcp_load_time_ms": load_time_ms,
+        "lcp_render_delay_ms": render_delay_ms,
+    }
