@@ -1,9 +1,10 @@
 import json
 import sqlite3
+from urllib.parse import urlparse
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
-
+from urllib.parse import urlparse
 
 DEFAULT_DB_PATH = Path("data/webperf.sqlite3")
 
@@ -110,18 +111,45 @@ def upsert_site(conn: sqlite3.Connection, url: str, label: Optional[str] = None)
     if not normalized:
         raise ValueError("Site URL cannot be empty")
 
-    row = conn.execute("SELECT id FROM sites WHERE url = ?", (normalized,)).fetchone()
+    host = urlparse(normalized).netloc
+
+    row = conn.execute(
+        "SELECT id, active, label, host FROM sites WHERE url = ?",
+        (normalized,),
+    ).fetchone()
+
     if row:
+        # Reactivate always; keep label unless explicitly provided.
+        if label is not None:
+            conn.execute(
+                """
+                UPDATE sites
+                SET active = 1,
+                    host = COALESCE(host, ?),
+                    label = COALESCE(label, ?)
+                WHERE url = ?
+                """,
+                (host, label, normalized),
+            )
+        else:
+            conn.execute(
+                """
+                UPDATE sites
+                SET active = 1,
+                    host = COALESCE(host, ?)
+                WHERE url = ?
+                """,
+                (host, normalized),
+            )
         return int(row["id"])
 
     cur = conn.execute(
         """
         INSERT INTO sites (url, label, platform, host, active, created_at)
-        VALUES (?, ?, ?, ?, 1, ?)
+        VALUES (?, ?, NULL, ?, 1, ?)
         """,
-        (normalized, label, "wordpress/divi", None, utc_now_iso()),
+        (normalized, label, host, utc_now_iso()),
     )
-    conn.commit()
     return int(cur.lastrowid)
 
 
@@ -154,6 +182,37 @@ def get_site(conn: sqlite3.Connection, url: str) -> sqlite3.Row:
     if not row:
         raise ValueError(f"Site not found: {normalized}")
     return row
+
+
+def get_or_create_site(conn: sqlite3.Connection, url: str) -> sqlite3.Row:
+    # Normalize the URL the same way everywhere.
+    normalized = normalize_url(url)
+
+    # If it already exists, return it.
+    row = conn.execute("SELECT * FROM sites WHERE url = ?", (normalized,)).fetchone()
+    if row:
+        return row
+
+    host = urlparse(normalized).netloc
+
+    # Insert a minimal site row so runs can reference site_id.
+    conn.execute(
+        """
+        INSERT INTO sites (url, label, platform, host, active, created_at)
+        VALUES (?, ?, ?, ?, 1, ?)
+        """,
+        (
+            normalized,
+            host,  # label default = host (you can change later)
+            None,  # platform unknown for ad-hoc
+            host,
+            utc_now_iso(),
+        ),
+    )
+    conn.commit()
+
+    # Fetch and return the inserted row.
+    return conn.execute("SELECT * FROM sites WHERE url = ?", (normalized,)).fetchone()
 
 
 def insert_run(
@@ -301,3 +360,11 @@ def get_recent_runs(
         """,
         (site_id, strategy, limit),
     ).fetchall()
+
+
+def set_site_active(conn: sqlite3.Connection, url: str, active: int) -> None:
+    # Normalize URL consistently.
+    normalized = normalize_url(url)
+
+    # Flip active flag.
+    conn.execute("UPDATE sites SET active = ? WHERE url = ?", (active, normalized))

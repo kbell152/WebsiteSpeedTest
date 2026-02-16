@@ -1,9 +1,11 @@
 import argparse
 import json
 import os
+import sys
+import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Iterable, Optional
-
 from . import analyzer, db, pagespeed
 
 
@@ -23,6 +25,47 @@ def _metrics_from_row(row: Any) -> Dict[str, Any]:
         "speed_index_ms": row["speed_index_ms"],
         "ttfb_ms": row["ttfb_ms"],
     }
+
+
+def _fmt_local_timestamp(value: Optional[str]) -> str:
+    if not value:
+        return "n/a"
+    try:
+        dt = datetime.fromisoformat(value)
+        local_dt = dt.astimezone()
+        return local_dt.strftime("%Y-%m-%d %I:%M:%S %p %Z")
+    except Exception:
+        return value
+
+
+def _print_trend_lines(runs: Iterable[Any]) -> None:
+    for run in runs:
+        print(
+            f"- run={run['id']} at {_fmt_local_timestamp(run['fetched_at'])} "
+            f"score={run['performance_score']} lcp={run['lcp_ms']} tbt={run['tbt_ms']} ttfb={run['ttfb_ms']}"
+        )
+
+
+def _print_trend_notes(runs: Iterable[Any]) -> None:
+    print("")
+    print("Notes for displayed runs:")
+    for run in runs:
+        note = run["run_note"] if run["run_note"] else "(none)"
+        print(f'- run={run["id"]} note="{note}"')
+
+
+def _latest_run_with_site(conn: Any, strategy: str) -> Optional[Any]:
+    return conn.execute(
+        """
+        SELECT ar.*, s.url AS site_url
+        FROM audit_runs ar
+        JOIN sites s ON s.id = ar.site_id
+        WHERE ar.strategy = ?
+        ORDER BY ar.fetched_at DESC
+        LIMIT 1
+        """,
+        (strategy,),
+    ).fetchone()
 
 
 def cmd_init_db(args: argparse.Namespace) -> None:
@@ -48,21 +91,78 @@ def cmd_add_site(args: argparse.Namespace) -> None:
 
 
 def cmd_list_sites(args: argparse.Namespace) -> None:
+    """
+    List tracked sites from the SQLite database.
+
+    Why this command exists:
+    - It is a quick inventory view so you can confirm which sites are currently
+      in the tracker before running audits.
+    - It also shows active vs inactive state, which matters because other
+      commands (for example `run --all`) only target active sites.
+
+    Behavior:
+    - Connects to the DB path from `args.db`.
+    - Ensures the schema exists via `db.init_db(conn)` so the command can run
+      safely even on a fresh database file.
+    - Reads rows with `db.list_sites(...)`:
+      - default: only active sites (`--all` not provided)
+      - with `--all`: active + inactive sites
+    - Prints each site on one line using a fixed-width domain column:
+      `<domain>  <status>`
+    - Prints a final `Total: N` summary.
+
+    Arg expectations:
+    - `args.db`: database file path (set by the top-level `--db` option)
+    - `args.all`: boolean from `list-sites --all`; when True, include inactive
+      sites in results
+    """
     conn = db.connect(Path(args.db))
     db.init_db(conn)
+
+    # `active_only=True` is the default list behavior.
+    # Passing `--all` flips this to include inactive rows too.
     rows = db.list_sites(conn, active_only=not args.all)
+
     for row in rows:
-        print(f"{row['id']:>3}  {row['url']}")
+        # Keep output compact by showing host-like domain text, not full URL.
+        domain = row["url"].replace("https://", "").rstrip("/")
+        # `sites.active` is stored as 1/0 in SQLite; map to readable text.
+        status = "active" if row["active"] else "inactive"
+
+        # Left-align domain in a 40-char column for scan-friendly CLI output.
+        print(f"{domain:<40}  {status}")
+
     print(f"Total: {len(rows)}")
 
 
-def _iter_target_sites(conn: Any, *, site: Optional[str], run_all: bool, limit: Optional[int]) -> Iterable[Any]:
+def _iter_target_sites(
+    conn: Any,
+    *,
+    site: Optional[str],
+    run_all: bool,
+    limit: Optional[int],
+    offset: int = 0,
+) -> Iterable[Any]:
+    """
+    Yield the site rows that `cmd_run` should audit.
+
+    Selection rules:
+    - If `site` is provided, yield exactly that site (creating it if missing).
+    - Else if `run_all` is True, yield all active sites, optionally capped by
+      `limit`.
+    - Else raise a ValueError because `run` requires one target mode.
+    """
     if site:
-        yield db.get_site(conn, site)
+        # Ad-hoc runs should work even when the site is not pre-registered.
+        yield db.get_or_create_site(conn, site)
         return
     if run_all:
+        # Bulk mode intentionally skips inactive sites.
         rows = db.list_sites(conn, active_only=True)
+        if offset > 0:
+            rows = rows[offset:]
         if limit:
+            # Keep processing deterministic by taking the first N sorted rows.
             rows = rows[:limit]
         for row in rows:
             yield row
@@ -71,16 +171,70 @@ def _iter_target_sites(conn: Any, *, site: Optional[str], run_all: bool, limit: 
 
 
 def cmd_run(args: argparse.Namespace) -> None:
+    """
+    Run PageSpeed/Lighthouse audits and store results in the database.
+
+    Why this command exists:
+    - It is the data-collection command for the whole app.
+    - Other commands (`todo`, `trend`, `issue-brief`) read the runs created here.
+
+    Behavior summary:
+    - Connects to DB and ensures schema exists.
+    - Resolves API key from `--api-key` first, then `PAGESPEED_API_KEY`.
+    - Selects target sites from either:
+      - `--site <url>`: one site (auto-created if missing), or
+      - `--all`: all active sites, optionally capped by `--limit`.
+    - For each target site:
+      - fetches PageSpeed payload
+      - snapshots host/cache headers
+      - extracts metrics + LCP/cache context
+      - builds prioritized TODO items
+      - inserts one `audit_runs` row + replaces `run_todos`
+      - prints metrics, warning/error counts, and TODO count
+      - compares vs previous run (same site + strategy) and prints deltas
+      - prints recent trend lines + attached run notes
+    - Continues site-by-site on errors (prints `FAILED <url>: ...`).
+
+    Arg expectations:
+    - `args.db`: SQLite DB path
+    - `args.site` / `args.all`: mutually exclusive target selection
+    - `args.strategy`: `mobile` or `desktop`
+    - `args.limit`: max sites when using `--all`
+    - `args.offset`: starting index in active-site list when using `--all`
+    - `args.trend_limit`: recent runs to print after each audit (fallback 5 if <= 0)
+    - `args.delay_seconds`: seconds to sleep between site audits
+    - `args.api_key`: optional override for API key
+    - `args.note`: optional run note stored in `audit_runs.run_note`
+    """
     conn = db.connect(Path(args.db))
     db.init_db(conn)
+    # Prefer explicit CLI key over environment default.
     api_key = args.api_key or os.getenv("PAGESPEED_API_KEY")
+    # Normalize blank notes to None so DB does not store empty-string noise.
     run_note = args.note.strip() if args.note else None
+    batch_summary: list[dict[str, Any]] = []
 
-    for site in _iter_target_sites(conn, site=args.site, run_all=args.all, limit=args.limit):
+    targets = list(
+        _iter_target_sites(
+            conn,
+            site=args.site,
+            run_all=args.all,
+            limit=args.limit,
+            offset=max(0, args.offset or 0),
+        )
+    )
+    total_targets = len(targets)
+    if total_targets == 0:
+        print("No target sites selected (check --all/--limit/--offset and active sites).")
+        return
+
+    for idx, site in enumerate(targets, start=1):
         url = site["url"]
-        print(f"\nAuditing {url} ({args.strategy})...")
+        print(f"\nAuditing [{idx}/{total_targets}] {url} ({args.strategy})...")
         try:
-            payload = pagespeed.fetch_pagespeed(url, strategy=args.strategy, api_key=api_key)
+            payload = pagespeed.fetch_pagespeed(
+                url, strategy=args.strategy, api_key=api_key
+            )
             host_notes = pagespeed.snapshot_host_headers(url)
             cache_context = pagespeed.extract_cache_context(host_notes)
             lcp_context = pagespeed.extract_lcp_context(payload)
@@ -109,8 +263,13 @@ def cmd_run(args: argparse.Namespace) -> None:
             )
             db.replace_run_todos(conn, run_id, todos)
 
-            current_row = conn.execute("SELECT * FROM audit_runs WHERE id = ?", (run_id,)).fetchone()
-            prev = db.get_previous_run(conn, site["id"], args.strategy, current_row["fetched_at"])
+            current_row = conn.execute(
+                "SELECT * FROM audit_runs WHERE id = ?", (run_id,)
+            ).fetchone()
+            # Previous run is used for side-by-side delta reporting.
+            prev = db.get_previous_run(
+                conn, site["id"], args.strategy, current_row["fetched_at"]
+            )
             print(f"Run saved: id={run_id}")
             if current_row["run_note"]:
                 print(f"Note: {current_row['run_note']}")
@@ -121,7 +280,18 @@ def cmd_run(args: argparse.Namespace) -> None:
                 f"TBT={fmt_ms(metrics.get('tbt_ms'))}  "
                 f"TTFB={fmt_ms(metrics.get('ttfb_ms'))}"
             )
-            print(f"Warnings={counts['warning_count']} Errors={counts['error_count']} TODOs={len(todos)}")
+            print(
+                f"Warnings={counts['warning_count']} Errors={counts['error_count']} TODOs={len(todos)}"
+            )
+            batch_summary.append(
+                {
+                    "url": url,
+                    "metrics": metrics,
+                    "warnings": counts["warning_count"],
+                    "errors": counts["error_count"],
+                    "todos": len(todos),
+                }
+            )
 
             if prev:
                 delta = analyzer.compare_runs(metrics, _metrics_from_row(prev))
@@ -130,8 +300,66 @@ def cmd_run(args: argparse.Namespace) -> None:
                     for key, change in delta.items():
                         print(f"  {key}: {change:+}")
 
+            # Guard against invalid values from CLI; keep a sensible default.
+            trend_limit = (
+                args.trend_limit if args.trend_limit and args.trend_limit > 0 else 5
+            )
+            recent = db.get_recent_runs(
+                conn, site["id"], args.strategy, limit=trend_limit
+            )
+            if recent:
+                print("")
+                print(
+                    f"Recent trend for {site['url']} ({args.strategy}, last {len(recent)}):"
+                )
+                _print_trend_lines(recent)
+                _print_trend_notes(recent)
+                print("")
+
         except Exception as exc:
             print(f"FAILED {url}: {exc}")
+
+        if args.delay_seconds and args.delay_seconds > 0 and idx < total_targets:
+            print(f"Sleeping {args.delay_seconds:.1f}s before next site...")
+            time.sleep(args.delay_seconds)
+
+    if args.all and batch_summary:
+        ts = datetime.now().astimezone().strftime("%Y-%m-%d %I:%M %p %Z")
+        strategy_label = "Mobile" if args.strategy == "mobile" else "Desktop"
+        strategy_mark = "M" if args.strategy == "mobile" else "D"
+        width = max(len(item["url"].replace("https://", "").rstrip("/")) for item in batch_summary)
+        print("")
+        print(f"{ts} - {strategy_label} Sites Tested:")
+        for item in batch_summary:
+            domain = item["url"].replace("https://", "").rstrip("/")
+            label = f"{domain} ({strategy_mark}):"
+            metrics = item["metrics"]
+            score = metrics.get("performance_score")
+            score_text = "n/a" if score is None else f"{float(score):.1f}"
+            fcp_text = fmt_ms(metrics.get("fcp_ms"))
+            lcp_text = fmt_ms(metrics.get("lcp_ms"))
+            tbt_text = fmt_ms(metrics.get("tbt_ms"))
+            ttfb_text = fmt_ms(metrics.get("ttfb_ms"))
+            print(
+                f"{label:<{width + 6}} "
+                f"Score={score_text:>5}  "
+                f"FCP={fcp_text:>11}  "
+                f"LCP={lcp_text:>11}  "
+                f"TBT={tbt_text:>10}  "
+                f"TTFB={ttfb_text:>10}  "
+                f"Warnings={item['warnings']:>2}  "
+                f"Errors={item['errors']:>2}  "
+                f"TODOs={item['todos']:>2}"
+            )
+        print("")
+        print("Score = Lighthouse Performance score")
+        print("FCP = First Contentful Paint - when first visible content appears")
+        print(
+            "LCP = Largest Contentful Paint - when the largest visible element finishes rendering"
+        )
+        print("TBT = Total Blocking Time - time JavaScript blocked the main thread")
+        print("TTFB = Time To First Byte - server response latency before content starts")
+        print("Note: 1000 ms = 1 second")
 
 
 def cmd_todo(args: argparse.Namespace) -> None:
@@ -141,17 +369,7 @@ def cmd_todo(args: argparse.Namespace) -> None:
         site = db.get_site(conn, args.site)
         run = db.get_latest_run(conn, site["id"], args.strategy)
     else:
-        run = conn.execute(
-            """
-            SELECT ar.*, s.url AS site_url
-            FROM audit_runs ar
-            JOIN sites s ON s.id = ar.site_id
-            WHERE ar.strategy = ?
-            ORDER BY ar.fetched_at DESC
-            LIMIT 1
-            """,
-            (args.strategy,),
-        ).fetchone()
+        run = _latest_run_with_site(conn, args.strategy)
         if run:
             site = {"url": run["site_url"]}
         else:
@@ -174,30 +392,43 @@ def cmd_todo(args: argparse.Namespace) -> None:
 def cmd_trend(args: argparse.Namespace) -> None:
     conn = db.connect(Path(args.db))
     db.init_db(conn)
-    site = db.get_site(conn, args.site)
-    runs = db.get_recent_runs(conn, site["id"], args.strategy, limit=args.limit)
+    if args.site:
+        site = db.get_site(conn, args.site)
+        runs = db.get_recent_runs(conn, site["id"], args.strategy, limit=args.limit)
+    else:
+        latest = _latest_run_with_site(conn, args.strategy)
+        if not latest:
+            print("No runs found yet. Run an audit first (or pass --site).")
+            return
+        site = {"url": latest["site_url"], "id": latest["site_id"]}
+        runs = db.get_recent_runs(conn, site["id"], args.strategy, limit=args.limit)
     if not runs:
         print("No runs found.")
         return
 
     print(f"Trend for {site['url']} ({args.strategy}):")
-    for run in runs:
-        print(
-            f"- run={run['id']} at {run['fetched_at']} "
-            f"score={run['performance_score']} lcp={run['lcp_ms']} tbt={run['tbt_ms']} ttfb={run['ttfb_ms']}"
-        )
-        if args.show_notes and run["run_note"]:
-            print(f'- note="{run["run_note"]}"')
+    _print_trend_lines(runs)
+    if args.show_notes:
+        _print_trend_notes(runs)
 
 
 def cmd_issue_brief(args: argparse.Namespace) -> None:
     conn = db.connect(Path(args.db))
     db.init_db(conn)
-    site = db.get_site(conn, args.site)
+    if args.site:
+        site = db.get_site(conn, args.site)
+    else:
+        latest = _latest_run_with_site(conn, args.strategy)
+        if not latest:
+            print("No runs found yet. Run an audit first (or pass --site).")
+            return
+        site = {"url": latest["site_url"], "id": latest["site_id"]}
 
     run = None
     if args.run_id:
-        run = conn.execute("SELECT * FROM audit_runs WHERE id = ?", (args.run_id,)).fetchone()
+        run = conn.execute(
+            "SELECT * FROM audit_runs WHERE id = ?", (args.run_id,)
+        ).fetchone()
     if not run:
         run = db.get_latest_run(conn, site["id"], args.strategy)
     if not run:
@@ -208,7 +439,9 @@ def cmd_issue_brief(args: argparse.Namespace) -> None:
     todos = db.get_run_todos(conn, run["id"], limit=args.limit)
     host_notes = json.loads(run["host_notes_json"] or "{}")
     current_metrics = _metrics_from_row(run)
-    delta = analyzer.compare_runs(current_metrics, _metrics_from_row(prev)) if prev else {}
+    delta = (
+        analyzer.compare_runs(current_metrics, _metrics_from_row(prev)) if prev else {}
+    )
 
     lines = [
         f"# Performance Issue Brief: {site['url']}",
@@ -272,8 +505,59 @@ def cmd_issue_brief(args: argparse.Namespace) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Website performance tracker (Lighthouse/PageSpeed based)")
-    parser.add_argument("--db", default="data/webperf.sqlite3", help="SQLite database path")
+    parser = argparse.ArgumentParser(
+        description="Website performance tracker (Lighthouse/PageSpeed based)",
+        epilog=(
+            "Tip: run `webperf <command> --help` for command-specific options.\n"
+            "All optional flags by command:\n"
+            "  Global:\n"
+            "    --db <path>            SQLite database path\n"
+            "  import-sites:\n"
+            "    --file <path>          Source file of URLs/domains\n"
+            "  add-site:\n"
+            "    --label <text>         Optional site label\n"
+            "  list-sites:\n"
+            "    --all                  Include inactive sites\n"
+            "  run:\n"
+            "    --site <url>           Audit one site\n"
+            "    --all                  Audit all active sites\n"
+            "    --strategy <mode>      mobile | desktop\n"
+            "    --limit <n>            Max sites when using --all\n"
+            "    --offset <n>           Skip first N active sites when using --all\n"
+            "    --trend-limit <n>      Recent runs shown per audited site\n"
+            "    --delay-seconds <n>    Pause between site audits in batch mode\n"
+            "    --api-key <key>        PageSpeed API key override\n"
+            "    --note <text>          Run note saved with the audit\n"
+            "  todo:\n"
+            "    --site <url>           Optional; defaults to latest audited site\n"
+            "    --strategy <mode>      mobile | desktop\n"
+            "    --limit <n>            Max TODOs to show\n"
+            "  trend:\n"
+            "    --site <url>           Optional; defaults to latest audited site\n"
+            "    --strategy <mode>      mobile | desktop\n"
+            "    --limit <n>            Max runs to show\n"
+            "    --show-notes           Include per-run notes\n"
+            "  issue-brief:\n"
+            "    --site <url>           Optional; defaults to latest audited site\n"
+            "    --strategy <mode>      mobile | desktop\n"
+            "    --run-id <id>          Use a specific run instead of latest\n"
+            "    --limit <n>            Max issues to include\n"
+            "    --output <path>        Write Markdown to file\n"
+            "  sync-sites:\n"
+            "    --file <path>          Sites list file (default: sites.txt)\n"
+            "    --apply                Apply changes (default is dry-run)\n"
+            "    --yes                  Skip confirmation prompt\n"
+            "Examples:\n"
+            "  webperf run --site https://aprilbell.com --strategy mobile\n"
+            "  webperf run --all --limit 3 --delay-seconds 10 --strategy mobile\n"
+            "  webperf todo --site https://aprilbell.com\n"
+            "  webperf trend --show-notes"
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "--db", default="data/webperf.sqlite3", help="SQLite database path"
+    )
 
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -281,7 +565,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_init_db)
 
     p = sub.add_parser("import-sites", help="Import sites from text file")
-    p.add_argument("--file", required=True, help="Path to file containing one site URL/domain per line")
+    p.add_argument(
+        "--file",
+        required=True,
+        help="Path to file containing one site URL/domain per line",
+    )
     p.set_defaults(func=cmd_import_sites)
 
     p = sub.add_parser("add-site", help="Add one site")
@@ -299,35 +587,196 @@ def build_parser() -> argparse.ArgumentParser:
     target.add_argument("--all", action="store_true", help="Run all active sites")
     p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
     p.add_argument("--limit", type=int, help="Limit number of sites when using --all")
-    p.add_argument("--api-key", help="Google PageSpeed API key (or use PAGESPEED_API_KEY env var)")
+    p.add_argument(
+        "--offset",
+        type=int,
+        default=0,
+        help="Skip first N active sites when using --all",
+    )
+    p.add_argument(
+        "--trend-limit",
+        type=int,
+        default=5,
+        help="How many recent runs to print after each audit",
+    )
+    p.add_argument(
+        "--delay-seconds",
+        type=float,
+        default=0.0,
+        help="Sleep N seconds between sites when auditing in batch mode",
+    )
+    p.add_argument(
+        "--api-key", help="Google PageSpeed API key (or use PAGESPEED_API_KEY env var)"
+    )
     p.add_argument("--note", help="Optional note about what changed before this run")
     p.set_defaults(func=cmd_run)
 
     p = sub.add_parser("todo", help="Show prioritized TODO list for latest run")
-    p.add_argument("--site", help="Optional site URL; defaults to most recently audited site")
+    p.add_argument(
+        "--site", help="Optional site URL; defaults to most recently audited site"
+    )
     p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
     p.add_argument("--limit", type=int, default=12)
     p.set_defaults(func=cmd_todo)
 
-    p = sub.add_parser("trend", help="Show recent run trend (use --show-notes to view attached notes)")
-    p.add_argument("--site", required=True)
+    p = sub.add_parser(
+        "trend", help="Show recent run trend (use --show-notes to view attached notes)"
+    )
+    p.add_argument(
+        "--site", help="Optional site URL; defaults to most recently audited site"
+    )
     p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
     p.add_argument("--limit", type=int, default=8)
-    p.add_argument("--show-notes", action="store_true", help="Include per-run notes in output")
+    p.add_argument(
+        "--show-notes", action="store_true", help="Include per-run notes in output"
+    )
     p.set_defaults(func=cmd_trend)
 
-    p = sub.add_parser("issue-brief", help="Generate a paste-ready issue brief for ChatGPT")
-    p.add_argument("--site", required=True)
+    p = sub.add_parser(
+        "issue-brief", help="Generate a paste-ready issue brief for ChatGPT"
+    )
+    p.add_argument(
+        "--site", help="Optional site URL; defaults to most recently audited site"
+    )
     p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
     p.add_argument("--run-id", type=int)
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--output", help="Write Markdown brief to file")
     p.set_defaults(func=cmd_issue_brief)
 
+    # --- sync-sites command ---
+    p_sync = sub.add_parser("sync-sites", help="Sync sites table to match sites.txt")
+    p_sync.add_argument("--file", default="sites.txt", help="Path to sites.txt")
+    p_sync.add_argument(
+        "--apply", action="store_true", help="Apply changes (otherwise dry-run)"
+    )
+    p_sync.add_argument("--yes", action="store_true", help="Skip confirmation prompt")
+    p_sync.set_defaults(func=cmd_sync_sites)
+
     return parser
+
+
+def _read_sites_txt(path: Path) -> list[str]:
+    # Read file lines.
+    raw = path.read_text(encoding="utf-8").splitlines()
+
+    urls: list[str] = []
+    for line in raw:
+        # Strip whitespace.
+        s = line.strip()
+
+        # Skip blanks and comments.
+        if not s or s.startswith("#"):
+            continue
+
+        # Keep raw URL; db functions will normalize.
+        urls.append(s)
+
+    return urls
+
+
+def cmd_sync_sites(args: argparse.Namespace) -> None:
+    """
+    Sync the `sites` table to exactly match URLs listed in a sites file.
+
+    Why this command exists:
+    - Maintains one canonical source of truth (`sites.txt` by default).
+    - Makes activation state predictable without manually editing DB rows.
+
+    Behavior:
+    - Reads URLs from `--file` (default `sites.txt`), ignoring blanks/comments.
+    - Normalizes URLs and compares file set vs DB set.
+    - Computes and prints a plan:
+      - ADD: in file, missing from DB
+      - RE-ACTIVATE: in file, present but inactive in DB
+      - DEACTIVATE: active in DB, missing from file
+    - Default mode is dry-run (no DB writes).
+    - With `--apply`, optionally asks for `YES` unless `--yes` is also set.
+    - Apply step:
+      - upserts every file URL (covers add + reactivate)
+      - deactivates active DB URLs that are no longer in file
+
+    Arg expectations:
+    - `args.db`: SQLite DB path
+    - `args.file`: path to sites list text file
+    - `args.apply`: perform writes; otherwise preview only
+    - `args.yes`: skip interactive confirmation (only relevant with `--apply`)
+    """
+    # Connect to DB.
+    conn = db.connect(Path(args.db))
+    db.init_db(conn)
+
+    # Resolve sites.txt path.
+    sites_path = Path(args.file).expanduser().resolve()
+
+    # Load URLs from file.
+    file_urls = _read_sites_txt(sites_path)
+
+    # Normalize URLs into a set for comparison.
+    file_set = {db.normalize_url(u) for u in file_urls}
+
+    # Load DB sites (all, active and inactive).
+    rows = conn.execute("SELECT url, active FROM sites").fetchall()
+    db_set = {r["url"] for r in rows}
+    db_active_set = {r["url"] for r in rows if int(r["active"]) == 1}
+    db_inactive_set = {r["url"] for r in rows if int(r["active"]) == 0}
+
+    # Compute changes.
+    to_add = sorted(file_set - db_set)
+    to_reactivate = sorted(file_set & db_inactive_set)
+    to_deactivate = sorted(db_active_set - file_set)
+
+    # Print plan.
+    print(f"\nSync plan using: {sites_path}")
+    print(f"ADD ({len(to_add)}):")
+    for u in to_add[:200]:
+        print(f"  + {u}")
+    if len(to_add) > 200:
+        print(f"  ... {len(to_add)-200} more")
+
+    print(f"\nRE-ACTIVATE ({len(to_reactivate)}):")
+    for u in to_reactivate[:200]:
+        print(f"  ↑ {u}")
+    if len(to_reactivate) > 200:
+        print(f"  ... {len(to_reactivate)-200} more")
+
+    print(f"\nDEACTIVATE ({len(to_deactivate)}):")
+    for u in to_deactivate[:200]:
+        print(f"  - {u}")
+    if len(to_deactivate) > 200:
+        print(f"  ... {len(to_deactivate)-200} more")
+
+    # Dry-run by default.
+    if not args.apply:
+        print("\nDry run only. Re-run with --apply to make changes.")
+        return
+
+    # Optional confirmation prompt (skipped if --yes).
+    if not args.yes:
+        # Require an explicit uppercase YES to avoid accidental writes.
+        answer = input("\nApply these changes? Type YES to continue: ").strip()
+        if answer != "YES":
+            print("Aborted.")
+            return
+
+    # Apply changes in a transaction.
+    with conn:
+        # Add and reactivate.
+        for u in sorted(file_set):
+            # Upsert ensures inserts + re-activations.
+            db.upsert_site(conn, u)
+
+        # Deactivate missing.
+        for u in to_deactivate:
+            db.set_site_active(conn, u, 0)
+
+    print("\nDone.")
 
 
 def main() -> None:
     parser = build_parser()
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return
     args = parser.parse_args()
     args.func(args)

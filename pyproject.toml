@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "website-speed-test"
+version = "0.1.0"
+description = "CLI app to run and track website performance audits."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+webperf = "webperf_app.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["webperf_app*"]
