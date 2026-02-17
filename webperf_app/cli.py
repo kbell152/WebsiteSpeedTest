@@ -1,4 +1,5 @@
 import argparse
+import csv
 import json
 import os
 import sys
@@ -36,6 +37,71 @@ def _fmt_local_timestamp(value: Optional[str]) -> str:
         return local_dt.strftime("%Y-%m-%d %I:%M:%S %p %Z")
     except Exception:
         return value
+
+
+def _summary_domain(url: str) -> str:
+    return url.replace("https://", "").rstrip("/")
+
+
+def _fmt_csv_num(value: Optional[float], *, decimals: int = 0) -> str:
+    if value is None:
+        return ""
+    if decimals <= 0:
+        return f"{int(round(value)):,}"
+    return f"{value:,.{decimals}f}"
+
+
+def _write_bulk_summary_csv(
+    output_path: Path,
+    *,
+    batch_summary: list[dict[str, Any]],
+) -> None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with output_path.open("w", newline="", encoding="utf-8") as fh:
+        writer = csv.writer(fh)
+        writer.writerow(
+            [
+                "Site",
+                "Lighthouse Performance score",
+                "First Content Paint: when first visible content appears",
+                "Largest Content Paint: when the largest visible element finishes rendering",
+                "Total Blocking Time: time JavaScript blocked the main thread",
+                "Time To First Byte: server response latency before content starts",
+                "Warnings",
+                "Errors",
+                "ToDos",
+            ]
+        )
+        for item in batch_summary:
+            metrics = item["metrics"]
+            writer.writerow(
+                [
+                    _summary_domain(item["url"]),
+                    _fmt_csv_num(metrics.get("performance_score"), decimals=0),
+                    _fmt_csv_num(metrics.get("fcp_ms"), decimals=0),
+                    _fmt_csv_num(metrics.get("lcp_ms"), decimals=0),
+                    _fmt_csv_num(metrics.get("tbt_ms"), decimals=0),
+                    _fmt_csv_num(metrics.get("ttfb_ms"), decimals=0),
+                    item["warnings"],
+                    item["errors"],
+                    item["todos"],
+                ]
+            )
+        writer.writerow([])
+        writer.writerow(["Score = Lighthouse Performance score"])
+        writer.writerow(["FCP = First Content Paint: when first visible content appears"])
+        writer.writerow(
+            [
+                "LCP = Largest Content Paint: when the largest visible element finishes rendering"
+            ]
+        )
+        writer.writerow(
+            ["TBT = Total Blocking Time: time JavaScript blocked the main thread"]
+        )
+        writer.writerow(
+            ["TTFB = Time To First Byte: server response latency before content starts"]
+        )
+        writer.writerow(["Note: 1000 ms = 1 second"])
 
 
 def _print_trend_lines(runs: Iterable[Any]) -> None:
@@ -327,7 +393,7 @@ def cmd_run(args: argparse.Namespace) -> None:
         ts = datetime.now().astimezone().strftime("%Y-%m-%d %I:%M %p %Z")
         strategy_label = "Mobile" if args.strategy == "mobile" else "Desktop"
         strategy_mark = "M" if args.strategy == "mobile" else "D"
-        width = max(len(item["url"].replace("https://", "").rstrip("/")) for item in batch_summary)
+        width = max(len(_summary_domain(item["url"])) for item in batch_summary)
         score_vals = [
             "n/a"
             if item["metrics"].get("performance_score") is None
@@ -353,7 +419,7 @@ def cmd_run(args: argparse.Namespace) -> None:
         print("")
         print(f"{ts} - {strategy_label} Sites Tested:")
         for item in batch_summary:
-            domain = item["url"].replace("https://", "").rstrip("/")
+            domain = _summary_domain(item["url"])
             label = f"{domain} ({strategy_mark}):"
             metrics = item["metrics"]
             score = metrics.get("performance_score")
@@ -382,6 +448,13 @@ def cmd_run(args: argparse.Namespace) -> None:
         print("TBT = Total Blocking Time - time JavaScript blocked the main thread")
         print("TTFB = Time To First Byte - server response latency before content starts")
         print("Note: 1000 ms = 1 second")
+        csv_stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        csv_path = Path("reports") / f"{args.strategy}-batch-{csv_stamp}.csv"
+        _write_bulk_summary_csv(
+            csv_path,
+            batch_summary=batch_summary,
+        )
+        print(f"Bulk CSV report written: {csv_path.resolve()}")
 
 
 def cmd_todo(args: argparse.Namespace) -> None:
