@@ -328,6 +328,28 @@ def cmd_run(args: argparse.Namespace) -> None:
         strategy_label = "Mobile" if args.strategy == "mobile" else "Desktop"
         strategy_mark = "M" if args.strategy == "mobile" else "D"
         width = max(len(item["url"].replace("https://", "").rstrip("/")) for item in batch_summary)
+        score_vals = [
+            "n/a"
+            if item["metrics"].get("performance_score") is None
+            else f"{float(item['metrics'].get('performance_score')):.1f}"
+            for item in batch_summary
+        ]
+        fcp_vals = [fmt_ms(item["metrics"].get("fcp_ms")) for item in batch_summary]
+        lcp_vals = [fmt_ms(item["metrics"].get("lcp_ms")) for item in batch_summary]
+        tbt_vals = [fmt_ms(item["metrics"].get("tbt_ms")) for item in batch_summary]
+        ttfb_vals = [fmt_ms(item["metrics"].get("ttfb_ms")) for item in batch_summary]
+        warning_vals = [str(item["warnings"]) for item in batch_summary]
+        error_vals = [str(item["errors"]) for item in batch_summary]
+        todo_vals = [str(item["todos"]) for item in batch_summary]
+
+        score_w = max(len(v) for v in score_vals)
+        fcp_w = max(len(v) for v in fcp_vals)
+        lcp_w = max(len(v) for v in lcp_vals)
+        tbt_w = max(len(v) for v in tbt_vals)
+        ttfb_w = max(len(v) for v in ttfb_vals)
+        warning_w = max(len(v) for v in warning_vals)
+        error_w = max(len(v) for v in error_vals)
+        todo_w = max(len(v) for v in todo_vals)
         print("")
         print(f"{ts} - {strategy_label} Sites Tested:")
         for item in batch_summary:
@@ -342,14 +364,14 @@ def cmd_run(args: argparse.Namespace) -> None:
             ttfb_text = fmt_ms(metrics.get("ttfb_ms"))
             print(
                 f"{label:<{width + 6}} "
-                f"Score={score_text:>5}  "
-                f"FCP={fcp_text:>11}  "
-                f"LCP={lcp_text:>11}  "
-                f"TBT={tbt_text:>10}  "
-                f"TTFB={ttfb_text:>10}  "
-                f"Warnings={item['warnings']:>2}  "
-                f"Errors={item['errors']:>2}  "
-                f"TODOs={item['todos']:>2}"
+                f"Score={score_text:<{score_w}}  "
+                f"FCP={fcp_text:<{fcp_w}}  "
+                f"LCP={lcp_text:<{lcp_w}}  "
+                f"TBT={tbt_text:<{tbt_w}}  "
+                f"TTFB={ttfb_text:<{ttfb_w}}  "
+                f"Warnings={item['warnings']:<{warning_w}}  "
+                f"Errors={item['errors']:<{error_w}}  "
+                f"TODOs={item['todos']:<{todo_w}}"
             )
         print("")
         print("Score = Lighthouse Performance score")
