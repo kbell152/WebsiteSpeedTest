@@ -4,18 +4,15 @@ annaoishi.com
 annblake.com
 aprilbell.com
 careybros.com
-denisebidesign.com
 dreambigconstruction.com
 empoweringlifechanges.com
 floridabluebirdsociety.org
-fresnofinancialadvisors.com
 georgeco.de
 georgetannenbaum.com
 jonsoto.com
 kenbellsf.com
 lensofaprilbell.com
 meshlogistics.com
-mod-g.com
 monkeywrenchfab.com
 mountdora.kenbellsf.com
 nocifoods.com
@@ -29,3 +26,5 @@ storycatcher.app
 treeoflifelegacies.com
 wellbodyenergy.com
 yourstoryunleashed.com
+# New sites
+yourlegacycurated.com

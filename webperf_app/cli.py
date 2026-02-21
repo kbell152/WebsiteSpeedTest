@@ -1,5 +1,6 @@
 import argparse
 import csv
+import html
 import json
 import os
 import sys
@@ -104,10 +105,314 @@ def _write_bulk_summary_csv(
         writer.writerow(["Note: 1000 ms = 1 second"])
 
 
+def _parse_csv_float(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    text = str(value).strip().replace(",", "")
+    if not text:
+        return None
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
+def _write_bulk_summary_html(
+    output_path: Path,
+    *,
+    batch_summary: list[dict[str, Any]],
+    strategy: str,
+    generated_at: str,
+) -> None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    strategy_label = "Mobile" if strategy == "mobile" else "Desktop"
+    rows_html: list[str] = []
+    for item in batch_summary:
+        metrics = item["metrics"]
+        domain = _summary_domain(item["url"])
+        score = _parse_csv_float(metrics.get("performance_score"))
+        fcp = _parse_csv_float(metrics.get("fcp_ms"))
+        lcp = _parse_csv_float(metrics.get("lcp_ms"))
+        tbt = _parse_csv_float(metrics.get("tbt_ms"))
+        ttfb = _parse_csv_float(metrics.get("ttfb_ms"))
+        warnings = int(item.get("warnings", 0))
+        errors = int(item.get("errors", 0))
+        todos = int(item.get("todos", 0))
+        rows_html.append(
+            "<tr>"
+            f"<td><a href='{html.escape(item['url'])}' target='_blank' rel='noopener noreferrer'>{html.escape(domain)} <span class='ext-icon' aria-hidden='true'>&#8599;</span></a></td>"
+            f"<td data-sort='{'' if score is None else score}'>{'' if score is None else f'{score:.0f}'}</td>"
+            f"<td data-sort='{'' if fcp is None else fcp}'>{_fmt_csv_num(fcp, decimals=0)}</td>"
+            f"<td data-sort='{'' if lcp is None else lcp}'>{_fmt_csv_num(lcp, decimals=0)}</td>"
+            f"<td data-sort='{'' if tbt is None else tbt}'>{_fmt_csv_num(tbt, decimals=0)}</td>"
+            f"<td data-sort='{'' if ttfb is None else ttfb}'>{_fmt_csv_num(ttfb, decimals=0)}</td>"
+            f"<td data-sort='{warnings}'>{warnings}</td>"
+            f"<td data-sort='{errors}'>{errors}</td>"
+            f"<td data-sort='{todos}'>{todos}</td>"
+            "</tr>"
+        )
+
+    html_body = f"""<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{strategy_label} Sites Test Report</title>
+  <style>
+    :root {{
+      --bg: #f6f7fb;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --accent-soft: #ccfbf1;
+    }}
+    body {{
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 10% 0%, #e6fffa, transparent 40%), var(--bg);
+    }}
+    .wrap {{
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 0 16px;
+    }}
+    .card {{
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }}
+    .head {{
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(120deg, #f0fdfa, #f8fafc);
+    }}
+    .head h1 {{
+      margin: 0 0 6px 0;
+      font-size: 1.25rem;
+    }}
+    .head p {{
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }}
+    .table-wrap {{
+      overflow-x: auto;
+    }}
+    table {{
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+    }}
+    thead th {{
+      background: #f9fafb;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }}
+    thead th.sorting {{
+      background: var(--accent-soft);
+      color: #134e4a;
+    }}
+    tbody td {{
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }}
+    tbody tr:hover {{
+      background: #f8fafc;
+    }}
+    .note {{
+      padding: 14px 24px 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }}
+    .note strong {{
+      color: #374151;
+    }}
+    .note a {{
+      color: #0f766e;
+      text-decoration: none;
+      border-bottom: 1px solid #99f6e4;
+    }}
+    tbody td a {{
+      color: #0f766e;
+      text-decoration: none;
+      border-bottom: 1px solid #99f6e4;
+    }}
+    tbody td a:hover {{
+      text-decoration: underline;
+    }}
+    .ext-icon {{
+      font-size: 0.85em;
+    }}
+    .note a:hover {{
+      text-decoration: underline;
+    }}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="head">
+        <h1>{strategy_label} Sites Test Report</h1>
+        <p>Generated {html.escape(generated_at)}. Click any header to sort (high to low first).</p>
+      </div>
+      <div class="table-wrap">
+        <table id="report">
+          <thead>
+            <tr>
+              <th data-type="text">Site</th>
+              <th data-type="number">Score</th>
+              <th data-type="number">FCP (ms)</th>
+              <th data-type="number">LCP (ms)</th>
+              <th data-type="number">TBT (ms)</th>
+              <th data-type="number">TTFB (ms)</th>
+              <th data-type="number">Warnings</th>
+              <th data-type="number">Errors</th>
+              <th data-type="number">ToDos</th>
+            </tr>
+          </thead>
+          <tbody>
+            {"".join(rows_html)}
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <strong>Metric key:</strong>
+        <a href="https://developer.chrome.com/docs/lighthouse/performance/performance-scoring" target="_blank" rel="noopener noreferrer">Score</a>,
+        <a href="https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint" target="_blank" rel="noopener noreferrer">FCP</a>,
+        <a href="https://developer.chrome.com/docs/lighthouse/performance/speed-index" target="_blank" rel="noopener noreferrer">Speed Index</a>,
+        <a href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time" target="_blank" rel="noopener noreferrer">TBT</a>,
+        <a href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint" target="_blank" rel="noopener noreferrer">LCP</a>.
+        1000 ms = 1 second.
+      </div>
+    </div>
+  </div>
+  <script>
+    (() => {{
+      const table = document.getElementById('report');
+      const headers = Array.from(table.querySelectorAll('thead th'));
+      const tbody = table.querySelector('tbody');
+      let sortState = {{ col: -1, desc: true }};
+
+      const getCellValue = (row, idx, type) => {{
+        const cell = row.children[idx];
+        const raw = cell?.dataset?.sort ?? cell?.textContent ?? '';
+        if (type === 'number') {{
+          const num = Number(raw);
+          return Number.isFinite(num) ? num : Number.NEGATIVE_INFINITY;
+        }}
+        return String(raw).toLowerCase();
+      }};
+
+      const sortBy = (idx, type) => {{
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const desc = sortState.col === idx ? !sortState.desc : true;
+        rows.sort((a, b) => {{
+          const va = getCellValue(a, idx, type);
+          const vb = getCellValue(b, idx, type);
+          if (va < vb) return desc ? 1 : -1;
+          if (va > vb) return desc ? -1 : 1;
+          return 0;
+        }});
+        rows.forEach((row) => tbody.appendChild(row));
+        sortState = {{ col: idx, desc }};
+        headers.forEach((h, i) => {{
+          h.classList.toggle('sorting', i === idx);
+          const marker = i === idx ? (desc ? ' ▼' : ' ▲') : '';
+          h.textContent = h.textContent.replace(/ [▲▼]$/, '') + marker;
+        }});
+      }};
+
+      headers.forEach((th, idx) => {{
+        th.addEventListener('click', () => sortBy(idx, th.dataset.type || 'text'));
+      }});
+    }})();
+  </script>
+</body>
+</html>
+"""
+    output_path.write_text(html_body, encoding="utf-8")
+
+
+def _read_bulk_summary_csv(csv_path: Path) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    with csv_path.open("r", newline="", encoding="utf-8") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            site = (row.get("Site") or "").strip()
+            if not site:
+                break
+            # Footer notes are written in the "Site" column with empty metric columns.
+            # Stop at the first such row so notes are not treated as sortable data rows.
+            if site.startswith(("Score =", "FCP =", "LCP =", "TBT =", "TTFB =", "Note:")):
+                break
+            has_metrics = any(
+                (row.get(col) or "").strip()
+                for col in (
+                    "Lighthouse Performance score",
+                    "First Content Paint: when first visible content appears",
+                    "Largest Content Paint: when the largest visible element finishes rendering",
+                    "Total Blocking Time: time JavaScript blocked the main thread",
+                    "Time To First Byte: server response latency before content starts",
+                    "Warnings",
+                    "Errors",
+                    "ToDos",
+                )
+            )
+            if not has_metrics:
+                break
+            rows.append(
+                {
+                    "url": f"https://{site}",
+                    "metrics": {
+                        "performance_score": _parse_csv_float(
+                            row.get("Lighthouse Performance score")
+                        ),
+                        "fcp_ms": _parse_csv_float(
+                            row.get(
+                                "First Content Paint: when first visible content appears"
+                            )
+                        ),
+                        "lcp_ms": _parse_csv_float(
+                            row.get(
+                                "Largest Content Paint: when the largest visible element finishes rendering"
+                            )
+                        ),
+                        "tbt_ms": _parse_csv_float(
+                            row.get(
+                                "Total Blocking Time: time JavaScript blocked the main thread"
+                            )
+                        ),
+                        "ttfb_ms": _parse_csv_float(
+                            row.get(
+                                "Time To First Byte: server response latency before content starts"
+                            )
+                        ),
+                    },
+                    "warnings": int(_parse_csv_float(row.get("Warnings")) or 0),
+                    "errors": int(_parse_csv_float(row.get("Errors")) or 0),
+                    "todos": int(_parse_csv_float(row.get("ToDos")) or 0),
+                }
+            )
+    return rows
+
+
 def _print_trend_lines(runs: Iterable[Any]) -> None:
     for run in runs:
         print(
-            f"- run={run['id']} at {_fmt_local_timestamp(run['fetched_at'])} "
+            f"- Run at {_fmt_local_timestamp(run['fetched_at'])} "
             f"score={run['performance_score']} lcp={run['lcp_ms']} tbt={run['tbt_ms']} ttfb={run['ttfb_ms']}"
         )
 
@@ -117,7 +422,7 @@ def _print_trend_notes(runs: Iterable[Any]) -> None:
     print("Notes for displayed runs:")
     for run in runs:
         note = run["run_note"] if run["run_note"] else "(none)"
-        print(f'- run={run["id"]} note="{note}"')
+        print(f'- Run note="{note}"')
 
 
 def _latest_run_with_site(conn: Any, strategy: str) -> Optional[Any]:
@@ -455,6 +760,14 @@ def cmd_run(args: argparse.Namespace) -> None:
             batch_summary=batch_summary,
         )
         print(f"Bulk CSV report written: {csv_path.resolve()}")
+        html_path = csv_path.with_suffix(".html")
+        _write_bulk_summary_html(
+            html_path,
+            batch_summary=batch_summary,
+            strategy=args.strategy,
+            generated_at=ts,
+        )
+        print(f"Interactive HTML report written: {html_path.resolve()}")
 
 
 def cmd_todo(args: argparse.Namespace) -> None:
@@ -599,6 +912,29 @@ def cmd_issue_brief(args: argparse.Namespace) -> None:
         print(body)
 
 
+def cmd_render_report(args: argparse.Namespace) -> None:
+    csv_path = Path(args.csv).expanduser().resolve()
+    if not csv_path.exists():
+        raise FileNotFoundError(f"CSV file not found: {csv_path}")
+    strategy = "mobile" if "mobile" in csv_path.name.lower() else "desktop"
+    summary = _read_bulk_summary_csv(csv_path)
+    if not summary:
+        raise ValueError("No summary rows found in CSV.")
+    output = (
+        Path(args.output).expanduser().resolve()
+        if args.output
+        else csv_path.with_suffix(".html")
+    )
+    generated_at = datetime.now().astimezone().strftime("%Y-%m-%d %I:%M %p %Z")
+    _write_bulk_summary_html(
+        output,
+        batch_summary=summary,
+        strategy=strategy,
+        generated_at=generated_at,
+    )
+    print(f"Interactive HTML report written: {output}")
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Website performance tracker (Lighthouse/PageSpeed based)",
@@ -642,11 +978,15 @@ def build_parser() -> argparse.ArgumentParser:
             "    --file <path>          Sites list file (default: sites.txt)\n"
             "    --apply                Apply changes (default is dry-run)\n"
             "    --yes                  Skip confirmation prompt\n"
+            "  render-report:\n"
+            "    --csv <path>           Existing batch CSV to convert to HTML\n"
+            "    --output <path>        Optional output HTML path\n"
             "Examples:\n"
             "  webperf run --site https://aprilbell.com --strategy mobile\n"
             "  webperf run --all --limit 3 --delay-seconds 10 --strategy mobile\n"
             "  webperf todo --site https://aprilbell.com\n"
-            "  webperf trend --show-notes"
+            "  webperf trend --show-notes\n"
+            "  webperf render-report --csv reports/mobile-batch-20260217-204532.csv"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -748,6 +1088,13 @@ def build_parser() -> argparse.ArgumentParser:
     p_sync.add_argument("--yes", action="store_true", help="Skip confirmation prompt")
     p_sync.set_defaults(func=cmd_sync_sites)
 
+    p = sub.add_parser(
+        "render-report", help="Convert a batch CSV report into an interactive HTML table"
+    )
+    p.add_argument("--csv", required=True, help="Path to batch CSV report")
+    p.add_argument("--output", help="Optional output HTML path")
+    p.set_defaults(func=cmd_render_report)
+
     return parser
 
 
@@ -848,9 +1195,8 @@ def cmd_sync_sites(args: argparse.Namespace) -> None:
 
     # Optional confirmation prompt (skipped if --yes).
     if not args.yes:
-        # Require an explicit uppercase YES to avoid accidental writes.
-        answer = input("\nApply these changes? Type YES to continue: ").strip()
-        if answer != "YES":
+        answer = input("\nApply these changes? Type y/yes to continue: ").strip()
+        if answer.lower() not in {"y", "yes"}:
             print("Aborted.")
             return
 
