@@ -15,9 +15,8 @@ This project now includes a CLI app to audit website performance (Lighthouse-sty
 
 ```bash
 python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-python3 -m pip install .
+.venv/bin/python3 -m pip install -r requirements.txt
+.venv/bin/python3 -m pip install .
 ```
 
 (Optional) set an API key to avoid PageSpeed API quota issues:
@@ -38,64 +37,50 @@ pipx install .
 
 ## Command Style (Recommended)
 
-On Python 3.14 setups like this one, use the module form to guarantee you are
-running the latest local code:
+Use the `webperf` command directly (from any directory) for day-to-day work.
+
+Preferred day-to-day command:
 
 ```bash
-python3 -m webperf_app <command> [args]
+webperf <command> [args]
 ```
 
 Example:
 
 ```bash
-python3 -m webperf_app --db data/webperf.sqlite3 sync-sites --file sites.txt --apply
+webperf --db data/webperf.sqlite3 sync-sites --file sites.txt --apply
 ```
 
 This avoids stale global `webperf` installs. If you see a prompt like
 `Type YES to continue`, you are likely running an older installed command.
 
-If you prefer a short command in this repo, use the local wrapper:
+Direct module fallback (also no activation required):
 
 ```bash
-./webperf --db data/webperf.sqlite3 sync-sites --file sites.txt --apply
+.venv/bin/python3 -m webperf_app --db data/webperf.sqlite3 sync-sites --file sites.txt --apply
 ```
 
 ## After Code Changes
 
-If you update Python source files, run a quick compile check:
+Use this default command after editing code:
 
 ```bash
-python3 -m py_compile webperf_app/cli.py
+.venv/bin/python3 -m pip install --no-build-isolation .
 ```
 
-For day-to-day development, no reinstall is required if you run commands as:
+Then run commands normally:
 
 ```bash
-python3 -m webperf_app ...
+webperf ...
 ```
 
-If you want to use the short `webperf` command from the venv, reinstall after
-changes so it points at current code:
+Only if needed:
+- If build tools are missing:
 
 ```bash
-python3 -m pip install --no-build-isolation .
+.venv/bin/python3 -m pip install setuptools wheel
 ```
-
-If your environment is missing build tools, install them once:
-
-```bash
-python3 -m pip install setuptools wheel
-```
-
-If your install is non-editable (`python3 -m pip install .`), reinstall so the `webperf`
-command picks up changes:
-
-```bash
-python3 -m pip install --no-build-isolation .
-```
-
-Editable installs (`python3 -m pip install -e .`) may fail on some Python 3.14
-setups because hidden editable `.pth` files can be skipped.
+- Avoid editable installs on this Python 3.14 setup (`pip install -e .`), since they can fail.
 
 ## Quick start
 
