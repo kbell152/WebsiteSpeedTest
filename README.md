@@ -74,6 +74,13 @@ Then run commands normally:
 webperf ...
 ```
 
+Quick verify that `webperf` points to the updated command:
+
+```bash
+which webperf
+webperf --help | grep render-report
+```
+
 Only if needed:
 - If build tools are missing:
 
