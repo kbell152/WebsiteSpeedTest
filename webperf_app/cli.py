@@ -90,7 +90,9 @@ def _write_bulk_summary_csv(
             )
         writer.writerow([])
         writer.writerow(["Score = Lighthouse Performance score"])
-        writer.writerow(["FCP = First Content Paint: when first visible content appears"])
+        writer.writerow(
+            ["FCP = First Content Paint: when first visible content appears"]
+        )
         writer.writerow(
             [
                 "LCP = Largest Content Paint: when the largest visible element finishes rendering"
@@ -321,9 +323,9 @@ def _write_bulk_summary_html(
         <strong>Metric key:</strong>
         <a href="https://developer.chrome.com/docs/lighthouse/performance/performance-scoring" target="_blank" rel="noopener noreferrer">Score</a>,
         <a href="https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint" target="_blank" rel="noopener noreferrer">FCP</a>,
-        <a href="https://developer.chrome.com/docs/lighthouse/performance/speed-index" target="_blank" rel="noopener noreferrer">Speed Index</a>,
-        <a href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time" target="_blank" rel="noopener noreferrer">TBT</a>,
         <a href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint" target="_blank" rel="noopener noreferrer">LCP</a>.
+        <a href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time" target="_blank" rel="noopener noreferrer">TBT</a>,
+        <a href="https://web.dev/articles/ttfb" target="_blank" rel="noopener noreferrer">TTFB</a>,
         1000 ms = 1 second.
       </div>
     </div>
@@ -420,7 +422,9 @@ def _read_bulk_summary_csv(csv_path: Path) -> list[dict[str, Any]]:
                 break
             # Footer notes are written in the "Site" column with empty metric columns.
             # Stop at the first such row so notes are not treated as sortable data rows.
-            if site.startswith(("Score =", "FCP =", "LCP =", "TBT =", "TTFB =", "Note:")):
+            if site.startswith(
+                ("Score =", "FCP =", "LCP =", "TBT =", "TTFB =", "Note:")
+            ):
                 break
             has_metrics = any(
                 (row.get(col) or "").strip()
@@ -660,7 +664,9 @@ def cmd_run(args: argparse.Namespace) -> None:
     )
     total_targets = len(targets)
     if total_targets == 0:
-        print("No target sites selected (check --all/--limit/--offset and active sites).")
+        print(
+            "No target sites selected (check --all/--limit/--offset and active sites)."
+        )
         return
 
     for idx, site in enumerate(targets, start=1):
@@ -764,9 +770,11 @@ def cmd_run(args: argparse.Namespace) -> None:
         strategy_mark = "M" if args.strategy == "mobile" else "D"
         width = max(len(_summary_domain(item["url"])) for item in batch_summary)
         score_vals = [
-            "n/a"
-            if item["metrics"].get("performance_score") is None
-            else f"{float(item['metrics'].get('performance_score')):.1f}"
+            (
+                "n/a"
+                if item["metrics"].get("performance_score") is None
+                else f"{float(item['metrics'].get('performance_score')):.1f}"
+            )
             for item in batch_summary
         ]
         fcp_vals = [fmt_ms(item["metrics"].get("fcp_ms")) for item in batch_summary]
@@ -815,7 +823,9 @@ def cmd_run(args: argparse.Namespace) -> None:
             "LCP = Largest Contentful Paint - when the largest visible element finishes rendering"
         )
         print("TBT = Total Blocking Time - time JavaScript blocked the main thread")
-        print("TTFB = Time To First Byte - server response latency before content starts")
+        print(
+            "TTFB = Time To First Byte - server response latency before content starts"
+        )
         print("Note: 1000 ms = 1 second")
         csv_stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
         csv_path = Path("reports") / f"{args.strategy}-batch-{csv_stamp}.csv"
@@ -1153,7 +1163,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_sync.set_defaults(func=cmd_sync_sites)
 
     p = sub.add_parser(
-        "render-report", help="Convert a batch CSV report into an interactive HTML table"
+        "render-report",
+        help="Convert a batch CSV report into an interactive HTML table",
     )
     p.add_argument("--csv", required=True, help="Path to batch CSV report")
     p.add_argument("--output", help="Optional output HTML path")
