@@ -160,44 +160,51 @@ def _write_bulk_summary_html(
   <title>{strategy_label} Sites Test Report</title>
   <style>
     :root {{
-      --bg: #f6f7fb;
+      --bg: #eef2f7;
       --panel: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --line: #e5e7eb;
-      --accent-soft: #ccfbf1;
+      --text: #111827;
+      --muted: #475569;
+      --line: #dbe3ee;
+      --header-bg: #f8fafc;
+      --header-sort-bg: #e2e8f0;
+      --row-alt: #fbfdff;
+      --link: #0f4c81;
     }}
     body {{
       margin: 0;
-      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
       color: var(--text);
-      background: radial-gradient(circle at 10% 0%, #e6fffa, transparent 40%), var(--bg);
+      background:
+        radial-gradient(circle at 0% 0%, #e2e8f0, transparent 35%),
+        radial-gradient(circle at 100% 0%, #dbeafe, transparent 32%),
+        var(--bg);
     }}
     .wrap {{
-      max-width: 1200px;
-      margin: 32px auto;
+      max-width: 1240px;
+      margin: 34px auto;
       padding: 0 16px;
     }}
     .card {{
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.09);
       overflow: hidden;
     }}
     .head {{
-      padding: 20px 24px;
+      padding: 22px 26px;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(120deg, #f0fdfa, #f8fafc);
+      background: linear-gradient(120deg, #f8fbff, #eef4fb);
     }}
     .head h1 {{
-      margin: 0 0 6px 0;
-      font-size: 1.25rem;
+      margin: 0 0 4px 0;
+      font-size: 1.34rem;
+      letter-spacing: 0.01em;
     }}
     .head p {{
       margin: 0;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
     }}
     .table-wrap {{
       overflow-x: auto;
@@ -208,7 +215,7 @@ def _write_bulk_summary_html(
       min-width: 980px;
     }}
     thead th {{
-      background: #f9fafb;
+      background: var(--header-bg);
       position: sticky;
       top: 0;
       z-index: 1;
@@ -218,37 +225,47 @@ def _write_bulk_summary_html(
       cursor: pointer;
       user-select: none;
       white-space: nowrap;
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #334155;
     }}
     thead th.sorting {{
-      background: var(--accent-soft);
-      color: #134e4a;
+      background: var(--header-sort-bg);
+      color: #0f172a;
     }}
     tbody td {{
-      padding: 11px 14px;
+      padding: 10px 14px;
       border-bottom: 1px solid var(--line);
       white-space: nowrap;
+      font-size: 0.94rem;
+    }}
+    tbody tr:nth-child(even) {{
+      background: var(--row-alt);
     }}
     tbody tr:hover {{
-      background: #f8fafc;
+      background: #eef6ff;
     }}
     .note {{
-      padding: 14px 24px 20px;
+      padding: 14px 24px 22px;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       line-height: 1.5;
+      background: #f8fafc;
+      border-top: 1px solid var(--line);
     }}
     .note strong {{
       color: #374151;
     }}
     .note a {{
-      color: #0f766e;
+      color: var(--link);
       text-decoration: none;
-      border-bottom: 1px solid #99f6e4;
+      border-bottom: 1px solid #bfdbfe;
     }}
     tbody td a {{
-      color: #0f766e;
+      color: var(--link);
       text-decoration: none;
-      border-bottom: 1px solid #99f6e4;
+      border-bottom: 1px solid #bfdbfe;
     }}
     tbody td a:hover {{
       text-decoration: underline;
@@ -258,6 +275,18 @@ def _write_bulk_summary_html(
     }}
     .note a:hover {{
       text-decoration: underline;
+    }}
+    .metric-fast {{
+      color: #0cce6b;
+      font-weight: 600;
+    }}
+    .metric-moderate {{
+      color: #ffa400;
+      font-weight: 650;
+    }}
+    .metric-slow {{
+      color: #ff4e42;
+      font-weight: 600;
     }}
   </style>
 </head>
@@ -335,9 +364,44 @@ def _write_bulk_summary_html(
         }});
       }};
 
+      const classify = (value, goodMax, moderateMax) => {{
+        if (!Number.isFinite(value)) return '';
+        if (value <= goodMax) return 'metric-fast';
+        if (value <= moderateMax) return 'metric-moderate';
+        return 'metric-slow';
+      }};
+
+      const classifyScore = (value) => {{
+        if (!Number.isFinite(value)) return '';
+        if (value >= 90) return 'metric-fast';
+        if (value >= 50) return 'metric-moderate';
+        return 'metric-slow';
+      }};
+
+      const applyMetricColors = () => {{
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        rows.forEach((row) => {{
+          const cells = row.children;
+          if (cells.length < 9) return;
+
+          const score = Number(cells[1].dataset.sort);
+          const fcpMs = Number(cells[2].dataset.sort);
+          const lcpMs = Number(cells[3].dataset.sort);
+          const tbtMs = Number(cells[4].dataset.sort);
+          const ttfbMs = Number(cells[5].dataset.sort);
+
+          cells[1].classList.add(classifyScore(score));
+          cells[2].classList.add(classify(fcpMs, 1800, 3000));
+          cells[3].classList.add(classify(lcpMs, 2500, 4000));
+          cells[4].classList.add(classify(tbtMs, 200, 600));
+          cells[5].classList.add(classify(ttfbMs, 800, 1800));
+        }});
+      }};
+
       headers.forEach((th, idx) => {{
         th.addEventListener('click', () => sortBy(idx, th.dataset.type || 'text'));
       }});
+      applyMetricColors();
     }})();
   </script>
 </body>
