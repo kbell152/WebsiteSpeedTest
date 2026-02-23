@@ -322,10 +322,10 @@ def _write_bulk_summary_html(
       <div class="note">
         <strong>Metric key:</strong>
         <a href="https://developer.chrome.com/docs/lighthouse/performance/performance-scoring" target="_blank" rel="noopener noreferrer">Score</a>,
-        <a href="https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint" target="_blank" rel="noopener noreferrer">FCP</a>,
-        <a href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint" target="_blank" rel="noopener noreferrer">LCP</a>.
-        <a href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time" target="_blank" rel="noopener noreferrer">TBT</a>,
-        <a href="https://web.dev/articles/ttfb" target="_blank" rel="noopener noreferrer">TTFB</a>,
+        <a href="https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint" target="_blank" rel="noopener noreferrer">First Contentful Paint (FCP)</a>,
+        <a href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint" target="_blank" rel="noopener noreferrer">Largest Contentful Paint (LCP)</a>.
+        <a href="https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time" target="_blank" rel="noopener noreferrer">Total Blocking Time (TBT)</a>,
+        <a href="https://web.dev/articles/ttfb" target="_blank" rel="noopener noreferrer">Time To First Byte (TTFB)</a>,
         1000 ms = 1 second.
       </div>
     </div>
