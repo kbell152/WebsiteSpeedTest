@@ -29,6 +29,135 @@ def _metrics_from_row(row: Any) -> Dict[str, Any]:
     }
 
 
+def _write_latest_chat_artifacts(
+    *,
+    site_url: str,
+    strategy: str,
+    run_id: int,
+    fetched_at: Optional[str],
+    run_note: Optional[str],
+    metrics: Dict[str, Any],
+    warning_count: int,
+    error_count: int,
+    host_notes: Dict[str, Any],
+    lcp_context: Dict[str, Any],
+    run_context: Optional[str],
+    todos: list[dict[str, Any]],
+    raw_payload: Dict[str, Any],
+) -> tuple[Path, Path]:
+    output_dir = Path("LH_Reports_For_Chat")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    markdown_path = output_dir / "latest-test.md"
+    json_path = output_dir / "latest-test.json"
+
+    payload_fetch_time = (
+        raw_payload.get("lighthouseResult", {}).get("fetchTime")
+        if isinstance(raw_payload, dict)
+        else None
+    )
+    notes = host_notes.get("notes") if isinstance(host_notes, dict) else None
+    lcp_element_snippet = lcp_context.get("lcp_element_snippet")
+    lcp_resource_url = lcp_context.get("lcp_resource_url")
+    lcp_ttfb_ms = lcp_context.get("lcp_ttfb_ms")
+    lcp_load_delay_ms = lcp_context.get("lcp_load_delay_ms")
+    lcp_load_time_ms = lcp_context.get("lcp_load_time_ms")
+    lcp_render_delay_ms = lcp_context.get("lcp_render_delay_ms")
+
+    lines = [
+        f"# Latest Performance Test: {site_url}",
+        "",
+        "## What Was Tested",
+        f"- Site: {site_url}",
+        f"- Strategy: {strategy}",
+        f"- Run ID: {run_id}",
+        f"- Saved timestamp (UTC): {fetched_at or 'n/a'}",
+        f"- Lighthouse fetchTime (UTC): {payload_fetch_time or 'n/a'}",
+        f"- Note: {run_note or 'None'}",
+        "",
+    ]
+    if run_context:
+        lines.extend(["## Run Context", run_context, ""])
+
+    lines.extend(
+        [
+            "## Results",
+            f"- Performance Score: {metrics.get('performance_score')}",
+            f"- FCP: {metrics.get('fcp_ms')} ms",
+            f"- LCP: {metrics.get('lcp_ms')} ms",
+            f"- TBT: {metrics.get('tbt_ms')} ms",
+            f"- CLS: {metrics.get('cls')}",
+            f"- Speed Index: {metrics.get('speed_index_ms')} ms",
+            f"- TTFB: {metrics.get('ttfb_ms')} ms",
+            f"- Warnings: {warning_count}",
+            f"- Errors: {error_count}",
+            "",
+            "## Suggestions (Prioritized TODOs)",
+        ]
+    )
+
+    if todos:
+        for idx, todo in enumerate(todos, 1):
+            lines.append(
+                f"{idx}. {todo.get('title')} | audit={todo.get('audit_id')} | "
+                f"priority={todo.get('priority')} | impact_ms={todo.get('impact_ms')} | "
+                f"score={todo.get('score')}"
+            )
+            desc = todo.get("description")
+            if desc:
+                lines.append(f"   - {desc}")
+    else:
+        lines.append("- No TODO suggestions generated for this run.")
+
+    lines.extend(["", "## Host/Cache Notes"])
+    if notes:
+        for note in notes:
+            lines.append(f"- {note}")
+    else:
+        lines.append("- No major host/cache concerns detected from headers snapshot.")
+
+    lines.extend(
+        [
+            "",
+            "## LCP Deep Dive",
+            f"- LCP element snippet: {lcp_element_snippet or 'n/a'}",
+            f"- LCP resource URL: {lcp_resource_url or 'n/a'}",
+            f"- LCP phase TTFB: {lcp_ttfb_ms if lcp_ttfb_ms is not None else 'n/a'} ms",
+            f"- LCP phase load delay: {lcp_load_delay_ms if lcp_load_delay_ms is not None else 'n/a'} ms",
+            f"- LCP phase load time: {lcp_load_time_ms if lcp_load_time_ms is not None else 'n/a'} ms",
+            f"- LCP phase render delay: {lcp_render_delay_ms if lcp_render_delay_ms is not None else 'n/a'} ms",
+        ]
+    )
+
+    lines.extend(
+        [
+            "",
+            "## Full Raw Data",
+            f"- Full JSON for this test: `{json_path}`",
+            "- This file is overwritten automatically by the next successful `run`.",
+        ]
+    )
+
+    markdown_path.write_text("\n".join(lines), encoding="utf-8")
+
+    full_data = {
+        "site_url": site_url,
+        "strategy": strategy,
+        "run_id": run_id,
+        "saved_fetched_at_utc": fetched_at,
+        "run_note": run_note,
+        "metrics": metrics,
+        "warning_count": warning_count,
+        "error_count": error_count,
+        "host_notes": host_notes,
+        "lcp_context": lcp_context,
+        "run_context": run_context,
+        "todos": todos,
+        "raw_pagespeed_payload": raw_payload,
+    }
+    json_path.write_text(json.dumps(full_data, indent=2), encoding="utf-8")
+    return markdown_path, json_path
+
+
 def _fmt_local_timestamp(value: Optional[str]) -> str:
     if not value:
         return "n/a"
@@ -38,6 +167,28 @@ def _fmt_local_timestamp(value: Optional[str]) -> str:
         return local_dt.strftime("%Y-%m-%d %I:%M:%S %p %Z")
     except Exception:
         return value
+
+
+def _resolve_run_context(args: argparse.Namespace) -> Optional[str]:
+    if args.no_context:
+        return None
+    if args.context:
+        text = str(args.context).strip()
+        return text or None
+    if args.context_file:
+        text = Path(args.context_file).expanduser().read_text(encoding="utf-8").strip()
+        return text or None
+    # Default behavior: include context only for single-site runs.
+    if args.all:
+        return None
+    default_path = Path("LH_Reports_For_Chat/default-context.md")
+    if default_path.exists():
+        text = default_path.read_text(encoding="utf-8").strip()
+        return text or None
+    return (
+        "No extra run context was provided.\n"
+        "Tip: use `--context` or `--context-file` for host/plugin/Divi details."
+    )
 
 
 def _summary_domain(url: str) -> str:
@@ -630,7 +781,8 @@ def cmd_run(args: argparse.Namespace) -> None:
       - builds prioritized TODO items
       - inserts one `audit_runs` row + replaces `run_todos`
       - prints metrics, warning/error counts, and TODO count
-      - compares vs previous run (same site + strategy) and prints deltas
+      - writes `LH_Reports_For_Chat/latest-test.md` + `latest-test.json`
+        for easy sharing (overwritten on each successful run)
       - prints recent trend lines + attached run notes
     - Continues site-by-site on errors (prints `FAILED <url>: ...`).
 
@@ -644,6 +796,9 @@ def cmd_run(args: argparse.Namespace) -> None:
     - `args.delay_seconds`: seconds to sleep between site audits
     - `args.api_key`: optional override for API key
     - `args.note`: optional run note stored in `audit_runs.run_note`
+    - `args.context` / `args.context_file`: optional context text for the latest
+      chat report; defaults on for single-site runs and off for `--all`
+    - `args.no_context`: disable context output for this run
     """
     conn = db.connect(Path(args.db))
     db.init_db(conn)
@@ -651,6 +806,7 @@ def cmd_run(args: argparse.Namespace) -> None:
     api_key = args.api_key or os.getenv("PAGESPEED_API_KEY")
     # Normalize blank notes to None so DB does not store empty-string noise.
     run_note = args.note.strip() if args.note else None
+    run_context = _resolve_run_context(args)
     batch_summary: list[dict[str, Any]] = []
 
     targets = list(
@@ -720,6 +876,23 @@ def cmd_run(args: argparse.Namespace) -> None:
             print(
                 f"Warnings={counts['warning_count']} Errors={counts['error_count']} TODOs={len(todos)}"
             )
+            latest_md, latest_json = _write_latest_chat_artifacts(
+                site_url=url,
+                strategy=args.strategy,
+                run_id=run_id,
+                fetched_at=current_row["fetched_at"],
+                run_note=current_row["run_note"],
+                metrics=metrics,
+                warning_count=counts["warning_count"],
+                error_count=counts["error_count"],
+                host_notes=host_notes,
+                lcp_context=lcp_context,
+                run_context=run_context,
+                todos=todos,
+                raw_payload=payload,
+            )
+            print(f"Latest chat report updated: {latest_md.resolve()}")
+            print(f"Latest chat JSON updated:   {latest_json.resolve()}")
             batch_summary.append(
                 {
                     "url": url,
@@ -1022,6 +1195,9 @@ def build_parser() -> argparse.ArgumentParser:
             "    --delay-seconds <n>    Pause between site audits in batch mode\n"
             "    --api-key <key>        PageSpeed API key override\n"
             "    --note <text>          Run note saved with the audit\n"
+            "    --context <text>       Extra run context for latest chat report\n"
+            "    --context-file <path>  Read extra run context from file\n"
+            "    --no-context           Skip context section for this run\n"
             "  todo:\n"
             "    --site <url>           Optional; defaults to latest audited site\n"
             "    --strategy <mode>      mobile | desktop\n"
@@ -1107,6 +1283,16 @@ def build_parser() -> argparse.ArgumentParser:
         "--api-key", help="Google PageSpeed API key (or use PAGESPEED_API_KEY env var)"
     )
     p.add_argument("--note", help="Optional note about what changed before this run")
+    p.add_argument("--context", help="Extra context text for latest chat report")
+    p.add_argument(
+        "--context-file",
+        help="Path to a text/markdown file to include as run context",
+    )
+    p.add_argument(
+        "--no-context",
+        action="store_true",
+        help="Skip context section (default context is on for --site, off for --all)",
+    )
     p.set_defaults(func=cmd_run)
 
     p = sub.add_parser("todo", help="Show prioritized TODO list for latest run")
