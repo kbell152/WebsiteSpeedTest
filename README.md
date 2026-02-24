@@ -48,7 +48,7 @@ webperf <command> [args]
 Example:
 
 ```bash
-webperf --db data/webperf.sqlite3 sync-sites --file sites.txt --apply
+webperf sync-sites --file sites.txt --apply
 ```
 
 This avoids stale global `webperf` installs. If you see a prompt like
@@ -57,8 +57,11 @@ This avoids stale global `webperf` installs. If you see a prompt like
 Direct module fallback (also no activation required):
 
 ```bash
-.venv/bin/python3 -m webperf_app --db data/webperf.sqlite3 sync-sites --file sites.txt --apply
+.venv/bin/python3 -m webperf_app sync-sites --file sites.txt --apply
 ```
+
+`--db` is optional because the default is already `data/webperf.sqlite3`.
+Only set it when you want a different database file.
 
 ## After Code Changes
 
@@ -94,13 +97,13 @@ Only if needed:
 1. Initialize database:
 
 ```bash
-webperf --db data/webperf.sqlite3 init-db
+webperf init-db
 ```
 
 2. Import your current list:
 
 ```bash
-webperf --db data/webperf.sqlite3 import-sites --file all_sites.txt
+webperf import-sites --file all_sites.txt
 ```
 
 ## Editing `sites.txt` (recommended workflow)
@@ -130,19 +133,19 @@ After editing `sites.txt`, sync it to the database:
 1. Preview changes (dry run):
 
 ```bash
-webperf --db data/webperf.sqlite3 sync-sites --file sites.txt
+webperf sync-sites --file sites.txt
 ```
 
 2. Apply changes:
 
 ```bash
-webperf --db data/webperf.sqlite3 sync-sites --file sites.txt --apply
+webperf sync-sites --file sites.txt --apply
 ```
 
 3. Skip confirmation prompt (optional):
 
 ```bash
-webperf --db data/webperf.sqlite3 sync-sites --file sites.txt --apply --yes
+webperf sync-sites --file sites.txt --apply --yes
 ```
 
 What sync does:
@@ -153,43 +156,86 @@ What sync does:
 3. Run one site first:
 
 ```bash
-webperf --db data/webperf.sqlite3 run --site https://aprilbell.com --strategy mobile
+webperf run --site https://aprilbell.com --strategy mobile
 ```
 
 Add a change note to track what you modified before the run:
 
 ```bash
-webperf --db data/webperf.sqlite3 run --site https://aprilbell.com --strategy mobile --note "Enabled LiteSpeed cache + compressed hero image"
+webperf run --site https://aprilbell.com --strategy mobile --note "Enabled LiteSpeed cache + compressed hero image"
 ```
 
 4. View prioritized TODOs:
 
 ```bash
-webperf --db data/webperf.sqlite3 todo --site https://aprilbell.com --strategy mobile
+webperf todo --site https://aprilbell.com --strategy mobile
 ```
 
 5. View recent trend:
 
 ```bash
-webperf --db data/webperf.sqlite3 trend --site https://aprilbell.com --strategy mobile
+webperf trend --site https://aprilbell.com --strategy mobile
 ```
 
 6. Generate issue brief for ChatGPT:
 
 ```bash
-webperf --db data/webperf.sqlite3 issue-brief --site https://aprilbell.com --output reports/aprilbell-brief.md
+webperf issue-brief --site https://aprilbell.com --output reports/aprilbell-brief.md
 ```
 
-## Batch mode (when ready)
+## Day-to-day testing examples
 
 ```bash
-webperf --db data/webperf.sqlite3 run --all --strategy mobile --delay-seconds 10
+# 1) Baseline run for one site before changes
+webperf run --site https://example.com --strategy mobile
+
+# 2) Re-test after a change with a note
+webperf run --site https://example.com --strategy mobile --note "Compressed hero image + deferred non-critical JS"
+
+# 3) Check what to fix next
+webperf todo --site https://example.com --strategy mobile
+
+# 4) Check trend over the last runs
+webperf trend --site https://example.com --strategy mobile --limit 8 --show-notes
+
+# 5) Run/view desktop separately, then compare against the mobile trend above
+webperf run --site https://example.com --strategy desktop
+webperf trend --site https://example.com --strategy desktop --limit 5
 ```
 
-Use `--limit` and `--offset` for gradual rollout:
+Batch examples:
 
 ```bash
-webperf --db data/webperf.sqlite3 run --all --limit 5 --offset 15 --delay-seconds 10
+# Run all active sites
+webperf run --all --strategy mobile --delay-seconds 10
+
+# Run only the first 5 active sites
+webperf run --all --strategy mobile --limit 5 --delay-seconds 10
+
+# Skip the first 10 active sites, then run the rest
+webperf run --all --strategy mobile --offset 10 --delay-seconds 10
+
+# Run a specific chunk (sites 11-15): offset + limit together
+webperf run --all --strategy mobile --offset 10 --limit 5 --delay-seconds 10
+
+# Run desktop batch for a smaller sample
+webperf run --all --strategy desktop --limit 3 --delay-seconds 10
+```
+
+Optional examples that help with analysis:
+
+```bash
+# Show active sites you will batch over
+webperf list-sites
+
+# Include inactive sites in listing
+webperf list-sites --all
+
+# Generate a brief from the latest audited site/strategy
+webperf issue-brief --output reports/latest-brief.md
+
+# Use a non-default database file only when needed
+webperf --db data/staging.sqlite3 run --site https://staging.example.com --strategy mobile
 ```
 
 ## Notes
