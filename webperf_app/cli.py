@@ -707,10 +707,6 @@ def cmd_run(args: argparse.Namespace) -> None:
             current_row = conn.execute(
                 "SELECT * FROM audit_runs WHERE id = ?", (run_id,)
             ).fetchone()
-            # Previous run is used for side-by-side delta reporting.
-            prev = db.get_previous_run(
-                conn, site["id"], args.strategy, current_row["fetched_at"]
-            )
             print(f"Run saved: id={run_id}")
             if current_row["run_note"]:
                 print(f"Note: {current_row['run_note']}")
@@ -733,13 +729,6 @@ def cmd_run(args: argparse.Namespace) -> None:
                     "todos": len(todos),
                 }
             )
-
-            if prev:
-                delta = analyzer.compare_runs(metrics, _metrics_from_row(prev))
-                if delta:
-                    print("Delta vs previous:")
-                    for key, change in delta.items():
-                        print(f"  {key}: {change:+}")
 
             # Guard against invalid values from CLI; keep a sensible default.
             trend_limit = (
