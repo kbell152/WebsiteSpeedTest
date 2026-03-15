@@ -556,6 +556,7 @@ def _write_bulk_summary_html(
         th.addEventListener('click', () => sortBy(idx, th.dataset.type || 'text'));
       }});
       applyMetricColors();
+      sortBy(1, 'number');
     }})();
   </script>
 </body>
