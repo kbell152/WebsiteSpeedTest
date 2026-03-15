@@ -3,6 +3,7 @@ import csv
 import html
 import json
 import os
+import subprocess
 import sys
 import time
 from datetime import datetime
@@ -876,23 +877,24 @@ def cmd_run(args: argparse.Namespace) -> None:
             print(
                 f"Warnings={counts['warning_count']} Errors={counts['error_count']} TODOs={len(todos)}"
             )
-            latest_md, latest_json = _write_latest_chat_artifacts(
-                site_url=url,
-                strategy=args.strategy,
-                run_id=run_id,
-                fetched_at=current_row["fetched_at"],
-                run_note=current_row["run_note"],
-                metrics=metrics,
-                warning_count=counts["warning_count"],
-                error_count=counts["error_count"],
-                host_notes=host_notes,
-                lcp_context=lcp_context,
-                run_context=run_context,
-                todos=todos,
-                raw_payload=payload,
-            )
-            print(f"Latest chat report updated: {latest_md.resolve()}")
-            print(f"Latest chat JSON updated:   {latest_json.resolve()}")
+            if not args.all:
+                latest_md, latest_json = _write_latest_chat_artifacts(
+                    site_url=url,
+                    strategy=args.strategy,
+                    run_id=run_id,
+                    fetched_at=current_row["fetched_at"],
+                    run_note=current_row["run_note"],
+                    metrics=metrics,
+                    warning_count=counts["warning_count"],
+                    error_count=counts["error_count"],
+                    host_notes=host_notes,
+                    lcp_context=lcp_context,
+                    run_context=run_context,
+                    todos=todos,
+                    raw_payload=payload,
+                )
+                print(f"Latest chat report updated: {latest_md.resolve()}")
+                print(f"Latest chat JSON updated:   {latest_json.resolve()}")
             batch_summary.append(
                 {
                     "url": url,
@@ -1004,6 +1006,9 @@ def cmd_run(args: argparse.Namespace) -> None:
             generated_at=ts,
         )
         print(f"Interactive HTML report written: {html_path.resolve()}")
+        if args.upload:
+            script_path = Path(__file__).resolve().parent.parent / "upload-report.sh"
+            subprocess.run([str(script_path), str(html_path.resolve())], check=True)
 
 
 def cmd_todo(args: argparse.Namespace) -> None:
@@ -1169,6 +1174,9 @@ def cmd_render_report(args: argparse.Namespace) -> None:
         generated_at=generated_at,
     )
     print(f"Interactive HTML report written: {output}")
+    if args.upload:
+        script_path = Path(__file__).resolve().parent.parent / "upload-report.sh"
+        subprocess.run([str(script_path), str(output)], check=True)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -1293,6 +1301,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip context section (default context is on for --site, off for --all)",
     )
+    p.add_argument(
+        "--upload",
+        action="store_true",
+        help="Upload the generated batch HTML report after a successful --all run",
+    )
     p.set_defaults(func=cmd_run)
 
     p = sub.add_parser("todo", help="Show prioritized TODO list for latest run")
@@ -1343,6 +1356,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p.add_argument("--csv", required=True, help="Path to batch CSV report")
     p.add_argument("--output", help="Optional output HTML path")
+    p.add_argument(
+        "--upload", action="store_true", help="Upload the generated HTML report"
+    )
     p.set_defaults(func=cmd_render_report)
 
     return parser
