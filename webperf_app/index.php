@@ -2,7 +2,8 @@
 /*
  * This file is not used by the local repo or CLI app.
  * It is kept here only to track website changes.
- * Upload it to the website for any changes here to take effect.
+ * Upload it to the webperf.kenbellsf.com website for any 
+ * changes here to take effect.
  */
 $reportsDir = __DIR__ . "/reports";
 $reports = [];

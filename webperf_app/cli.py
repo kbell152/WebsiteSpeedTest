@@ -894,8 +894,8 @@ def cmd_run(args: argparse.Namespace) -> None:
                     todos=todos,
                     raw_payload=payload,
                 )
-                print(f"Latest chat report updated: {latest_md.resolve()}")
-                print(f"Latest chat JSON updated:   {latest_json.resolve()}")
+                print(f"Last test results updated MD: {latest_md.resolve()}")
+                print(f"Last test results updated JSON: {latest_json.resolve()}")
             batch_summary.append(
                 {
                     "url": url,
@@ -1232,6 +1232,7 @@ def build_parser() -> argparse.ArgumentParser:
             "Examples:\n"
             "  webperf run --site https://aprilbell.com --strategy mobile\n"
             "  webperf run --all --limit 3 --delay-seconds 10 --strategy mobile\n"
+            "  webperf run --all --delay-seconds 10 --strategy mobile --upload\n"
             "  webperf todo --site https://aprilbell.com\n"
             "  webperf trend --show-notes\n"
             "  webperf render-report --csv reports/mobile-batch-20260217-204532.csv"

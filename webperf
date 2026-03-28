@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+cd /Users/kenbell/Desktop/Websites/WebsiteSpeedTest
 set -euo pipefail
 
 if command -v python >/dev/null 2>&1; then
