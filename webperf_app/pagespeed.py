@@ -208,3 +208,63 @@ def extract_lcp_context(payload: Dict[str, Any]) -> Dict[str, Optional[float]]:
         "lcp_load_time_ms": load_time_ms,
         "lcp_render_delay_ms": render_delay_ms,
     }
+
+
+def extract_issue_targets(
+    payload: Dict[str, Any], limit: int = 5
+) -> Dict[str, list[Dict[str, Any]]]:
+    audits = payload.get("lighthouseResult", {}).get("audits", {})
+
+    def _top_items(
+        audit_id: str,
+        *,
+        sort_keys: list[str],
+    ) -> list[Dict[str, Any]]:
+        audit = audits.get(audit_id, {}) or {}
+        details = audit.get("details", {}) or {}
+        items = details.get("items", []) or []
+        normalized: list[Dict[str, Any]] = []
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            url = item.get("url")
+            if not url:
+                continue
+            normalized.append(item)
+
+        def _sort_value(row: Dict[str, Any]) -> float:
+            for key in sort_keys:
+                value = row.get(key)
+                try:
+                    return float(value)
+                except (TypeError, ValueError):
+                    continue
+            return 0.0
+
+        normalized.sort(key=_sort_value, reverse=True)
+        return normalized[:limit]
+
+    render_blocking = _top_items(
+        "render-blocking-insight",
+        sort_keys=["wastedMs", "blockingTime", "duration"],
+    )
+    if not render_blocking:
+        render_blocking = _top_items(
+            "render-blocking-resources",
+            sort_keys=["wastedMs", "blockingTime", "duration"],
+        )
+
+    unused_js = _top_items(
+        "unused-javascript",
+        sort_keys=["wastedBytes", "totalBytes"],
+    )
+    unused_css = _top_items(
+        "unused-css-rules",
+        sort_keys=["wastedBytes", "totalBytes"],
+    )
+
+    return {
+        "render_blocking": render_blocking,
+        "unused_js": unused_js,
+        "unused_css": unused_css,
+    }

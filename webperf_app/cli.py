@@ -1088,6 +1088,8 @@ def cmd_issue_brief(args: argparse.Namespace) -> None:
     prev = db.get_previous_run(conn, site["id"], args.strategy, run["fetched_at"])
     todos = db.get_run_todos(conn, run["id"], limit=args.limit)
     host_notes = json.loads(run["host_notes_json"] or "{}")
+    raw_payload = json.loads(run["raw_json"] or "{}")
+    issue_targets = pagespeed.extract_issue_targets(raw_payload, limit=5)
     current_metrics = _metrics_from_row(run)
     delta = (
         analyzer.compare_runs(current_metrics, _metrics_from_row(prev)) if prev else {}
@@ -1100,6 +1102,7 @@ def cmd_issue_brief(args: argparse.Namespace) -> None:
         f"- Run ID: {run['id']}",
         f"- Strategy: {run['strategy']}",
         f"- Timestamp (UTC): {run['fetched_at']}",
+        f"- Timestamp (Local): {_fmt_local_timestamp(run['fetched_at'])}",
         f"- Note: {run['run_note'] or 'None'}",
         "",
         "## Current Metrics",
@@ -1128,12 +1131,78 @@ def cmd_issue_brief(args: argparse.Namespace) -> None:
     else:
         lines.append("- No major host/cache concerns detected from headers snapshot.")
 
+    lines.extend(
+        [
+            "",
+            "## Cache Context",
+            f"- LiteSpeed/cache header: {run['cache_litespeed'] or 'n/a'}",
+            f"- Cache-Control: {run['cache_control'] or 'n/a'}",
+        ]
+    )
+
+    lines.extend(
+        [
+            "",
+            "## LCP Deep Dive",
+            f"- LCP element snippet: {run['lcp_element_snippet'] or 'n/a'}",
+            f"- LCP resource URL: {run['lcp_resource_url'] or 'n/a'}",
+            f"- LCP phase TTFB: {fmt_ms(run['lcp_ttfb_ms'])}",
+            f"- LCP phase load delay: {fmt_ms(run['lcp_load_delay_ms'])}",
+            f"- LCP phase load time: {fmt_ms(run['lcp_load_time_ms'])}",
+            f"- LCP phase render delay: {fmt_ms(run['lcp_render_delay_ms'])}",
+        ]
+    )
+
     lines.extend(["", "## Prioritized Issues"])
     for idx, todo in enumerate(todos, 1):
         lines.append(
             f"{idx}. {todo['title']} | audit={todo['audit_id']} | "
             f"priority={todo['priority']} | impact_ms={todo['impact_ms']} | score={todo['score']}"
         )
+
+    lines.extend(["", "## Concrete Offenders"])
+
+    render_blocking = issue_targets.get("render_blocking") or []
+    if render_blocking:
+        lines.append("- Top render-blocking requests:")
+        for item in render_blocking:
+            wasted_ms = item.get("wastedMs")
+            wasted_label = (
+                f"{float(wasted_ms):.1f} ms" if wasted_ms is not None else "n/a"
+            )
+            lines.append(f"  - {item.get('url')} | blocked={wasted_label}")
+    else:
+        lines.append("- Top render-blocking requests: none surfaced in this payload.")
+
+    unused_js = issue_targets.get("unused_js") or []
+    if unused_js:
+        lines.append("- Largest unused JavaScript files:")
+        for item in unused_js:
+            wasted_bytes = item.get("wastedBytes")
+            wasted_label = (
+                f"{int(float(wasted_bytes)):,} bytes"
+                if wasted_bytes is not None
+                else "n/a"
+            )
+            lines.append(f"  - {item.get('url')} | wasted={wasted_label}")
+    else:
+        lines.append(
+            "- Largest unused JavaScript files: none surfaced in this payload."
+        )
+
+    unused_css = issue_targets.get("unused_css") or []
+    if unused_css:
+        lines.append("- Largest unused CSS files:")
+        for item in unused_css:
+            wasted_bytes = item.get("wastedBytes")
+            wasted_label = (
+                f"{int(float(wasted_bytes)):,} bytes"
+                if wasted_bytes is not None
+                else "n/a"
+            )
+            lines.append(f"  - {item.get('url')} | wasted={wasted_label}")
+    else:
+        lines.append("- Largest unused CSS files: none surfaced in this payload.")
 
     lines.extend(
         [
