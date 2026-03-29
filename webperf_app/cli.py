@@ -159,6 +159,132 @@ def _write_latest_chat_artifacts(
     return markdown_path, json_path
 
 
+def _write_latest_chat_artifacts_combined(
+    *,
+    site_url: str,
+    run_note: Optional[str],
+    run_context: Optional[str],
+    results_by_strategy: dict[str, dict[str, Any]],
+) -> tuple[Path, Path]:
+    output_dir = Path("LH_Reports_For_Chat")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    markdown_path = output_dir / "latest-test.md"
+    json_path = output_dir / "latest-test.json"
+
+    mobile = results_by_strategy.get("mobile")
+    desktop = results_by_strategy.get("desktop")
+
+    lines = [
+        f"# Latest Performance Test: {site_url}",
+        "",
+        "## What Was Tested",
+        f"- Site: {site_url}",
+        "- Strategy: both",
+        f"- Mobile run ID: {mobile['run_id'] if mobile else 'n/a'}",
+        f"- Desktop run ID: {desktop['run_id'] if desktop else 'n/a'}",
+        f"- Note: {run_note or 'None'}",
+        "",
+    ]
+
+    if run_context:
+        lines.extend(["## Run Context", run_context, ""])
+
+    lines.extend(
+        [
+            "## Executive Summary",
+            f"- Mobile score: {mobile['metrics'].get('performance_score') if mobile else 'n/a'}",
+            f"- Desktop score: {desktop['metrics'].get('performance_score') if desktop else 'n/a'}",
+            f"- Mobile LCP: {mobile['metrics'].get('lcp_ms') if mobile else 'n/a'} ms",
+            f"- Desktop LCP: {desktop['metrics'].get('lcp_ms') if desktop else 'n/a'} ms",
+            f"- Mobile TBT: {mobile['metrics'].get('tbt_ms') if mobile else 'n/a'} ms",
+            f"- Desktop TBT: {desktop['metrics'].get('tbt_ms') if desktop else 'n/a'} ms",
+        ]
+    )
+
+    for strategy in ("mobile", "desktop"):
+        result = results_by_strategy.get(strategy)
+        if not result:
+            continue
+        metrics = result["metrics"]
+        host_notes = result["host_notes"]
+        lcp_context = result["lcp_context"]
+        todos = result["todos"]
+        notes = host_notes.get("notes") if isinstance(host_notes, dict) else None
+        lines.extend(
+            [
+                "",
+                f"## {_strategy_label(strategy)} Results",
+                f"- Run ID: {result['run_id']}",
+                f"- Saved timestamp (UTC): {result['fetched_at'] or 'n/a'}",
+                f"- Performance Score: {metrics.get('performance_score')}",
+                f"- FCP: {metrics.get('fcp_ms')} ms",
+                f"- LCP: {metrics.get('lcp_ms')} ms",
+                f"- TBT: {metrics.get('tbt_ms')} ms",
+                f"- CLS: {metrics.get('cls')}",
+                f"- Speed Index: {metrics.get('speed_index_ms')} ms",
+                f"- TTFB: {metrics.get('ttfb_ms')} ms",
+                f"- Warnings: {result['warning_count']}",
+                f"- Errors: {result['error_count']}",
+                "",
+                f"## {_strategy_label(strategy)} Suggestions",
+            ]
+        )
+        if todos:
+            for idx, todo in enumerate(todos, 1):
+                lines.append(
+                    f"{idx}. {todo.get('title')} | audit={todo.get('audit_id')} | "
+                    f"priority={todo.get('priority')} | impact_ms={todo.get('impact_ms')} | "
+                    f"score={todo.get('score')}"
+                )
+        else:
+            lines.append("- No TODO suggestions generated for this run.")
+
+        lines.extend(["", f"## {_strategy_label(strategy)} Host/Cache Notes"])
+        if notes:
+            for note in notes:
+                lines.append(f"- {note}")
+        else:
+            lines.append("- No major host/cache concerns detected from headers snapshot.")
+
+        lines.extend(
+            [
+                "",
+                f"## {_strategy_label(strategy)} LCP Deep Dive",
+                f"- LCP element snippet: {lcp_context.get('lcp_element_snippet') or 'n/a'}",
+                f"- LCP resource URL: {lcp_context.get('lcp_resource_url') or 'n/a'}",
+                f"- LCP phase TTFB: {lcp_context.get('lcp_ttfb_ms') if lcp_context.get('lcp_ttfb_ms') is not None else 'n/a'} ms",
+                f"- LCP phase load delay: {lcp_context.get('lcp_load_delay_ms') if lcp_context.get('lcp_load_delay_ms') is not None else 'n/a'} ms",
+                f"- LCP phase load time: {lcp_context.get('lcp_load_time_ms') if lcp_context.get('lcp_load_time_ms') is not None else 'n/a'} ms",
+                f"- LCP phase render delay: {lcp_context.get('lcp_render_delay_ms') if lcp_context.get('lcp_render_delay_ms') is not None else 'n/a'} ms",
+            ]
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Full Raw Data",
+            f"- Full JSON for this test: `{json_path}`",
+            "- This file is overwritten automatically by the next successful single-site `run`.",
+        ]
+    )
+
+    markdown_path.write_text("\n".join(lines), encoding="utf-8")
+    full_data = {
+        "site_url": site_url,
+        "strategy": "both",
+        "run_id": desktop["run_id"] if desktop else (mobile["run_id"] if mobile else None),
+        "run_ids": {
+            "mobile": mobile["run_id"] if mobile else None,
+            "desktop": desktop["run_id"] if desktop else None,
+        },
+        "run_note": run_note,
+        "run_context": run_context,
+        "results_by_strategy": results_by_strategy,
+    }
+    json_path.write_text(json.dumps(full_data, indent=2), encoding="utf-8")
+    return markdown_path, json_path
+
+
 def _fmt_local_timestamp(value: Optional[str]) -> str:
     if not value:
         return "n/a"
@@ -269,6 +395,153 @@ def _parse_csv_float(value: Any) -> Optional[float]:
         return float(text)
     except ValueError:
         return None
+
+
+def _load_latest_single_site_run_hint() -> Optional[dict[str, Any]]:
+    path = Path("LH_Reports_For_Chat/latest-test.json")
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    if not isinstance(payload, dict):
+        return None
+    return payload
+
+
+def _strategy_list(strategy: str) -> list[str]:
+    if strategy == "both":
+        return ["mobile", "desktop"]
+    return [strategy]
+
+
+def _strategy_label(strategy: str) -> str:
+    mapping = {
+        "mobile": "Mobile",
+        "desktop": "Desktop",
+        "both": "Mobile + Desktop",
+    }
+    return mapping.get(strategy, strategy.title())
+
+
+def _latest_runs_for_site(
+    conn: Any, site_id: int, strategy: str
+) -> dict[str, Optional[Any]]:
+    runs: dict[str, Optional[Any]] = {}
+    for item in _strategy_list(strategy):
+        runs[item] = db.get_latest_run(conn, site_id, item)
+    return runs
+
+
+def _build_issue_brief_section(
+    *,
+    conn: Any,
+    site_url: str,
+    run: Any,
+    prev: Optional[Any],
+    limit: int,
+) -> list[str]:
+    todos = db.get_run_todos(conn, run["id"], limit=limit)
+    host_notes = json.loads(run["host_notes_json"] or "{}")
+    raw_payload = json.loads(run["raw_json"] or "{}")
+    issue_targets = pagespeed.extract_issue_targets(raw_payload, limit=5)
+    current_metrics = _metrics_from_row(run)
+    delta = analyzer.compare_runs(current_metrics, _metrics_from_row(prev)) if prev else {}
+
+    lines = [
+        f"## {_strategy_label(run['strategy'])} Snapshot",
+        f"- Run ID: {run['id']}",
+        f"- Timestamp (UTC): {run['fetched_at']}",
+        f"- Timestamp (Local): {_fmt_local_timestamp(run['fetched_at'])}",
+        f"- Note: {run['run_note'] or 'None'}",
+        f"- Performance Score: {run['performance_score']}",
+        f"- FCP: {run['fcp_ms']} ms",
+        f"- LCP: {run['lcp_ms']} ms",
+        f"- TBT: {run['tbt_ms']} ms",
+        f"- CLS: {run['cls']}",
+        f"- Speed Index: {run['speed_index_ms']} ms",
+        f"- TTFB: {run['ttfb_ms']} ms",
+        "",
+        f"## {_strategy_label(run['strategy'])} Delta vs Previous",
+    ]
+
+    if delta:
+        for key, change in delta.items():
+            lines.append(f"- {key}: {change:+}")
+    else:
+        lines.append("- No previous run available for comparison.")
+
+    lines.extend(["", f"## {_strategy_label(run['strategy'])} Host/Cache Notes"])
+    notes = host_notes.get("notes") or []
+    if notes:
+        for note in notes:
+            lines.append(f"- {note}")
+    else:
+        lines.append("- No major host/cache concerns detected from headers snapshot.")
+
+    lines.extend(
+        [
+            "",
+            f"## {_strategy_label(run['strategy'])} Cache Context",
+            f"- LiteSpeed/cache header: {run['cache_litespeed'] or 'n/a'}",
+            f"- Cache-Control: {run['cache_control'] or 'n/a'}",
+            "",
+            f"## {_strategy_label(run['strategy'])} LCP Deep Dive",
+            f"- LCP element snippet: {run['lcp_element_snippet'] or 'n/a'}",
+            f"- LCP resource URL: {run['lcp_resource_url'] or 'n/a'}",
+            f"- LCP phase TTFB: {fmt_ms(run['lcp_ttfb_ms'])}",
+            f"- LCP phase load delay: {fmt_ms(run['lcp_load_delay_ms'])}",
+            f"- LCP phase load time: {fmt_ms(run['lcp_load_time_ms'])}",
+            f"- LCP phase render delay: {fmt_ms(run['lcp_render_delay_ms'])}",
+            "",
+            f"## {_strategy_label(run['strategy'])} Prioritized Issues",
+        ]
+    )
+
+    for idx, todo in enumerate(todos, 1):
+        lines.append(
+            f"{idx}. {todo['title']} | audit={todo['audit_id']} | "
+            f"priority={todo['priority']} | impact_ms={todo['impact_ms']} | score={todo['score']}"
+        )
+
+    lines.extend(["", f"## {_strategy_label(run['strategy'])} Concrete Offenders"])
+
+    render_blocking = issue_targets.get("render_blocking") or []
+    if render_blocking:
+        lines.append("- Top render-blocking requests:")
+        for item in render_blocking:
+            wasted_ms = item.get("wastedMs")
+            wasted_label = f"{float(wasted_ms):.1f} ms" if wasted_ms is not None else "n/a"
+            lines.append(f"  - {item.get('url')} | blocked={wasted_label}")
+    else:
+        lines.append("- Top render-blocking requests: none surfaced in this payload.")
+
+    unused_js = issue_targets.get("unused_js") or []
+    if unused_js:
+        lines.append("- Largest unused JavaScript files:")
+        for item in unused_js:
+            wasted_bytes = item.get("wastedBytes")
+            wasted_label = (
+                f"{int(float(wasted_bytes)):,} bytes" if wasted_bytes is not None else "n/a"
+            )
+            lines.append(f"  - {item.get('url')} | wasted={wasted_label}")
+    else:
+        lines.append("- Largest unused JavaScript files: none surfaced in this payload.")
+
+    unused_css = issue_targets.get("unused_css") or []
+    if unused_css:
+        lines.append("- Largest unused CSS files:")
+        for item in unused_css:
+            wasted_bytes = item.get("wastedBytes")
+            wasted_label = (
+                f"{int(float(wasted_bytes)):,} bytes" if wasted_bytes is not None else "n/a"
+            )
+            lines.append(f"  - {item.get('url')} | wasted={wasted_label}")
+    else:
+        lines.append("- Largest unused CSS files: none surfaced in this payload.")
+
+    return lines
 
 
 def _write_bulk_summary_html(
@@ -791,7 +1064,7 @@ def cmd_run(args: argparse.Namespace) -> None:
     Arg expectations:
     - `args.db`: SQLite DB path
     - `args.site` / `args.all`: mutually exclusive target selection
-    - `args.strategy`: `mobile` or `desktop`
+    - `args.strategy`: `mobile`, `desktop`, or `both`
     - `args.limit`: max sites when using `--all`
     - `args.offset`: starting index in active-site list when using `--all`
     - `args.trend_limit`: recent runs to print after each audit (fallback 5 if <= 0)
@@ -809,7 +1082,10 @@ def cmd_run(args: argparse.Namespace) -> None:
     # Normalize blank notes to None so DB does not store empty-string noise.
     run_note = args.note.strip() if args.note else None
     run_context = _resolve_run_context(args)
-    batch_summary: list[dict[str, Any]] = []
+    strategies = _strategy_list(args.strategy)
+    batch_summary_by_strategy: dict[str, list[dict[str, Any]]] = {
+        strategy: [] for strategy in strategies
+    }
 
     targets = list(
         _iter_target_sites(
@@ -829,389 +1105,466 @@ def cmd_run(args: argparse.Namespace) -> None:
 
     for idx, site in enumerate(targets, start=1):
         url = site["url"]
-        print(f"\nAuditing [{idx}/{total_targets}] {url} ({args.strategy})...")
-        try:
-            payload = pagespeed.fetch_pagespeed(
-                url, strategy=args.strategy, api_key=api_key
-            )
-            host_notes = pagespeed.snapshot_host_headers(url)
-            cache_context = pagespeed.extract_cache_context(host_notes)
-            lcp_context = pagespeed.extract_lcp_context(payload)
-            metrics = pagespeed.extract_metrics(payload)
-            counts = pagespeed.count_warnings_and_errors(payload)
-            todos = analyzer.build_todos(payload, host_notes)
+        single_site_results: dict[str, dict[str, Any]] = {}
+        for strategy in strategies:
+            print(f"\nAuditing [{idx}/{total_targets}] {url} ({strategy})...")
+            try:
+                payload = pagespeed.fetch_pagespeed(
+                    url, strategy=strategy, api_key=api_key
+                )
+                host_notes = pagespeed.snapshot_host_headers(url)
+                cache_context = pagespeed.extract_cache_context(host_notes)
+                lcp_context = pagespeed.extract_lcp_context(payload)
+                metrics = pagespeed.extract_metrics(payload)
+                counts = pagespeed.count_warnings_and_errors(payload)
+                todos = analyzer.build_todos(payload, host_notes)
 
-            run_id = db.insert_run(
-                conn,
-                site_id=site["id"],
-                strategy=args.strategy,
-                run_note=run_note,
-                metrics=metrics,
-                warning_count=counts["warning_count"],
-                error_count=counts["error_count"],
-                host_notes=host_notes,
-                raw_payload=payload,
-                cache_litespeed=cache_context.get("cache_litespeed"),
-                cache_control=cache_context.get("cache_control"),
-                lcp_element_snippet=lcp_context.get("lcp_element_snippet"),
-                lcp_resource_url=lcp_context.get("lcp_resource_url"),
-                lcp_ttfb_ms=lcp_context.get("lcp_ttfb_ms"),
-                lcp_load_delay_ms=lcp_context.get("lcp_load_delay_ms"),
-                lcp_load_time_ms=lcp_context.get("lcp_load_time_ms"),
-                lcp_render_delay_ms=lcp_context.get("lcp_render_delay_ms"),
-            )
-            db.replace_run_todos(conn, run_id, todos)
-
-            current_row = conn.execute(
-                "SELECT * FROM audit_runs WHERE id = ?", (run_id,)
-            ).fetchone()
-            print(f"Run saved: id={run_id}")
-            if current_row["run_note"]:
-                print(f"Note: {current_row['run_note']}")
-            print(
-                f"Score={metrics.get('performance_score')}  "
-                f"FCP={fmt_ms(metrics.get('fcp_ms'))}  "
-                f"LCP={fmt_ms(metrics.get('lcp_ms'))}  "
-                f"TBT={fmt_ms(metrics.get('tbt_ms'))}  "
-                f"TTFB={fmt_ms(metrics.get('ttfb_ms'))}"
-            )
-            print(
-                f"Warnings={counts['warning_count']} Errors={counts['error_count']} TODOs={len(todos)}"
-            )
-            if not args.all:
-                latest_md, latest_json = _write_latest_chat_artifacts(
-                    site_url=url,
-                    strategy=args.strategy,
-                    run_id=run_id,
-                    fetched_at=current_row["fetched_at"],
-                    run_note=current_row["run_note"],
+                run_id = db.insert_run(
+                    conn,
+                    site_id=site["id"],
+                    strategy=strategy,
+                    run_note=run_note,
                     metrics=metrics,
                     warning_count=counts["warning_count"],
                     error_count=counts["error_count"],
                     host_notes=host_notes,
-                    lcp_context=lcp_context,
-                    run_context=run_context,
-                    todos=todos,
                     raw_payload=payload,
+                    cache_litespeed=cache_context.get("cache_litespeed"),
+                    cache_control=cache_context.get("cache_control"),
+                    lcp_element_snippet=lcp_context.get("lcp_element_snippet"),
+                    lcp_resource_url=lcp_context.get("lcp_resource_url"),
+                    lcp_ttfb_ms=lcp_context.get("lcp_ttfb_ms"),
+                    lcp_load_delay_ms=lcp_context.get("lcp_load_delay_ms"),
+                    lcp_load_time_ms=lcp_context.get("lcp_load_time_ms"),
+                    lcp_render_delay_ms=lcp_context.get("lcp_render_delay_ms"),
                 )
-                print(f"Last test results updated MD: {latest_md.resolve()}")
-                print(f"Last test results updated JSON: {latest_json.resolve()}")
-            batch_summary.append(
-                {
-                    "url": url,
-                    "metrics": metrics,
-                    "warnings": counts["warning_count"],
-                    "errors": counts["error_count"],
-                    "todos": len(todos),
-                }
-            )
+                db.replace_run_todos(conn, run_id, todos)
 
-            # Guard against invalid values from CLI; keep a sensible default.
-            trend_limit = (
-                args.trend_limit if args.trend_limit and args.trend_limit > 0 else 5
-            )
-            recent = db.get_recent_runs(
-                conn, site["id"], args.strategy, limit=trend_limit
-            )
-            if recent:
-                print("")
+                current_row = conn.execute(
+                    "SELECT * FROM audit_runs WHERE id = ?", (run_id,)
+                ).fetchone()
+                print(f"Run saved: id={run_id}")
+                if current_row["run_note"]:
+                    print(f"Note: {current_row['run_note']}")
                 print(
-                    f"Recent trend for {site['url']} ({args.strategy}, last {len(recent)}):"
+                    f"Score={metrics.get('performance_score')}  "
+                    f"FCP={fmt_ms(metrics.get('fcp_ms'))}  "
+                    f"LCP={fmt_ms(metrics.get('lcp_ms'))}  "
+                    f"TBT={fmt_ms(metrics.get('tbt_ms'))}  "
+                    f"TTFB={fmt_ms(metrics.get('ttfb_ms'))}"
                 )
-                _print_trend_lines(recent)
-                _print_trend_notes(recent)
-                print("")
+                print(
+                    f"Warnings={counts['warning_count']} Errors={counts['error_count']} TODOs={len(todos)}"
+                )
+                if not args.all:
+                    single_site_results[strategy] = {
+                        "run_id": run_id,
+                        "fetched_at": current_row["fetched_at"],
+                        "run_note": current_row["run_note"],
+                        "metrics": metrics,
+                        "warning_count": counts["warning_count"],
+                        "error_count": counts["error_count"],
+                        "host_notes": host_notes,
+                        "lcp_context": lcp_context,
+                        "todos": todos,
+                        "raw_payload": payload,
+                    }
+                batch_summary_by_strategy[strategy].append(
+                    {
+                        "url": url,
+                        "metrics": metrics,
+                        "warnings": counts["warning_count"],
+                        "errors": counts["error_count"],
+                        "todos": len(todos),
+                    }
+                )
 
-        except Exception as exc:
-            print(f"FAILED {url}: {exc}")
+                trend_limit = (
+                    args.trend_limit if args.trend_limit and args.trend_limit > 0 else 5
+                )
+                recent = db.get_recent_runs(
+                    conn, site["id"], strategy, limit=trend_limit
+                )
+                if recent:
+                    print("")
+                    print(
+                        f"Recent trend for {site['url']} ({strategy}, last {len(recent)}):"
+                    )
+                    _print_trend_lines(recent)
+                    _print_trend_notes(recent)
+                    print("")
+
+            except Exception as exc:
+                print(f"FAILED {url} ({strategy}): {exc}")
 
         if args.delay_seconds and args.delay_seconds > 0 and idx < total_targets:
             print(f"Sleeping {args.delay_seconds:.1f}s before next site...")
             time.sleep(args.delay_seconds)
 
-    if args.all and batch_summary:
-        ts = datetime.now().astimezone().strftime("%Y-%m-%d %I:%M %p %Z")
-        strategy_label = "Mobile" if args.strategy == "mobile" else "Desktop"
-        strategy_mark = "M" if args.strategy == "mobile" else "D"
-        width = max(len(_summary_domain(item["url"])) for item in batch_summary)
-        score_vals = [
-            (
-                "n/a"
-                if item["metrics"].get("performance_score") is None
-                else f"{float(item['metrics'].get('performance_score')):.1f}"
-            )
-            for item in batch_summary
-        ]
-        fcp_vals = [fmt_ms(item["metrics"].get("fcp_ms")) for item in batch_summary]
-        lcp_vals = [fmt_ms(item["metrics"].get("lcp_ms")) for item in batch_summary]
-        tbt_vals = [fmt_ms(item["metrics"].get("tbt_ms")) for item in batch_summary]
-        ttfb_vals = [fmt_ms(item["metrics"].get("ttfb_ms")) for item in batch_summary]
-        warning_vals = [str(item["warnings"]) for item in batch_summary]
-        error_vals = [str(item["errors"]) for item in batch_summary]
-        todo_vals = [str(item["todos"]) for item in batch_summary]
+        if not args.all and single_site_results:
+            if len(single_site_results) == 1:
+                strategy = next(iter(single_site_results))
+                result = single_site_results[strategy]
+                latest_md, latest_json = _write_latest_chat_artifacts(
+                    site_url=url,
+                    strategy=strategy,
+                    run_id=result["run_id"],
+                    fetched_at=result["fetched_at"],
+                    run_note=result["run_note"],
+                    metrics=result["metrics"],
+                    warning_count=result["warning_count"],
+                    error_count=result["error_count"],
+                    host_notes=result["host_notes"],
+                    lcp_context=result["lcp_context"],
+                    run_context=run_context,
+                    todos=result["todos"],
+                    raw_payload=result["raw_payload"],
+                )
+            else:
+                latest_md, latest_json = _write_latest_chat_artifacts_combined(
+                    site_url=url,
+                    run_note=run_note,
+                    run_context=run_context,
+                    results_by_strategy=single_site_results,
+                )
+            print(f"Last test results updated MD: {latest_md.resolve()}")
+            print(f"Last test results updated JSON: {latest_json.resolve()}")
 
-        score_w = max(len(v) for v in score_vals)
-        fcp_w = max(len(v) for v in fcp_vals)
-        lcp_w = max(len(v) for v in lcp_vals)
-        tbt_w = max(len(v) for v in tbt_vals)
-        ttfb_w = max(len(v) for v in ttfb_vals)
-        warning_w = max(len(v) for v in warning_vals)
-        error_w = max(len(v) for v in error_vals)
-        todo_w = max(len(v) for v in todo_vals)
-        print("")
-        print(f"{ts} - {strategy_label} Sites Tested:")
-        for item in batch_summary:
-            domain = _summary_domain(item["url"])
-            label = f"{domain} ({strategy_mark}):"
-            metrics = item["metrics"]
-            score = metrics.get("performance_score")
-            score_text = "n/a" if score is None else f"{float(score):.1f}"
-            fcp_text = fmt_ms(metrics.get("fcp_ms"))
-            lcp_text = fmt_ms(metrics.get("lcp_ms"))
-            tbt_text = fmt_ms(metrics.get("tbt_ms"))
-            ttfb_text = fmt_ms(metrics.get("ttfb_ms"))
-            print(
-                f"{label:<{width + 6}} "
-                f"Score={score_text:<{score_w}}  "
-                f"FCP={fcp_text:<{fcp_w}}  "
-                f"LCP={lcp_text:<{lcp_w}}  "
-                f"TBT={tbt_text:<{tbt_w}}  "
-                f"TTFB={ttfb_text:<{ttfb_w}}  "
-                f"Warnings={item['warnings']:<{warning_w}}  "
-                f"Errors={item['errors']:<{error_w}}  "
-                f"TODOs={item['todos']:<{todo_w}}"
-            )
-        print("")
-        print("Score = Lighthouse Performance score")
-        print("FCP = First Contentful Paint - when first visible content appears")
-        print(
-            "LCP = Largest Contentful Paint - when the largest visible element finishes rendering"
-        )
-        print("TBT = Total Blocking Time - time JavaScript blocked the main thread")
-        print(
-            "TTFB = Time To First Byte - server response latency before content starts"
-        )
-        print("Note: 1000 ms = 1 second")
+    if args.all:
+        ts = datetime.now().astimezone().strftime("%Y-%m-%d %I:%M %p %Z")
         csv_stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        csv_path = Path("reports") / f"{args.strategy}-batch-{csv_stamp}.csv"
-        _write_bulk_summary_csv(
-            csv_path,
-            batch_summary=batch_summary,
-        )
-        print(f"Bulk CSV report written: {csv_path.resolve()}")
-        html_path = csv_path.with_suffix(".html")
-        _write_bulk_summary_html(
-            html_path,
-            batch_summary=batch_summary,
-            strategy=args.strategy,
-            generated_at=ts,
-        )
-        print(f"Interactive HTML report written: {html_path.resolve()}")
-        if args.upload:
-            script_path = Path(__file__).resolve().parent.parent / "upload-report.sh"
-            subprocess.run([str(script_path), str(html_path.resolve())], check=True)
+        for strategy, batch_summary in batch_summary_by_strategy.items():
+            if not batch_summary:
+                continue
+            strategy_label = _strategy_label(strategy)
+            strategy_mark = "M" if strategy == "mobile" else "D"
+            width = max(len(_summary_domain(item["url"])) for item in batch_summary)
+            score_vals = [
+                (
+                    "n/a"
+                    if item["metrics"].get("performance_score") is None
+                    else f"{float(item['metrics'].get('performance_score')):.1f}"
+                )
+                for item in batch_summary
+            ]
+            fcp_vals = [fmt_ms(item["metrics"].get("fcp_ms")) for item in batch_summary]
+            lcp_vals = [fmt_ms(item["metrics"].get("lcp_ms")) for item in batch_summary]
+            tbt_vals = [fmt_ms(item["metrics"].get("tbt_ms")) for item in batch_summary]
+            ttfb_vals = [fmt_ms(item["metrics"].get("ttfb_ms")) for item in batch_summary]
+            warning_vals = [str(item["warnings"]) for item in batch_summary]
+            error_vals = [str(item["errors"]) for item in batch_summary]
+            todo_vals = [str(item["todos"]) for item in batch_summary]
+
+            score_w = max(len(v) for v in score_vals)
+            fcp_w = max(len(v) for v in fcp_vals)
+            lcp_w = max(len(v) for v in lcp_vals)
+            tbt_w = max(len(v) for v in tbt_vals)
+            ttfb_w = max(len(v) for v in ttfb_vals)
+            warning_w = max(len(v) for v in warning_vals)
+            error_w = max(len(v) for v in error_vals)
+            todo_w = max(len(v) for v in todo_vals)
+            print("")
+            print(f"{ts} - {strategy_label} Sites Tested:")
+            for item in batch_summary:
+                domain = _summary_domain(item["url"])
+                label = f"{domain} ({strategy_mark}):"
+                metrics = item["metrics"]
+                score = metrics.get("performance_score")
+                score_text = "n/a" if score is None else f"{float(score):.1f}"
+                fcp_text = fmt_ms(metrics.get("fcp_ms"))
+                lcp_text = fmt_ms(metrics.get("lcp_ms"))
+                tbt_text = fmt_ms(metrics.get("tbt_ms"))
+                ttfb_text = fmt_ms(metrics.get("ttfb_ms"))
+                print(
+                    f"{label:<{width + 6}} "
+                    f"Score={score_text:<{score_w}}  "
+                    f"FCP={fcp_text:<{fcp_w}}  "
+                    f"LCP={lcp_text:<{lcp_w}}  "
+                    f"TBT={tbt_text:<{tbt_w}}  "
+                    f"TTFB={ttfb_text:<{ttfb_w}}  "
+                    f"Warnings={item['warnings']:<{warning_w}}  "
+                    f"Errors={item['errors']:<{error_w}}  "
+                    f"TODOs={item['todos']:<{todo_w}}"
+                )
+            print("")
+            print("Score = Lighthouse Performance score")
+            print("FCP = First Contentful Paint - when first visible content appears")
+            print(
+                "LCP = Largest Contentful Paint - when the largest visible element finishes rendering"
+            )
+            print("TBT = Total Blocking Time - time JavaScript blocked the main thread")
+            print(
+                "TTFB = Time To First Byte - server response latency before content starts"
+            )
+            print("Note: 1000 ms = 1 second")
+            csv_path = Path("reports") / f"{strategy}-batch-{csv_stamp}.csv"
+            _write_bulk_summary_csv(
+                csv_path,
+                batch_summary=batch_summary,
+            )
+            print(f"Bulk CSV report written: {csv_path.resolve()}")
+            html_path = csv_path.with_suffix(".html")
+            _write_bulk_summary_html(
+                html_path,
+                batch_summary=batch_summary,
+                strategy=strategy,
+                generated_at=ts,
+            )
+            print(f"Interactive HTML report written: {html_path.resolve()}")
+            if args.upload:
+                script_path = Path(__file__).resolve().parent.parent / "upload-report.sh"
+                subprocess.run([str(script_path), str(html_path.resolve())], check=True)
 
 
 def cmd_todo(args: argparse.Namespace) -> None:
     conn = db.connect(Path(args.db))
     db.init_db(conn)
+    site = None
     if args.site:
         site = db.get_site(conn, args.site)
-        run = db.get_latest_run(conn, site["id"], args.strategy)
     else:
-        run = _latest_run_with_site(conn, args.strategy)
-        if run:
-            site = {"url": run["site_url"]}
-        else:
-            site = None
-    if not run:
-        if args.site:
-            print("No runs found for this site/strategy.")
-        else:
-            print("No runs found yet. Run an audit first (or pass --site).")
+        latest_single = _load_latest_single_site_run_hint()
+        if latest_single:
+            hinted_url = latest_single.get("site_url")
+            if hinted_url:
+                try:
+                    site = db.get_site(conn, hinted_url)
+                except ValueError:
+                    site = None
+        if site is None:
+            fallback_strategy = "mobile" if args.strategy == "both" else args.strategy
+            run = _latest_run_with_site(conn, fallback_strategy)
+            if run:
+                site = {"url": run["site_url"], "id": run["site_id"]}
+
+    if site is None:
+        print("No runs found yet. Run an audit first (or pass --site).")
         return
-    todos = db.get_run_todos(conn, run["id"], limit=args.limit)
-    print(f"Top TODOs for {site['url']} (run {run['id']}, {run['fetched_at']}):")
-    for idx, item in enumerate(todos, start=1):
+
+    strategies = _strategy_list(args.strategy)
+    printed_any = False
+    for strategy in strategies:
+        run = db.get_latest_run(conn, site["id"], strategy)
+        if not run:
+            continue
+        printed_any = True
+        todos = db.get_run_todos(conn, run["id"], limit=args.limit)
         print(
-            f"{idx:>2}. [{item['audit_id']}] {item['title']} "
-            f"(priority={item['priority']}, impact_ms={item['impact_ms']}, score={item['score']})"
+            f"Top TODOs for {site['url']} ({strategy}, run {run['id']}, {run['fetched_at']}):"
         )
+        for idx, item in enumerate(todos, start=1):
+            print(
+                f"{idx:>2}. [{item['audit_id']}] {item['title']} "
+                f"(priority={item['priority']}, impact_ms={item['impact_ms']}, score={item['score']})"
+            )
+        if strategy != strategies[-1]:
+            print("")
+
+    if not printed_any:
+        print("No runs found for this site/strategy.")
 
 
 def cmd_trend(args: argparse.Namespace) -> None:
     conn = db.connect(Path(args.db))
     db.init_db(conn)
+    site = None
     if args.site:
         site = db.get_site(conn, args.site)
-        runs = db.get_recent_runs(conn, site["id"], args.strategy, limit=args.limit)
     else:
-        latest = _latest_run_with_site(conn, args.strategy)
-        if not latest:
-            print("No runs found yet. Run an audit first (or pass --site).")
-            return
-        site = {"url": latest["site_url"], "id": latest["site_id"]}
-        runs = db.get_recent_runs(conn, site["id"], args.strategy, limit=args.limit)
-    if not runs:
-        print("No runs found.")
-        return
+        latest_single = _load_latest_single_site_run_hint()
+        if latest_single:
+            hinted_url = latest_single.get("site_url")
+            if hinted_url:
+                try:
+                    site = db.get_site(conn, hinted_url)
+                except ValueError:
+                    site = None
+        if site is None:
+            fallback_strategy = "mobile" if args.strategy == "both" else args.strategy
+            latest = _latest_run_with_site(conn, fallback_strategy)
+            if not latest:
+                print("No runs found yet. Run an audit first (or pass --site).")
+                return
+            site = {"url": latest["site_url"], "id": latest["site_id"]}
 
-    print(f"Trend for {site['url']} ({args.strategy}):")
-    _print_trend_lines(runs)
-    if args.show_notes:
-        _print_trend_notes(runs)
+    strategies = _strategy_list(args.strategy)
+    printed_any = False
+    for strategy in strategies:
+        runs = db.get_recent_runs(conn, site["id"], strategy, limit=args.limit)
+        if not runs:
+            continue
+        printed_any = True
+        print(f"Trend for {site['url']} ({strategy}):")
+        _print_trend_lines(runs)
+        if args.show_notes:
+            _print_trend_notes(runs)
+        if strategy != strategies[-1]:
+            print("")
+
+    if not printed_any:
+        print("No runs found.")
 
 
 def cmd_issue_brief(args: argparse.Namespace) -> None:
     conn = db.connect(Path(args.db))
     db.init_db(conn)
-    if args.site:
+    site = None
+    run = None
+
+    if args.run_id:
+        run = conn.execute(
+            "SELECT * FROM audit_runs WHERE id = ?", (args.run_id,)
+        ).fetchone()
+        if run:
+            site_row = conn.execute(
+                "SELECT url, id FROM sites WHERE id = ?", (run["site_id"],)
+            ).fetchone()
+            if site_row:
+                site = {"url": site_row["url"], "id": site_row["id"]}
+    elif args.site:
         site = db.get_site(conn, args.site)
     else:
-        latest = _latest_run_with_site(conn, args.strategy)
+        latest_single = _load_latest_single_site_run_hint()
+        if latest_single:
+            hinted_run_id = latest_single.get("run_id")
+            if hinted_run_id is not None:
+                run = conn.execute(
+                    "SELECT * FROM audit_runs WHERE id = ?", (hinted_run_id,)
+                ).fetchone()
+                if run:
+                    hinted_url = latest_single.get("site_url")
+                    site = {"url": hinted_url, "id": run["site_id"]}
+
+    if site is None:
+        fallback_strategy = "mobile" if args.strategy == "both" else args.strategy
+        latest = _latest_run_with_site(conn, fallback_strategy)
         if not latest:
             print("No runs found yet. Run an audit first (or pass --site).")
             return
         site = {"url": latest["site_url"], "id": latest["site_id"]}
 
-    run = None
-    if args.run_id:
-        run = conn.execute(
-            "SELECT * FROM audit_runs WHERE id = ?", (args.run_id,)
-        ).fetchone()
-    if not run:
-        run = db.get_latest_run(conn, site["id"], args.strategy)
-    if not run:
-        print("No run found for issue brief.")
-        return
+    if args.strategy == "both":
+        strategy_runs = _latest_runs_for_site(conn, site["id"], "both")
+        available_runs = [r for r in strategy_runs.values() if r is not None]
+        if not available_runs:
+            print("No runs found for issue brief.")
+            return
 
-    prev = db.get_previous_run(conn, site["id"], args.strategy, run["fetched_at"])
-    todos = db.get_run_todos(conn, run["id"], limit=args.limit)
-    host_notes = json.loads(run["host_notes_json"] or "{}")
-    raw_payload = json.loads(run["raw_json"] or "{}")
-    issue_targets = pagespeed.extract_issue_targets(raw_payload, limit=5)
-    current_metrics = _metrics_from_row(run)
-    delta = (
-        analyzer.compare_runs(current_metrics, _metrics_from_row(prev)) if prev else {}
-    )
-
-    lines = [
-        f"# Performance Issue Brief: {site['url']}",
-        "",
-        "## Context",
-        f"- Run ID: {run['id']}",
-        f"- Strategy: {run['strategy']}",
-        f"- Timestamp (UTC): {run['fetched_at']}",
-        f"- Timestamp (Local): {_fmt_local_timestamp(run['fetched_at'])}",
-        f"- Note: {run['run_note'] or 'None'}",
-        "",
-        "## Current Metrics",
-        f"- Performance Score: {run['performance_score']}",
-        f"- FCP: {run['fcp_ms']} ms",
-        f"- LCP: {run['lcp_ms']} ms",
-        f"- TBT: {run['tbt_ms']} ms",
-        f"- CLS: {run['cls']}",
-        f"- Speed Index: {run['speed_index_ms']} ms",
-        f"- TTFB: {run['ttfb_ms']} ms",
-        "",
-        "## Delta vs Previous Run",
-    ]
-
-    if delta:
-        for key, change in delta.items():
-            lines.append(f"- {key}: {change:+}")
-    else:
-        lines.append("- No previous run available for comparison.")
-
-    lines.extend(["", "## Host/Cache Notes"])
-    notes = host_notes.get("notes") or []
-    if notes:
-        for note in notes:
-            lines.append(f"- {note}")
-    else:
-        lines.append("- No major host/cache concerns detected from headers snapshot.")
-
-    lines.extend(
-        [
-            "",
-            "## Cache Context",
-            f"- LiteSpeed/cache header: {run['cache_litespeed'] or 'n/a'}",
-            f"- Cache-Control: {run['cache_control'] or 'n/a'}",
-        ]
-    )
-
-    lines.extend(
-        [
-            "",
-            "## LCP Deep Dive",
-            f"- LCP element snippet: {run['lcp_element_snippet'] or 'n/a'}",
-            f"- LCP resource URL: {run['lcp_resource_url'] or 'n/a'}",
-            f"- LCP phase TTFB: {fmt_ms(run['lcp_ttfb_ms'])}",
-            f"- LCP phase load delay: {fmt_ms(run['lcp_load_delay_ms'])}",
-            f"- LCP phase load time: {fmt_ms(run['lcp_load_time_ms'])}",
-            f"- LCP phase render delay: {fmt_ms(run['lcp_render_delay_ms'])}",
-        ]
-    )
-
-    lines.extend(["", "## Prioritized Issues"])
-    for idx, todo in enumerate(todos, 1):
-        lines.append(
-            f"{idx}. {todo['title']} | audit={todo['audit_id']} | "
-            f"priority={todo['priority']} | impact_ms={todo['impact_ms']} | score={todo['score']}"
+        mobile_run = strategy_runs.get("mobile")
+        desktop_run = strategy_runs.get("desktop")
+        mobile_prev = (
+            db.get_previous_run(conn, site["id"], "mobile", mobile_run["fetched_at"])
+            if mobile_run
+            else None
+        )
+        desktop_prev = (
+            db.get_previous_run(conn, site["id"], "desktop", desktop_run["fetched_at"])
+            if desktop_run
+            else None
         )
 
-    lines.extend(["", "## Concrete Offenders"])
-
-    render_blocking = issue_targets.get("render_blocking") or []
-    if render_blocking:
-        lines.append("- Top render-blocking requests:")
-        for item in render_blocking:
-            wasted_ms = item.get("wastedMs")
-            wasted_label = (
-                f"{float(wasted_ms):.1f} ms" if wasted_ms is not None else "n/a"
-            )
-            lines.append(f"  - {item.get('url')} | blocked={wasted_label}")
-    else:
-        lines.append("- Top render-blocking requests: none surfaced in this payload.")
-
-    unused_js = issue_targets.get("unused_js") or []
-    if unused_js:
-        lines.append("- Largest unused JavaScript files:")
-        for item in unused_js:
-            wasted_bytes = item.get("wastedBytes")
-            wasted_label = (
-                f"{int(float(wasted_bytes)):,} bytes"
-                if wasted_bytes is not None
-                else "n/a"
-            )
-            lines.append(f"  - {item.get('url')} | wasted={wasted_label}")
-    else:
-        lines.append(
-            "- Largest unused JavaScript files: none surfaced in this payload."
-        )
-
-    unused_css = issue_targets.get("unused_css") or []
-    if unused_css:
-        lines.append("- Largest unused CSS files:")
-        for item in unused_css:
-            wasted_bytes = item.get("wastedBytes")
-            wasted_label = (
-                f"{int(float(wasted_bytes)):,} bytes"
-                if wasted_bytes is not None
-                else "n/a"
-            )
-            lines.append(f"  - {item.get('url')} | wasted={wasted_label}")
-    else:
-        lines.append("- Largest unused CSS files: none surfaced in this payload.")
-
-    lines.extend(
-        [
+        lines = [
+            f"# Performance Issue Brief: {site['url']}",
             "",
-            "## Ask",
-            "Propose the most impactful optimization steps for a WordPress + Divi site, ordered by expected user-visible performance gains,",
-            "and include what to test before/after so regressions are avoided.",
+            "## Executive Summary",
+            f"- Mobile score: {mobile_run['performance_score'] if mobile_run else 'n/a'}",
+            f"- Desktop score: {desktop_run['performance_score'] if desktop_run else 'n/a'}",
+            f"- Mobile LCP: {fmt_ms(mobile_run['lcp_ms']) if mobile_run else 'n/a'}",
+            f"- Desktop LCP: {fmt_ms(desktop_run['lcp_ms']) if desktop_run else 'n/a'}",
+            f"- Mobile TBT: {fmt_ms(mobile_run['tbt_ms']) if mobile_run else 'n/a'}",
+            f"- Desktop TBT: {fmt_ms(desktop_run['tbt_ms']) if desktop_run else 'n/a'}",
+            "",
+            "## How To Read This",
+            "- Mobile and desktop are separated into their own sections below.",
+            "- Fix shared offenders first, then address strategy-specific problems.",
         ]
-    )
+
+        if mobile_run and desktop_run:
+            shared_hint_parts = []
+            if (
+                mobile_run["lcp_resource_url"]
+                and desktop_run["lcp_resource_url"]
+                and mobile_run["lcp_resource_url"] == desktop_run["lcp_resource_url"]
+            ):
+                shared_hint_parts.append(
+                    f"shared LCP resource `{mobile_run['lcp_resource_url']}`"
+                )
+            if (
+                mobile_run["cache_control"]
+                and desktop_run["cache_control"]
+                and mobile_run["cache_control"] == desktop_run["cache_control"]
+            ):
+                shared_hint_parts.append(
+                    f"shared cache-control `{mobile_run['cache_control']}`"
+                )
+            lines.extend(["", "## Shared Patterns"])
+            if shared_hint_parts:
+                for part in shared_hint_parts:
+                    lines.append(f"- {part}")
+            else:
+                lines.append(
+                    "- Shared patterns were not obvious from the stored high-level fields; use the offender lists below."
+                )
+
+        if mobile_run:
+            lines.extend([""] + _build_issue_brief_section(
+                conn=conn,
+                site_url=site["url"],
+                run=mobile_run,
+                prev=mobile_prev,
+                limit=args.limit,
+            ))
+        else:
+            lines.extend(["", "## Mobile Snapshot", "- No mobile run available for this site yet."])
+
+        if desktop_run:
+            lines.extend([""] + _build_issue_brief_section(
+                conn=conn,
+                site_url=site["url"],
+                run=desktop_run,
+                prev=desktop_prev,
+                limit=args.limit,
+            ))
+        else:
+            lines.extend(["", "## Desktop Snapshot", "- No desktop run available for this site yet."])
+
+        lines.extend(
+            [
+                "",
+                "## Ask",
+                "Propose the most impactful optimization steps for this WordPress + Divi site, separating shared fixes from mobile-only and desktop-only fixes,",
+                "and include what to test before/after so regressions are avoided.",
+            ]
+        )
+    else:
+        if not run:
+            run = db.get_latest_run(conn, site["id"], args.strategy)
+        if not run:
+            print("No run found for issue brief.")
+            return
+
+        prev = db.get_previous_run(conn, site["id"], args.strategy, run["fetched_at"])
+        lines = [
+            f"# Performance Issue Brief: {site['url']}",
+            "",
+        ]
+        lines.extend(
+            _build_issue_brief_section(
+                conn=conn,
+                site_url=site["url"],
+                run=run,
+                prev=prev,
+                limit=args.limit,
+            )
+        )
+        lines.extend(
+            [
+                "",
+                "## Ask",
+                "Propose the most impactful optimization steps for a WordPress + Divi site, ordered by expected user-visible performance gains,",
+                "and include what to test before/after so regressions are avoided.",
+            ]
+        )
 
     body = "\n".join(lines)
     if args.output:
@@ -1266,7 +1619,7 @@ def build_parser() -> argparse.ArgumentParser:
             "  run:\n"
             "    --site <url>           Audit one site\n"
             "    --all                  Audit all active sites\n"
-            "    --strategy <mode>      mobile | desktop\n"
+            "    --strategy <mode>      mobile | desktop | both (default: both)\n"
             "    --limit <n>            Max sites when using --all\n"
             "    --offset <n>           Skip first N active sites when using --all\n"
             "    --trend-limit <n>      Recent runs shown per audited site\n"
@@ -1278,16 +1631,16 @@ def build_parser() -> argparse.ArgumentParser:
             "    --no-context           Skip context section for this run\n"
             "  todo:\n"
             "    --site <url>           Optional; defaults to latest audited site\n"
-            "    --strategy <mode>      mobile | desktop\n"
+            "    --strategy <mode>      mobile | desktop | both (default: both)\n"
             "    --limit <n>            Max TODOs to show\n"
             "  trend:\n"
             "    --site <url>           Optional; defaults to latest audited site\n"
-            "    --strategy <mode>      mobile | desktop\n"
+            "    --strategy <mode>      mobile | desktop | both (default: both)\n"
             "    --limit <n>            Max runs to show\n"
             "    --show-notes           Include per-run notes\n"
             "  issue-brief:\n"
             "    --site <url>           Optional; defaults to latest audited site\n"
-            "    --strategy <mode>      mobile | desktop\n"
+            "    --strategy <mode>      mobile | desktop | both (default: both)\n"
             "    --run-id <id>          Use a specific run instead of latest\n"
             "    --limit <n>            Max issues to include\n"
             "    --output <path>        Write Markdown to file\n"
@@ -1299,12 +1652,13 @@ def build_parser() -> argparse.ArgumentParser:
             "    --csv <path>           Existing batch CSV to convert to HTML\n"
             "    --output <path>        Optional output HTML path\n"
             "Examples:\n"
-            "  webperf run --site https://aprilbell.com --strategy mobile\n"
+            "  webperf run --site https://aprilbell.com\n"
             "  webperf run --all --limit 3 --delay-seconds 10 --strategy mobile\n"
             "  webperf run --all --delay-seconds 10 --strategy mobile --upload\n"
             "  webperf todo --site https://aprilbell.com\n"
             "  webperf trend --show-notes\n"
-            "  webperf render-report --csv reports/mobile-batch-20260217-204532.csv"
+            "  webperf render-report --csv reports/mobile-batch-20260217-204532.csv\n"
+            "  webperf issue-brief --output reports/latest-test-issue-brief.md\n"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -1338,7 +1692,7 @@ def build_parser() -> argparse.ArgumentParser:
     target = p.add_mutually_exclusive_group(required=True)
     target.add_argument("--site", help="Single site URL")
     target.add_argument("--all", action="store_true", help="Run all active sites")
-    p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
+    p.add_argument("--strategy", choices=["mobile", "desktop", "both"], default="both")
     p.add_argument("--limit", type=int, help="Limit number of sites when using --all")
     p.add_argument(
         "--offset",
@@ -1383,7 +1737,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--site", help="Optional site URL; defaults to most recently audited site"
     )
-    p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
+    p.add_argument("--strategy", choices=["mobile", "desktop", "both"], default="both")
     p.add_argument("--limit", type=int, default=12)
     p.set_defaults(func=cmd_todo)
 
@@ -1393,7 +1747,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--site", help="Optional site URL; defaults to most recently audited site"
     )
-    p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
+    p.add_argument("--strategy", choices=["mobile", "desktop", "both"], default="both")
     p.add_argument("--limit", type=int, default=8)
     p.add_argument(
         "--show-notes", action="store_true", help="Include per-run notes in output"
@@ -1406,7 +1760,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--site", help="Optional site URL; defaults to most recently audited site"
     )
-    p.add_argument("--strategy", choices=["mobile", "desktop"], default="mobile")
+    p.add_argument("--strategy", choices=["mobile", "desktop", "both"], default="both")
     p.add_argument("--run-id", type=int)
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--output", help="Write Markdown brief to file")

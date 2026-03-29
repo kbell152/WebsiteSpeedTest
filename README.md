@@ -238,6 +238,51 @@ webperf issue-brief --output reports/latest-brief.md
 webperf --db data/staging.sqlite3 run --site https://staging.example.com --strategy mobile
 ```
 
+## Ending And Restarting Conversations
+
+If you want to stop for the day and continue in a fresh conversation later, use a handoff file instead of relying on long chat history.
+
+Repo-level context files:
+- `AGENTS.md` defines the repo-wide Codex working rules.
+- `reports/handoff-template.md` is the reusable template for site-specific handoff notes.
+
+Recommended handoff workflow:
+
+1. Make sure the latest combined artifacts exist:
+
+```bash
+webperf run --site https://example.com
+webperf issue-brief --site https://example.com --output reports/latest-test-issue-brief.md
+```
+
+2. Keep these files up to date:
+- `LH_Reports_For_Chat/latest-test.json`
+- `LH_Reports_For_Chat/latest-test.md`
+- `reports/latest-test-issue-brief.md`
+
+3. Create or update a site-specific handoff file in `reports/`, for example:
+- `reports/scheidhomes-handoff.md`
+
+If you are starting a new handoff file, copy:
+- `reports/handoff-template.md`
+
+4. In the next conversation, tell Codex to start from the handoff file and treat the JSON artifact as the source of truth.
+
+Recommended restart prompt:
+
+```text
+Please start with `reports/scheidhomes-handoff.md` and treat `LH_Reports_For_Chat/latest-test.json` as the source of truth.
+```
+
+For `scheidhomes.com`, the current handoff file is:
+- `reports/scheidhomes-handoff.md`
+
+Why this works:
+- the conversation stays short
+- the next session has the exact files to read
+- troubleshooting can resume without re-explaining the workflow
+- repo-wide defaults can live in `AGENTS.md` while site-specific state lives in `reports/*-handoff.md`
+
 ## Notes
 
 - First run for a site creates baseline metrics.
